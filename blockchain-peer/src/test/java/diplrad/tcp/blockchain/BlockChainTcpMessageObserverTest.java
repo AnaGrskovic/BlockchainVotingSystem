@@ -1,12 +1,14 @@
-package diplrad.models.blockchain;
+package diplrad.tcp.blockchain;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.Constants;
 import diplrad.exceptions.TcpException;
+import diplrad.models.blockchain.Block;
+import diplrad.models.blockchain.VotingBlockChain;
+import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeersSingleton;
-import diplrad.tcp.blockchain.BlockChainTcpMessageObserver;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.mockito.MockedStatic;
@@ -14,6 +16,7 @@ import org.mockito.MockedStatic;
 import java.util.List;
 import java.util.UUID;
 
+import static diplrad.mocks.BlockChainMocks.setUpVotingBlockChain;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -22,18 +25,6 @@ public class BlockChainTcpMessageObserverTest {
 
     private final Gson gson = new GsonBuilder().create();
     private final BlockChainTcpMessageObserver observer = new BlockChainTcpMessageObserver(gson);
-
-    public VotingBlockChain setUpBlockChain()  {
-        List<String> candidates = List.of("Candidate1", "Candidate2", "Candidate3");
-        VotingBlockChain blockChain = new VotingBlockChain(candidates);
-        Block firstBlock = new Block("Candidate1", blockChain.getLastBlockHash());
-        blockChain.mineBlock(firstBlock);
-        Block secondBlock = new Block("Candidate2", blockChain.getLastBlockHash());
-        blockChain.mineBlock(secondBlock);
-        Block thirdBlock = new Block("Candidate3", blockChain.getLastBlockHash());
-        blockChain.mineBlock(thirdBlock);
-        return blockChain;
-    }
 
     @BeforeAll
     public static void setUpPeers() {
@@ -104,7 +95,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             mockedStatic.when(VotingBlockChainSingleton::getInstance).thenReturn(currentBlockChain);
@@ -159,7 +150,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             Block fourthBlockCurrentBlockChain = new Block("Candidate1", currentBlockChain.getLastBlock().getHash());
@@ -187,7 +178,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             mockedStatic.when(VotingBlockChainSingleton::getInstance).thenReturn(currentBlockChain);
@@ -211,7 +202,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             Block fourthBlockCurrentBlockChain = new Block("Candidate1", currentBlockChain.getLastBlockHash());
@@ -241,7 +232,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             Block fourthBlockCurrentBlockChain = new Block("Candidate1", currentBlockChain.getLastBlockHash());
@@ -267,7 +258,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             Block fourthBlockIncomingBlockChain = new Block("Candidate3", incomingBlockChain.getLastBlockHash());
@@ -293,7 +284,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             Block fourthBlockCurrentBlockChain = new Block("Candidate1", currentBlockChain.getLastBlock().getHash());
@@ -316,7 +307,7 @@ public class BlockChainTcpMessageObserverTest {
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
-            VotingBlockChain currentBlockChain = setUpBlockChain();
+            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
             VotingBlockChain incomingBlockChain = currentBlockChain.copy();
 
             mockedStatic.when(VotingBlockChainSingleton::getInstance).thenReturn(currentBlockChain);
