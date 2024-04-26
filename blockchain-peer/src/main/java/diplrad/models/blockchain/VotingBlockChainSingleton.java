@@ -6,22 +6,22 @@ import java.util.List;
 
 public class VotingBlockChainSingleton {
 
+    public final static Object lock = new Object();
+
     private static VotingBlockChain INSTANCE;
 
-    public static VotingBlockChain createInstance(List<String> candidates) {
+    public synchronized static void createInstance(List<String> candidates) {
         if (INSTANCE != null) {
             System.out.println(LogMessages.votingBlockChainAlreadyCreatedMessage);
-            return INSTANCE;
         }
         INSTANCE = new VotingBlockChain(candidates);
-        return INSTANCE;
     }
 
     public static VotingBlockChain getInstance() {
         return INSTANCE;
     }
 
-    public static void setInstance(VotingBlockChain instance) {
+    public synchronized static void setInstance(VotingBlockChain instance) {
         INSTANCE = instance;
     }
 

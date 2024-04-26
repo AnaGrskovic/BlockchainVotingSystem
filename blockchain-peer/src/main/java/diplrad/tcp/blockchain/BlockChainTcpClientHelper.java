@@ -5,7 +5,6 @@ import diplrad.constants.ErrorMessages;
 import diplrad.exceptions.TcpException;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeersSingleton;
-import diplrad.tcp.blockchain.BlockChainTcpClient;
 
 import java.io.IOException;
 
