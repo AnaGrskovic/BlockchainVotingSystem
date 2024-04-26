@@ -51,10 +51,12 @@ public class AzureMessageQueueClient {
             return;
         }
 
-        VotingBlockChain blockChain = VotingBlockChainSingleton.getInstance();
-        Block block = new Block(vote, blockChain.getLastBlockHash());
-        blockChain.mineBlock(block);
-        System.out.printf((LogMessages.voteAddedMessage) + "%n", block.getData());
+        synchronized (VotingBlockChainSingleton.lock) {
+            VotingBlockChain blockChain = VotingBlockChainSingleton.getInstance();
+            Block block = new Block(vote, blockChain.getLastBlockHash());
+            blockChain.mineBlock(block);
+            System.out.printf((LogMessages.voteAddedMessage) + "%n", block.getData());
+        }
 
         try {
             BlockChainTcpClientHelper.createTcpClientsAndSendBlockChains(gson);
