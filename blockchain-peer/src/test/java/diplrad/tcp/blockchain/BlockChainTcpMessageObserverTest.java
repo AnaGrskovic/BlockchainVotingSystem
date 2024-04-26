@@ -16,6 +16,7 @@ import org.mockito.MockedStatic;
 import java.util.List;
 import java.util.UUID;
 
+import static diplrad.mocks.BlockChainMocks.setUpVotingBlockChain;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -24,18 +25,6 @@ public class BlockChainTcpMessageObserverTest {
 
     private final Gson gson = new GsonBuilder().create();
     private final BlockChainTcpMessageObserver observer = new BlockChainTcpMessageObserver(gson);
-
-    public VotingBlockChain setUpVotingBlockChain()  {
-        List<String> candidates = List.of("Candidate1", "Candidate2", "Candidate3");
-        VotingBlockChain blockChain = new VotingBlockChain(candidates);
-        Block firstBlock = new Block("Candidate1", blockChain.getLastBlockHash());
-        blockChain.mineBlock(firstBlock);
-        Block secondBlock = new Block("Candidate2", blockChain.getLastBlockHash());
-        blockChain.mineBlock(secondBlock);
-        Block thirdBlock = new Block("Candidate3", blockChain.getLastBlockHash());
-        blockChain.mineBlock(thirdBlock);
-        return blockChain;
-    }
 
     @BeforeAll
     public static void setUpPeers() {

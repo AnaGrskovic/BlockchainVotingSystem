@@ -9,26 +9,13 @@ import diplrad.models.peer.PeersSingleton;
 import org.junit.Test;
 import org.mockito.MockedStatic;
 
-import java.util.List;
-
+import static diplrad.mocks.BlockChainMocks.setUpVotingBlockChain;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 
 public class AzureMessageQueueClientTest {
 
     private static Gson gson = new GsonBuilder().create();
-
-    public VotingBlockChain setUpVotingBlockChain()  {
-        List<String> candidates = List.of("Candidate1", "Candidate2", "Candidate3");
-        VotingBlockChain blockChain = new VotingBlockChain(candidates);
-        Block firstBlock = new Block("Candidate1", blockChain.getLastBlockHash());
-        blockChain.mineBlock(firstBlock);
-        Block secondBlock = new Block("Candidate2", blockChain.getLastBlockHash());
-        blockChain.mineBlock(secondBlock);
-        Block thirdBlock = new Block("Candidate3", blockChain.getLastBlockHash());
-        blockChain.mineBlock(thirdBlock);
-        return blockChain;
-    }
 
     @Test
     public void handleQueueMessage_whenVoteIsInvalid_thenDontFetchPeersToSendThemTheBlockChain() {

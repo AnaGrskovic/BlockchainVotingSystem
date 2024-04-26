@@ -2,24 +2,11 @@ package diplrad.models.blockchain;
 
 import org.junit.Test;
 
-import java.util.List;
-
+import static diplrad.mocks.BlockChainMocks.setUpVotingBlockChain;
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VotingBlockChainTest {
-
-    public VotingBlockChain setUpVotingBlockChain()  {
-        List<String> candidates = List.of("Candidate1", "Candidate2", "Candidate3");
-        VotingBlockChain blockChain = new VotingBlockChain(candidates);
-        Block firstBlock = new Block("Candidate1", blockChain.getLastBlockHash());
-        blockChain.mineBlock(firstBlock);
-        Block secondBlock = new Block("Candidate2", blockChain.getLastBlockHash());
-        blockChain.mineBlock(secondBlock);
-        Block thirdBlock = new Block("Candidate3", blockChain.getLastBlockHash());
-        blockChain.mineBlock(thirdBlock);
-        return blockChain;
-    }
 
     @Test
     public void givenBlockchain_whenNotChanged_thenValidationOk() {
