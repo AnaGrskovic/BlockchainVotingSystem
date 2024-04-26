@@ -7,7 +7,7 @@ import diplrad.exceptions.*;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
-import diplrad.queue.StorageQueueClient;
+import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.TcpServer;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
@@ -38,9 +38,9 @@ public class MasterMain {
             handleFatalException(e);
         }
 
-        StorageQueueClient storageQueueClient = new StorageQueueClient(gson);
+        AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
         while (true) {
-            storageQueueClient.receiveAndHandleQueueMessage();
+            azureMessageQueueClient.receiveAndHandleQueueMessage();
         }
 
     }

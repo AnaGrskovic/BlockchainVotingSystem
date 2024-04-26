@@ -17,12 +17,12 @@ import java.util.List;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 
-public class StorageQueueClient {
+public class AzureMessageQueueClient {
 
     private QueueClient queueClient;
     private Gson gson;
 
-    public StorageQueueClient(Gson gson) {
+    public AzureMessageQueueClient(Gson gson) {
         this.queueClient = new QueueClientBuilder()
                 .endpoint(Constants.AZURE_STORAGE_ENDPOINT)
                 .queueName(Constants.AZURE_STORAGE_QUEUE)
@@ -32,15 +32,18 @@ public class StorageQueueClient {
     }
 
     public void receiveAndHandleQueueMessage() {
-        queueClient.receiveMessages(1).forEach(message -> {
-            handleQueueMessage(message);
-            queueClient.deleteMessage(message.getMessageId(), message.getPopReceipt());
+        queueClient.receiveMessages(1).forEach(queueMessageItem -> {
+            handleQueueMessageItem(queueMessageItem);
+            queueClient.deleteMessage(queueMessageItem.getMessageId(), queueMessageItem.getPopReceipt());
         });
     }
 
-    private void handleQueueMessage(QueueMessageItem message) {
+    void handleQueueMessageItem(QueueMessageItem queueMessageItem) {
+        handleQueueMessage(queueMessageItem.getBody().toString());
+    }
 
-        String vote = message.getBody().toString();
+    void handleQueueMessage(String vote) {
+
         System.out.printf((LogMessages.voteReceivedMessage) + "%n", vote);
 
         if (!isVoteValid(vote)) {

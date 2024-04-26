@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VotingBlockChainTest {
 
-    public VotingBlockChain setUpBlockChain()  {
+    public VotingBlockChain setUpVotingBlockChain()  {
         List<String> candidates = List.of("Candidate1", "Candidate2", "Candidate3");
         VotingBlockChain blockChain = new VotingBlockChain(candidates);
         Block firstBlock = new Block("Candidate1", blockChain.getLastBlockHash());
@@ -25,7 +25,7 @@ public class VotingBlockChainTest {
     public void givenBlockchain_whenNotChanged_thenValidationOk() {
 
         // Arrange
-        VotingBlockChain blockChain = setUpBlockChain();
+        VotingBlockChain blockChain = setUpVotingBlockChain();
 
         // Act
 
@@ -39,7 +39,7 @@ public class VotingBlockChainTest {
     public void givenBlockchain_whenChanged_thenValidationFailed() {
 
         // Arrange
-        BlockChain blockChain = setUpBlockChain();
+        BlockChain blockChain = setUpVotingBlockChain();
 
         // Act
         blockChain.getBlock(1).setData("Candidate3");
@@ -55,7 +55,7 @@ public class VotingBlockChainTest {
     public void givenBlockchain_whenDataNotCandidate_thenValidationFailed() {
 
         // Arrange
-        BlockChain blockChain = setUpBlockChain();
+        BlockChain blockChain = setUpVotingBlockChain();
 
         // Act
         Block invalidDataBlock = new Block("Candidate4", blockChain.getLastBlockHash());

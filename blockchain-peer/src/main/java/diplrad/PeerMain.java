@@ -7,10 +7,9 @@ import diplrad.exceptions.HttpException;
 import diplrad.exceptions.IpException;
 import diplrad.exceptions.ParseException;
 import diplrad.exceptions.TcpException;
-import diplrad.queue.StorageQueueClient;
+import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.blockchain.BlockChainTcpClientHelper;
 import diplrad.http.PeerHttpHelper;
-import diplrad.helpers.VoteMocker;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.tcp.TcpServer;
@@ -42,9 +41,9 @@ public class PeerMain {
             handleFatalException(e);
         }
 
-        StorageQueueClient storageQueueClient = new StorageQueueClient(gson);
+        AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
         while (true) {
-            storageQueueClient.receiveAndHandleQueueMessage();
+            azureMessageQueueClient.receiveAndHandleQueueMessage();
         }
 
     }
