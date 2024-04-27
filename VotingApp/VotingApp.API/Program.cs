@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<AzureStorageSettings>(builder.Configuration.GetSection(AzureStorageSettings.Section));
 
+builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IMessageQueueService, AzureMessageQueueService>();
 

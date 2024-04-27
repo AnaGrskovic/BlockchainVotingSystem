@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using VotingApp.Contracts.Services;
 
-namespace VotingApp.Services
+namespace VotingApp.Services;
+
+public class AuthorizationService : IAuthorizationService
 {
-    internal class AuthorizationService
+    public bool CheckTokenAsync(string token)
     {
+        throw new NotImplementedException();
     }
 }
