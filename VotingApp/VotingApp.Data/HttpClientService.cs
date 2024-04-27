@@ -11,6 +11,22 @@ public class HttpClientService : IHttpClientService
     public HttpClientService(IHttpClientFactory httpClientFactory) =>
         _httpClientFactory = httpClientFactory;
 
+    public async Task<T?> GetAsync<T>(string url, string token)
+    {
+        var httpClient = _httpClientFactory.CreateClient();
+
+        httpClient.DefaultRequestHeaders.Add("Authorization", token);
+
+        using var httpResponseMessage =
+            await httpClient.GetAsync(url);
+
+        httpResponseMessage.EnsureSuccessStatusCode();
+
+        using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+
+        return await JsonSerializer.DeserializeAsync<T>(contentStream);
+    }
+
     public async Task<T?> GetAsync<T>(string url)
     {
         var httpClient = _httpClientFactory.CreateClient();
