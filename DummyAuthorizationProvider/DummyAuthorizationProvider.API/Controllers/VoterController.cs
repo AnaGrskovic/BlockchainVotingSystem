@@ -14,13 +14,13 @@ public class VoterController : ControllerBase
         _voterService = voterService;
     }
 
-    [HttpPost(Name = "GetToken")]
+    [HttpPost("get-token", Name = "GetToken")]
     public IActionResult GetToken([FromBody] string oib)
     {
         return Ok(_voterService.GetToken(oib));
     }
 
-    [HttpPost(Name = "CheckToken")]
+    [HttpPost("check-token", Name = "CheckToken")]
     public async Task<IActionResult> CheckTokenAsync([FromBody] string token)
     {
         bool isValid = await _voterService.IsTokenValidAsync(token);
