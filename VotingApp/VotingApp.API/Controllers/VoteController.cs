@@ -15,9 +15,9 @@ public class VoteController : ControllerBase
     }
 
     [HttpPost(Name = "CreateVote")]
-    public async Task<IActionResult> CreateAsync([FromBody] String vote)
+    public IActionResult Create([FromBody] string vote)
     {
-        await _messageQueueService.SendMessage(vote);
+        _messageQueueService.SendMessage(vote);
         return Ok();
     }
 }
