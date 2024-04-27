@@ -29,8 +29,13 @@ public class VoterController : ControllerBase
     }
 
     [HttpPost("check-token", Name = "CheckToken")]
-    public async Task<IActionResult> CheckTokenAsync([FromBody] string token)
+    public async Task<IActionResult> CheckTokenAsync()
     {
+        string? token = Request.Headers["Authorization"];
+        if (token == null)
+        {
+            return Unauthorized();
+        }
         bool isValid = await _voterService.IsTokenValidAsync(token);
         if (isValid)
         {
