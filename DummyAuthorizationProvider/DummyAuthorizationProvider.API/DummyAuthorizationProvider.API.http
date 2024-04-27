@@ -1,6 +1,0 @@
-@DummyAuthorizationProvider.API_HostAddress = http://localhost:5215
-
-GET {{DummyAuthorizationProvider.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
