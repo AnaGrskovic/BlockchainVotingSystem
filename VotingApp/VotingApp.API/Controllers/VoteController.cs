@@ -17,6 +17,7 @@ public class VoteController : ControllerBase
     [HttpPost(Name = "CreateVote")]
     public IActionResult Create([FromBody] string vote)
     {
+        var token = Request.Headers["Authorization"];
         _messageQueueService.SendMessage(vote);
         return Ok();
     }
