@@ -1,6 +1,8 @@
 ﻿using DummyAuthorizationProvider.Contracts.Entities;
 using DummyAuthorizationProvider.Contracts.Services;
 using DummyAuthorizationProvider.Contracts.UoW;
+using System.Numerics;
+using System.Security.Cryptography;
 
 namespace DummyAuthorizationProvider.Services;
 
@@ -21,7 +23,8 @@ public class AuthorizationService : IAuthorizationService
         {
             return null;
         }
-        Random random = new Random(oib.GetHashCode());
+        int seed = int.Parse(oib);
+        Random random = new Random(seed);
         return random.Next().ToString();
     }
 
@@ -30,7 +33,8 @@ public class AuthorizationService : IAuthorizationService
         List<Voter> voters = await GetAllAsync();
         foreach (Voter voter in voters)
         {
-            Random random = new Random(voter.Oib.GetHashCode());
+            int seed = int.Parse(voter.Oib);
+            Random random = new Random(seed);
             if (random.Next().ToString().Equals(token))
             {
                 return true;
