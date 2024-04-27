@@ -15,9 +15,17 @@ public class VoterController : ControllerBase
     }
 
     [HttpPost("get-token", Name = "GetToken")]
-    public IActionResult GetToken([FromBody] string oib)
+    public async Task<IActionResult> GetTokenAsync([FromBody] string oib)
     {
-        return Ok(_voterService.GetToken(oib));
+        string? token = await _voterService.GetTokenAsync(oib);
+        if (token == null)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return Ok(token);
+        }
     }
 
     [HttpPost("check-token", Name = "CheckToken")]

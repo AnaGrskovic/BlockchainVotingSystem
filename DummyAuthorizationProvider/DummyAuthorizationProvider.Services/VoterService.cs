@@ -13,8 +13,14 @@ public class VoterService : IVoterService
         _uow = uow;
     }
 
-    public string GetToken(string oib)
+    public async Task<string?> GetTokenAsync(string oib)
     {
+        List<Voter> voters = await GetAllAsync();
+        Voter? voter = voters.FirstOrDefault(v => v.Oib.Equals(oib));
+        if (voter == null)
+        {
+            return null;
+        }
         Random random = new Random(oib.GetHashCode());
         return random.Next().ToString();
     }

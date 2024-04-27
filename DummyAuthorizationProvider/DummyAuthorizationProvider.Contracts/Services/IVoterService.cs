@@ -2,6 +2,6 @@
 
 public interface IVoterService
 {
-    string GetToken(string oib);
+    Task<string?> GetTokenAsync(string oib);
     Task<bool> IsTokenValidAsync(string token);
 }
