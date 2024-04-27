@@ -14,7 +14,7 @@ public class AuthorizationService : IAuthorizationService
     {
         try
         {
-            await _httpClientService.PostAsync("https://localhost:44378/api/voters/check-token", token);
+            await _httpClientService.GetAsync("https://localhost:44378/api/voters/check-token", token);
         }
         catch (HttpRequestException)
         {

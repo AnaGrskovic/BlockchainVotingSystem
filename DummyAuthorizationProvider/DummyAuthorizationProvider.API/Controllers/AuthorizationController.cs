@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace DummyAuthorizationProvider.API.Controllers;
 
 [ApiController]
-[Route("api/voters")]
-public class VoterController : ControllerBase
+[Route("api/authorization")]
+public class AuthorizationController : ControllerBase
 {
     private readonly IVoterService _voterService;
 
-    public VoterController(IVoterService voterService)
+    public AuthorizationController(IVoterService voterService)
     {
         _voterService = voterService;
     }
