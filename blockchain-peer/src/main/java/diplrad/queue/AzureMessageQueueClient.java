@@ -5,9 +5,13 @@ import com.azure.storage.queue.QueueClient;
 import com.azure.storage.queue.QueueClientBuilder;
 import com.azure.storage.queue.models.QueueMessageItem;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import diplrad.constants.Constants;
 import diplrad.constants.LogMessages;
+import diplrad.exceptions.HttpException;
 import diplrad.exceptions.TcpException;
+import diplrad.http.HttpSender;
+import diplrad.models.vote.VoteMessage;
 import diplrad.tcp.blockchain.BlockChainTcpClientHelper;
 import diplrad.models.blockchain.Block;
 import diplrad.models.blockchain.VotingBlockChain;
@@ -39,7 +43,28 @@ public class AzureMessageQueueClient {
     }
 
     void handleQueueMessageItem(QueueMessageItem queueMessageItem) {
-        handleQueueMessage(queueMessageItem.getBody().toString());
+        String message = queueMessageItem.getBody().toString();
+        VoteMessage voteMessage;
+        try {
+            voteMessage = gson.fromJson(message, VoteMessage.class);
+        } catch (JsonSyntaxException e) {
+            System.out.printf((LogMessages.voteInvalidMessage) + "%n", message);
+            return;
+        }
+        if (voteMessage == null || voteMessage.getVote() == null || voteMessage.getToken() == null) {
+            System.out.printf((LogMessages.voteInvalidMessage) + "%n", message);
+            return;
+        }
+
+        try {
+            HttpSender httpSender = new HttpSender();
+            httpSender.checkToken(voteMessage.getToken());
+        } catch (HttpException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        handleQueueMessage(voteMessage.getVote());
     }
 
     void handleQueueMessage(String vote) {

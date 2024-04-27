@@ -21,4 +21,9 @@ public class AzureMessageQueueService : IMessageQueueService
     {
         _queueClient.SendMessageAsync(message);
     }
+
+    public async Task SendMessageAsync(string message)
+    {
+        await _queueClient.SendMessageAsync(message);
+    }
 }
