@@ -19,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IVoterService, VoterService>();
+builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 
 
 var app = builder.Build();

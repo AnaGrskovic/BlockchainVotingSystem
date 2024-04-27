@@ -7,9 +7,9 @@ namespace DummyAuthorizationProvider.API.Controllers;
 [Route("api/authorization")]
 public class AuthorizationController : ControllerBase
 {
-    private readonly IVoterService _voterService;
+    private readonly IAuthorizationService _voterService;
 
-    public AuthorizationController(IVoterService voterService)
+    public AuthorizationController(IAuthorizationService voterService)
     {
         _voterService = voterService;
     }

@@ -4,11 +4,11 @@ using DummyAuthorizationProvider.Contracts.UoW;
 
 namespace DummyAuthorizationProvider.Services;
 
-public class VoterService : IVoterService
+public class AuthorizationService : IAuthorizationService
 {
     private readonly IUnitOfWork _uow;
 
-    public VoterService(IUnitOfWork uow)
+    public AuthorizationService(IUnitOfWork uow)
     {
         _uow = uow;
     }
