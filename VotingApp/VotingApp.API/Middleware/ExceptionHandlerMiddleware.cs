@@ -1,8 +1,8 @@
-﻿using CentralPeerCoordinator.Contracts.Exceptions;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
+using VotingApp.Contracts.Exceptions;
 
-namespace CentralPeerCoordinator.API.Middleware;
+namespace VotingApp.API.Middleware;
 
 public class ExceptionHandlerMiddleware
 {
@@ -30,10 +30,9 @@ public class ExceptionHandlerMiddleware
         object response;
         _ = ex switch
         {
-            EntityNotFoundException =>
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound,
-            IpAddressNotUniqueException =>
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
+            TokenNotPresentException or
+            TokenNotValidException =>
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
         };
 

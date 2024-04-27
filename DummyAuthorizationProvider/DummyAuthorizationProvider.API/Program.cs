@@ -1,3 +1,4 @@
+using DummyAuthorizationProvider.API.Middleware;
 using DummyAuthorizationProvider.Contracts.Services;
 using DummyAuthorizationProvider.Contracts.UoW;
 using DummyAuthorizationProvider.Data.Db.Context;
@@ -19,7 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IVoterService, VoterService>();
+builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 
 
 var app = builder.Build();
@@ -36,6 +37,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers();
 

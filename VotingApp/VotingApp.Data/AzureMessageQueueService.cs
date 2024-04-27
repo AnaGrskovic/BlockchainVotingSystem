@@ -9,6 +9,7 @@ namespace VotingApp.Services;
 public class AzureMessageQueueService : IMessageQueueService
 {
     private readonly QueueClient _queueClient;
+
     public AzureMessageQueueService(IOptions<AzureStorageSettings> settings)
     {
         _queueClient = new QueueClient(

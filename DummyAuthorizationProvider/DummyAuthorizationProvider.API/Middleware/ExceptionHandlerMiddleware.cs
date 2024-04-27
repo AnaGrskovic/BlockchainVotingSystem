@@ -1,8 +1,8 @@
-﻿using CentralPeerCoordinator.Contracts.Exceptions;
+﻿using DummyAuthorizationProvider.Contracts.Exceptions;
 using System.Net;
 using System.Text.Json;
 
-namespace CentralPeerCoordinator.API.Middleware;
+namespace DummyAuthorizationProvider.API.Middleware;
 
 public class ExceptionHandlerMiddleware
 {
@@ -32,8 +32,9 @@ public class ExceptionHandlerMiddleware
         {
             EntityNotFoundException =>
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound,
-            IpAddressNotUniqueException =>
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
+            TokenNotPresentException or
+            TokenNotValidException =>
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
         };
 
@@ -48,3 +49,4 @@ public class ExceptionHandlerMiddleware
         await context.Response.WriteAsync(resultJson);
     }
 }
+

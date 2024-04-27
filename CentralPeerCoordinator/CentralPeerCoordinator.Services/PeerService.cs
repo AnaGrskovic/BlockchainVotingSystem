@@ -14,7 +14,9 @@ public class PeerService : IPeerService
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
 
-    public PeerService(IUnitOfWork uow, IMapper mapper)
+    public PeerService(
+        IUnitOfWork uow,
+        IMapper mapper)
     {
         _uow = uow;
         _mapper = mapper;
@@ -23,7 +25,7 @@ public class PeerService : IPeerService
     public async Task<List<PeerResponseDto>> GetAllAsync()
     {
         List<Peer> peers = await _uow.Peers.GetAllAsync();
-        return peers.Select(p => _mapper.Map<PeerResponseDto>(p)).ToList();
+        return peers.Select(_mapper.Map<PeerResponseDto>).ToList();
     }
 
     public async Task<PeerResponseDto> GetAsync(Guid id)
@@ -53,7 +55,7 @@ public class PeerService : IPeerService
         try
         {
             Peer peer = await _uow.Peers.GetAsync(id) ??
-            throw new EntityNotFoundException("There is no peer with that id.");
+                throw new EntityNotFoundException("There is no peer with that id.");
             peer = _mapper.Map(request, peer);
             _uow.Peers.Update(peer);
             await _uow.SaveChangesAsync();
