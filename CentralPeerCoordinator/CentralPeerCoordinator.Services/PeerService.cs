@@ -14,7 +14,9 @@ public class PeerService : IPeerService
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
 
-    public PeerService(IUnitOfWork uow, IMapper mapper)
+    public PeerService(
+        IUnitOfWork uow,
+        IMapper mapper)
     {
         _uow = uow;
         _mapper = mapper;
