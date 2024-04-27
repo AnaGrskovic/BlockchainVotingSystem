@@ -13,4 +13,8 @@ public class Constants {
     public static final String AZURE_STORAGE_ACCOUNT = "votingblockchainstorage";
     public static final String AZURE_STORAGE_ENDPOINT = "https://" + AZURE_STORAGE_ACCOUNT + ".queue.core.windows.net/";
     public static final String AZURE_STORAGE_QUEUE = "vote-queue";
+    public static final String CENTRAL_PEER_COORDINATOR_BASE_URL = "https://localhost:7063/";
+    public static final String CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT = "api/peers/";
+    public static final String AUTHORIZATION_PROVIDER_BASE_URL = "https://localhost:44378/";
+    public static final String AUTHORIZATION_PROVIDER_CHECK_TOKEN_ENDPOINT = "/api/authorization/check-token";
 }

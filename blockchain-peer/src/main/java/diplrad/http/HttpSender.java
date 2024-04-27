@@ -2,6 +2,7 @@ package diplrad.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
 import diplrad.exceptions.HttpException;
 import diplrad.exceptions.ParseException;
@@ -37,7 +38,7 @@ public class HttpSender {
             byte[] bytes = json.getBytes();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("https://localhost:7063/api/peers"))
+                    .uri(new URI(Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT))
                     .headers("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofByteArray(bytes))
                     .build();
@@ -66,7 +67,7 @@ public class HttpSender {
     public void deletePeer(UUID peerId) throws HttpException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("https://localhost:7063/api/peers/" + peerId))
+                    .uri(new URI(Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT))
                     .headers("Content-Type", "application/json")
                     .DELETE()
                     .build();
@@ -87,7 +88,7 @@ public class HttpSender {
     public List<Peer> getPeers(Peer ownPeer) throws HttpException, ParseException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("https://localhost:7063/api/peers"))
+                    .uri(new URI(Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT))
                     .GET()
                     .build();
 
@@ -117,7 +118,7 @@ public class HttpSender {
     public void checkToken(String token) throws HttpException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("https://localhost:44378/api/authorization/check-token"))
+                    .uri(new URI(Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_ENDPOINT))
                     .headers("Authorization", token)
                     .GET()
                     .build();
