@@ -2,5 +2,5 @@
 
 public interface IAuthorizationService
 {
-    bool CheckTokenAsync(string token);
+    Task<bool> CheckTokenAsync(string token);
 }

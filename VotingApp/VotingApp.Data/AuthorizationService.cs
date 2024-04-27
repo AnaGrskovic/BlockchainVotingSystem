@@ -4,8 +4,22 @@ namespace VotingApp.Services;
 
 public class AuthorizationService : IAuthorizationService
 {
-    public bool CheckTokenAsync(string token)
+    private readonly IHttpClientService _httpClientService;
+    public AuthorizationService(IHttpClientService httpClientService)
     {
-        throw new NotImplementedException();
+        _httpClientService = httpClientService;
+    }
+
+    public async Task<bool> CheckTokenAsync(string token)
+    {
+        try
+        {
+            await _httpClientService.PostAsync("https://localhost:44378/api/voters/check-token", token);
+        }
+        catch (HttpRequestException)
+        {
+            return false;
+        }
+        return true;
     }
 }
