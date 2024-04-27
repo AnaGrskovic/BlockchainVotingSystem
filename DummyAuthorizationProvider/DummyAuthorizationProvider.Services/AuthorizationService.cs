@@ -1,8 +1,7 @@
 ﻿using DummyAuthorizationProvider.Contracts.Entities;
+using DummyAuthorizationProvider.Contracts.Exceptions;
 using DummyAuthorizationProvider.Contracts.Services;
 using DummyAuthorizationProvider.Contracts.UoW;
-using System.Numerics;
-using System.Security.Cryptography;
 
 namespace DummyAuthorizationProvider.Services;
 
@@ -15,21 +14,34 @@ public class AuthorizationService : IAuthorizationService
         _uow = uow;
     }
 
-    public async Task<string?> GetTokenAsync(string oib)
+    public async Task<string> GetTokenAsync(string oib)
     {
         List<Voter> voters = await GetAllAsync();
         Voter? voter = voters.FirstOrDefault(v => v.Oib.Equals(oib));
         if (voter == null)
         {
-            return null;
+            throw new EntityNotFoundException("There is no voter with that oib.");
         }
         int seed = int.Parse(oib);
         Random random = new Random(seed);
         return random.Next().ToString();
     }
 
-    public async Task<bool> IsTokenValidAsync(string token)
+    public async Task CheckToken(string? token)
     {
+        bool isTokenValid = await IsTokenValidAsync(token);
+        if (!isTokenValid)
+        {
+            throw new TokenNotValidException("Token is not valid.");
+        }
+    }
+
+    private async Task<bool> IsTokenValidAsync(string? token)
+    {
+        if (token == null)
+        {
+            throw new TokenNotPresentException("Token is not present in the request.");
+        }
         List<Voter> voters = await GetAllAsync();
         foreach (Voter voter in voters)
         {

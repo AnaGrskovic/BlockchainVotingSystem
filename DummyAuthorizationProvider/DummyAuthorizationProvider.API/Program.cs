@@ -1,3 +1,4 @@
+using DummyAuthorizationProvider.API.Middleware;
 using DummyAuthorizationProvider.Contracts.Services;
 using DummyAuthorizationProvider.Contracts.UoW;
 using DummyAuthorizationProvider.Data.Db.Context;
@@ -36,6 +37,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers();
 

@@ -1,6 +1,7 @@
 using VotingApp.Contracts.Services;
 using VotingApp.Services;
 using VotingApp.Contracts.Settings;
+using VotingApp.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers();
 

@@ -2,6 +2,6 @@
 
 public interface IAuthorizationService
 {
-    Task<string?> GetTokenAsync(string oib);
-    Task<bool> IsTokenValidAsync(string token);
+    Task<string> GetTokenAsync(string oib);
+    Task CheckToken(string? token);
 }

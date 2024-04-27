@@ -7,11 +7,11 @@ namespace DummyAuthorizationProvider.API.Controllers;
 [Route("api/authorization")]
 public class AuthorizationController : ControllerBase
 {
-    private readonly IAuthorizationService _voterService;
+    private readonly IAuthorizationService _authorizationService;
 
-    public AuthorizationController(IAuthorizationService voterService)
+    public AuthorizationController(IAuthorizationService authorizationService)
     {
-        _voterService = voterService;
+        _authorizationService = authorizationService;
     }
 
     [HttpPost("get-token", Name = "GetToken")]
@@ -19,15 +19,7 @@ public class AuthorizationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetTokenAsync([FromBody] string oib)
     {
-        string? token = await _voterService.GetTokenAsync(oib);
-        if (token == null)
-        {
-            return NotFound();
-        }
-        else
-        {
-            return Ok(token);
-        }
+        return Ok(await _authorizationService.GetTokenAsync(oib));
     }
 
     [HttpGet("check-token", Name = "CheckToken")]
@@ -36,18 +28,7 @@ public class AuthorizationController : ControllerBase
     public async Task<IActionResult> CheckTokenAsync()
     {
         string? token = Request.Headers["Authorization"];
-        if (token == null)
-        {
-            return Unauthorized();
-        }
-        bool isValid = await _voterService.IsTokenValidAsync(token);
-        if (isValid)
-        {
-            return Ok();
-        }
-        else
-        {
-            return Unauthorized();
-        }
+        await _authorizationService.CheckToken(token);
+        return Ok();
     }
 }
