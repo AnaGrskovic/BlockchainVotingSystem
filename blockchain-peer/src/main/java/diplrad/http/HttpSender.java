@@ -23,7 +23,7 @@ public class HttpSender {
     private final Gson gson;
     private final HttpClient client;
 
-    public HttpSender() throws HttpException {
+    public HttpSender() {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.client = HttpClient.newBuilder().build();
     }
@@ -107,6 +107,32 @@ public class HttpSender {
             peers = peers.stream().filter(peer -> !peer.getId().equals(ownPeer.getId())).toList();
 
             return peers;
+        } catch (URISyntaxException e) {
+            throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
+        } catch (IOException | InterruptedException e) {
+            throw new HttpException(ErrorMessages.sendHttpRequestErrorMessage);
+        }
+    }
+
+    public void checkToken(String token) throws HttpException {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("https://localhost:44378/api/authorization/check-token"))
+                    .headers("Authorization", token)
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            int responseStatusCode = response.statusCode();
+
+            if (responseStatusCode == 200) {
+                return;
+            } else if (responseStatusCode == 401) {
+                throw new HttpException(ErrorMessages.invalidTokenErrorMessage);
+            } else {
+                throw new HttpException(ErrorMessages.unsuccessfulHttpRequestErrorMessage);
+            }
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {

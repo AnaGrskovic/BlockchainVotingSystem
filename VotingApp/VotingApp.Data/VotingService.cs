@@ -1,4 +1,7 @@
-﻿using VotingApp.Contracts.Exceptions;
+﻿using Azure;
+using System.Text.Json;
+using VotingApp.Contracts.Dtos;
+using VotingApp.Contracts.Exceptions;
 using VotingApp.Contracts.Services;
 
 namespace VotingApp.Services;
@@ -31,6 +34,13 @@ public class VotingService : IVotingService
         {
             throw new VoteNotPresentException("Vote not present in the request.");
         }
-        _messageQueueService.SendMessage(vote);
+
+        var voteDto = new VoteDto(token, vote);
+        var serializeOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        var voteMessage = JsonSerializer.Serialize(voteDto, serializeOptions);
+        await _messageQueueService.SendMessageAsync(voteMessage);
     }
 }

@@ -28,5 +28,6 @@ public class ErrorMessages {
     public static final String unsuccessfulHttpRequestErrorMessage = "Sending HTTP request was unsuccessful.";
     public static final String incorrectUrlErrorMessage = "Url is incorrect.";
     public static final String sendHttpRequestErrorMessage = "Unable to send HTTP request.";
+    public static final String invalidTokenErrorMessage = "The token is invalid.";
 
 }
