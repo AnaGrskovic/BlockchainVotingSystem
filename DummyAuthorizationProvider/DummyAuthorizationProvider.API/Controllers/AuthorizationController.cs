@@ -17,7 +17,7 @@ public class AuthorizationController : ControllerBase
     [HttpPost("get-token", Name = "GetToken")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetTokenAsync([FromBody] string oib)
+    public async Task<IActionResult> GetTokenAsync([FromBody] string? oib)
     {
         return Ok(await _authorizationService.GetTokenAsync(oib));
     }

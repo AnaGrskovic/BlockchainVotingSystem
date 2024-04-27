@@ -14,8 +14,12 @@ public class AuthorizationService : IAuthorizationService
         _uow = uow;
     }
 
-    public async Task<string> GetTokenAsync(string oib)
+    public async Task<string> GetTokenAsync(string? oib)
     {
+        if (oib == null)
+        {
+            throw new OibNotPresentException("Oib is not present in the request.");
+        }
         List<Voter> voters = await GetAllAsync();
         Voter? voter = voters.FirstOrDefault(v => v.Oib.Equals(oib));
         if (voter == null)
