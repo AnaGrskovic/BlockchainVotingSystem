@@ -56,8 +56,8 @@ public class AzureMessageQueueClient {
             return;
         }
 
-        HttpSender httpSender = new HttpSender();
         try {
+            HttpSender httpSender = new HttpSender();
             httpSender.checkToken(voteMessage.getToken());
         } catch (HttpException e) {
             System.out.println(e.getMessage());
