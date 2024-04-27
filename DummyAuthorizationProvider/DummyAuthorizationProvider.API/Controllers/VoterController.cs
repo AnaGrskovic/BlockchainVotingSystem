@@ -38,7 +38,7 @@ public class VoterController : ControllerBase
         }
         else
         {
-            return Forbid();
+            return Unauthorized();
         }
     }
 }
