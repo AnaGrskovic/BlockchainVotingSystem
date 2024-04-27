@@ -16,7 +16,7 @@ public class VotingService : IVotingService
         _messageQueueService = messageQueueService;
     }
 
-    public async Task VoteAsync(string? token, string vote)
+    public async Task VoteAsync(string? token, string? vote)
     {
         if (token is null)
         {
@@ -26,6 +26,10 @@ public class VotingService : IVotingService
         if (!isTokenValid)
         {
             throw new TokenNotValidException("Token is not valid.");
+        }
+        if (vote is null)
+        {
+            throw new VoteNotPresentException("Vote not present in the request.");
         }
         _messageQueueService.SendMessage(vote);
     }

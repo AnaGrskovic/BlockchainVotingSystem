@@ -17,7 +17,7 @@ public class VoteController : ControllerBase
     [HttpPost(Name = "CreateVote")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> CreateAsync([FromBody] string vote)
+    public async Task<IActionResult> CreateAsync([FromBody] string? vote)
     {
         string? token = Request.Headers["Authorization"];
         await _votingService.VoteAsync(token, vote);
