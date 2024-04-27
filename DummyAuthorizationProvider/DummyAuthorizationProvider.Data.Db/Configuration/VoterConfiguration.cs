@@ -1,4 +1,5 @@
 ﻿using DummyAuthorizationProvider.Contracts.Entities;
+using DummyAuthorizationProvider.Contracts.Mocks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,5 +15,7 @@ public class VoterConfiguration : IEntityTypeConfiguration<Voter>
 
         builder.HasIndex(v => new { v.Oib })
             .IsUnique();
+
+        builder.HasData(VoterMocks.Voters);
     }
 }
