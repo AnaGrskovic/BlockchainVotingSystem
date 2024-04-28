@@ -83,7 +83,6 @@ public class TcpServer {
 
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.printf((LogMessages.receivedTcpMessage) + "%n", inputLine);
                     for (ITcpMessageObserver observer : observers) {
                         String observerResponse = observer.messageReceived(inputLine);
                         if (observerResponse != null) {

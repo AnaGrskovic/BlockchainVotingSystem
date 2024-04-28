@@ -33,6 +33,8 @@ public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
             return ResponseMessages.ignoreMessage;
         }
 
+        System.out.printf((LogMessages.receivedTcpMessage) + "%n", message);
+
         String[] messageParts = message.split(" ");
         if (messageParts.length == 2) {
             Peer peer = gson.fromJson(messageParts[1], Peer.class);
