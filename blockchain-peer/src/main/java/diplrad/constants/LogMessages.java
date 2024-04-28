@@ -3,7 +3,7 @@ package diplrad.constants;
 public class LogMessages {
 
     public static final String createdBlockChainMessage = "Created a block chain: %s.";
-    public static final String startedTcpServer = "TCP server is started.";
+    public static final String startedTcpServer = "TCP server is started on port %s.";
     public static final String registeredOwnPeer = "Own peer is registered.";
     public static final String receivedInitialBlockChain = "Sent block chain requests and set initial block chain: %s.";
     public static final String votingBlockChainAlreadyCreatedMessage = "Voting block chain is already created";
@@ -21,5 +21,6 @@ public class LogMessages {
     public static final String voteAddedMessage = "Vote for %s added to block chain.";
     public static final String blockChainSentMessage = "Sent block chain to peers.";
     public static final String blockChainSendFailMessage = "Unable to send block chain to peers.";
+    public static final String tcpServerPortArgumentFailMessage = "The first argument must be the TCP port.";
 
 }
