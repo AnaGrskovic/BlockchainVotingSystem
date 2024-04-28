@@ -2,7 +2,6 @@ package diplrad.queue;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import diplrad.models.blockchain.Block;
 import diplrad.models.blockchain.VotingBlockChain;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.models.peer.PeersSingleton;
