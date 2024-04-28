@@ -3,16 +3,16 @@ package diplrad;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.LogMessages;
-import diplrad.exceptions.HttpException;
-import diplrad.exceptions.IpException;
-import diplrad.exceptions.ParseException;
-import diplrad.exceptions.TcpException;
+import diplrad.encryption.CryptographyHelper;
+import diplrad.exceptions.*;
 import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.blockchain.BlockChainTcpClientHelper;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.tcp.TcpServer;
+
+import java.io.IOException;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.models.peer.PeersSingleton.ownPeer;
@@ -40,6 +40,8 @@ public class PeerMain {
             PeerHttpHelper.getPeersInitial(httpSender, ownPeer);
             System.out.println(LogMessages.registeredOwnPeer);
 
+            CryptographyHelper.loadCryptographyProperties();
+
             TcpServer.TcpServerThread tcpServerThread = new TcpServer.TcpServerThread();
             tcpServerThread.start();
             System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
@@ -47,7 +49,7 @@ public class PeerMain {
             BlockChainTcpClientHelper.createTcpClientsAndSendConnects(gson, ownPeer);
             System.out.printf((LogMessages.receivedInitialBlockChain) + "%n", gson.toJson(VotingBlockChainSingleton.getInstance()));
 
-        } catch (IpException | ParseException | HttpException | TcpException e) {
+        } catch (IpException | ParseException | HttpException | TcpException | CryptographyException e) {
             handleFatalException(e);
         }
 

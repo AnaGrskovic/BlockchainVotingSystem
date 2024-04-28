@@ -3,12 +3,15 @@ package diplrad;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.LogMessages;
+import diplrad.encryption.CryptographyHelper;
 import diplrad.exceptions.*;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.TcpServer;
+
+import java.io.IOException;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.helpers.FileReader.readCandidatesFromFile;
@@ -38,11 +41,13 @@ public class MasterMain {
             PeerHttpHelper.getPeersInitial(httpSender, ownPeer);
             System.out.println(LogMessages.registeredOwnPeer);
 
+            CryptographyHelper.loadCryptographyProperties();
+
             TcpServer.TcpServerThread tcpServerThread = new TcpServer.TcpServerThread();
             tcpServerThread.start();
             System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
 
-        } catch (InvalidFileException | ReadFromFileException | IpException | ParseException | HttpException e) {
+        } catch (InvalidFileException | ReadFromFileException | IpException | ParseException | HttpException | CryptographyException e) {
             handleFatalException(e);
         }
 

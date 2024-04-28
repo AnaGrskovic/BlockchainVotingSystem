@@ -5,6 +5,8 @@ import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
 import diplrad.constants.LogMessages;
 import diplrad.constants.ResponseMessages;
+import diplrad.encryption.CryptographyHelper;
+import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.TcpException;
 import diplrad.models.blockchain.VotingBlockChain;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
@@ -21,7 +23,15 @@ public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
     }
 
     @Override
-    public String messageReceived(String message) throws TcpException {
+    public String messageReceived(String encryptedMessage) throws TcpException {
+
+        String message = null;
+        try {
+            message = CryptographyHelper.decrypt(encryptedMessage);
+        } catch (CryptographyException e) {
+            System.out.println(LogMessages.ignoreMessageThatCannotBeDecryptedMessage);
+            return ResponseMessages.ignoreMessage;
+        }
 
         String[] messageParts = message.split(" ");
         if (messageParts.length == 2) {
