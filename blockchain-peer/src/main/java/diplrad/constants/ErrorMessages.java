@@ -27,7 +27,12 @@ public class ErrorMessages {
     // HttpException
     public static final String unsuccessfulHttpRequestErrorMessage = "Sending HTTP request was unsuccessful.";
     public static final String incorrectUrlErrorMessage = "Url is incorrect.";
-    public static final String sendHttpRequestErrorMessage = "Unable to send HTTP request.";
+    public static final String sendHttpRequestErrorMessage = "Unable to send HTTP request to %s.";
     public static final String invalidTokenErrorMessage = "The token is invalid.";
+
+    // CryptographyException
+    public static final String cryptographyPropertiesNotLoadedErrorMessage = "Cryptography properties are not loaded.";
+    public static final String unsuccessfulEncryptionErrorMessage = "Encryption was unsuccessful.";
+    public static final String unsuccessfulDecryptionErrorMessage = "Decryption was unsuccessful.";
 
 }

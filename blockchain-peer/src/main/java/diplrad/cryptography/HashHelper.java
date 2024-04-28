@@ -1,16 +1,18 @@
-package diplrad.helpers;
+package diplrad.cryptography;
+
+import diplrad.constants.Constants;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class CryptographyHelper {
+public class HashHelper {
 
     public static String hashWithSha256(String input)
     {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            MessageDigest digest = MessageDigest.getInstance(Constants.HASH_ALGORITHM);
             byte[] bytes = digest.digest(input.getBytes(UTF_8));
             StringBuilder buffer = new StringBuilder();
             for (byte b : bytes) {
@@ -22,5 +24,5 @@ public class CryptographyHelper {
             throw new RuntimeException(e);
         }
     }
-
+    
 }

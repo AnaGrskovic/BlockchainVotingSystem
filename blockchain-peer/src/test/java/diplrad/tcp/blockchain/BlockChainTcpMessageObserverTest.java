@@ -3,6 +3,8 @@ package diplrad.tcp.blockchain;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.Constants;
+import diplrad.cryptography.CryptographyHelper;
+import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.TcpException;
 import diplrad.models.blockchain.Block;
 import diplrad.models.blockchain.VotingBlockChain;
@@ -11,6 +13,7 @@ import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeersSingleton;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockedStatic;
 
 import java.util.List;
@@ -26,25 +29,30 @@ public class BlockChainTcpMessageObserverTest {
     private final Gson gson = new GsonBuilder().create();
     private final BlockChainTcpMessageObserver observer = new BlockChainTcpMessageObserver(gson);
 
-    @BeforeAll
-    public static void setUpPeers() {
+    public static void setUpPeers() throws CryptographyException {
         Peer peer1 = new Peer(UUID.randomUUID(), "168.198.2.23", 5000);
         Peer peer2 = new Peer(UUID.randomUUID(), "168.198.2.24", 5000);
         Peer peer3 = new Peer(UUID.randomUUID(), "168.198.2.25", 5000);
         List<Peer> peers = List.of(peer1, peer2, peer3);
         PeersSingleton.createInstance(peers);
+        CryptographyHelper.loadCryptographyProperties();
     }
 
     @Test
-    public void messageReceived_whenMessageIsConnect_thenAddPeer() throws TcpException {
+    public void messageReceived_whenMessageIsConnect_thenAddPeer() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<PeersSingleton> mockedStatic = mockStatic(PeersSingleton.class)) {
 
             // Arrange
             Peer peer = new Peer(UUID.randomUUID(), "168.182.1.11", 5000);
 
+            String message = Constants.TCP_CONNECT + " " + gson.toJson(peer);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(Constants.TCP_CONNECT + " " + gson.toJson(peer));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> PeersSingleton.addPeer(any(Peer.class)), times(1));
@@ -54,15 +62,20 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsConnect_thenRespondWithBlockChainInstance() throws TcpException {
+    public void messageReceived_whenMessageIsConnect_thenRespondWithBlockChainInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
             // Arrange
             Peer peer = new Peer(UUID.randomUUID(), "168.182.1.11", 5000);
 
+            String message = Constants.TCP_CONNECT + " " + gson.toJson(peer);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(Constants.TCP_CONNECT + " " + gson.toJson(peer));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(VotingBlockChainSingleton::getInstance, times(1));
@@ -72,15 +85,20 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsDisconnect_thenRemovePeer() throws TcpException {
+    public void messageReceived_whenMessageIsDisconnect_thenRemovePeer() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<PeersSingleton> mockedStatic = mockStatic(PeersSingleton.class)) {
 
             // Arrange
             Peer peer = new Peer(UUID.randomUUID(), "168.182.1.11", 5000);
 
+            String message = Constants.TCP_DISCONNECT + " " + gson.toJson(peer);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(Constants.TCP_DISCONNECT + " " + gson.toJson(peer));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> PeersSingleton.removePeer(any(Peer.class)), times(1));
@@ -90,7 +108,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainInvalid_thenDoNotSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainInvalid_thenDoNotSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -105,8 +125,11 @@ public class BlockChainTcpMessageObserverTest {
             incomingBlockChain.getBlock(1).setData("Candidate3");
             incomingBlockChain.getBlock(2).setData("Candidate3");
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(0));
@@ -116,7 +139,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainButCurrentIsEmpty_thenSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainButCurrentIsEmpty_thenSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -134,8 +159,11 @@ public class BlockChainTcpMessageObserverTest {
             Block thirdBlockIncomingBlockChain = new Block("Candidate3", incomingBlockChain.getLastBlockHash());
             incomingBlockChain.mineBlock(thirdBlockIncomingBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(1));
@@ -145,7 +173,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainBiggerAndIncompatibleWithCurrent_thenDoNotSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainBiggerAndIncompatibleWithCurrent_thenDoNotSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -162,8 +192,11 @@ public class BlockChainTcpMessageObserverTest {
             Block fifthBlockIncomingBlockChain = new Block("Candidate2", incomingBlockChain.getLastBlockHash());
             incomingBlockChain.mineBlock(fifthBlockIncomingBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(0));
@@ -173,7 +206,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainBiggerThanCurrent_thenSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainBiggerThanCurrent_thenSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -186,8 +221,11 @@ public class BlockChainTcpMessageObserverTest {
             Block fourthBlockIncomingBlockChain = new Block("Candidate2", incomingBlockChain.getLastBlockHash());
             incomingBlockChain.mineBlock(fourthBlockIncomingBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(1));
@@ -197,7 +235,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainOfSameSizeAndIncompatibleWithCurrent_thenDoNotSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainOfSameSizeAndIncompatibleWithCurrent_thenDoNotSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -216,8 +256,11 @@ public class BlockChainTcpMessageObserverTest {
             Block fifthBlockIncomingBlockChain = new Block("Candidate3", currentBlockChain.getLastBlockHash());
             incomingBlockChain.mineBlock(fifthBlockIncomingBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(0));
@@ -227,7 +270,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainOfSameSizeAsCurrentWithBiggerLastBlockTimeStamp_thenDoNotSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainOfSameSizeAsCurrentWithBiggerLastBlockTimeStamp_thenDoNotSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -242,18 +287,25 @@ public class BlockChainTcpMessageObserverTest {
             Block fourthBlockIncomingBlockChain = new Block("Candidate3", incomingBlockChain.getLastBlockHash());
             incomingBlockChain.mineBlock(fourthBlockIncomingBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(0));
 
+        } catch (CryptographyException e) {
+            throw new RuntimeException(e);
         }
 
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainOfSameSizeAsCurrentWithSmallerLastBlockTimeStamp_thenSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainOfSameSizeAsCurrentWithSmallerLastBlockTimeStamp_thenSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -268,8 +320,11 @@ public class BlockChainTcpMessageObserverTest {
             currentBlockChain.mineBlock(fourthBlockCurrentBlockChain);
             mockedStatic.when(VotingBlockChainSingleton::getInstance).thenReturn(currentBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(1));
@@ -279,7 +334,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainTooSmall_thenDoNotSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainTooSmall_thenDoNotSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -291,8 +348,11 @@ public class BlockChainTcpMessageObserverTest {
             currentBlockChain.mineBlock(fourthBlockCurrentBlockChain);
             mockedStatic.when(VotingBlockChainSingleton::getInstance).thenReturn(currentBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(0));
@@ -302,7 +362,9 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainTooBig_thenDoNotSetInstance() throws TcpException {
+    public void messageReceived_whenMessageIsBlockChainTooBig_thenDoNotSetInstance() throws TcpException, CryptographyException {
+
+        setUpPeers();
 
         try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
 
@@ -317,8 +379,11 @@ public class BlockChainTcpMessageObserverTest {
             Block fifthBlockIncomingBlockChain = new Block("Candidate3", currentBlockChain.getLastBlockHash());
             incomingBlockChain.mineBlock(fifthBlockIncomingBlockChain);
 
+            String message = gson.toJson(incomingBlockChain);
+            String encryptedMessage = CryptographyHelper.encrypt(message);
+
             // Act
-            observer.messageReceived(gson.toJson(incomingBlockChain));
+            observer.messageReceived(encryptedMessage);
 
             // Assert
             mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(0));

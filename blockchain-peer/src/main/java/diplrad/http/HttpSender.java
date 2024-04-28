@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
+import diplrad.constants.LogMessages;
 import diplrad.exceptions.HttpException;
 import diplrad.exceptions.ParseException;
 import diplrad.helpers.ListSerializationHelper;
@@ -60,7 +61,7 @@ public class HttpSender {
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
-            throw new HttpException(ErrorMessages.sendHttpRequestErrorMessage);
+            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT));
         }
     }
 
@@ -81,7 +82,7 @@ public class HttpSender {
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
-            throw new HttpException(ErrorMessages.sendHttpRequestErrorMessage);
+            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT));
         }
     }
 
@@ -111,7 +112,7 @@ public class HttpSender {
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
-            throw new HttpException(ErrorMessages.sendHttpRequestErrorMessage);
+            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT));
         }
     }
 
@@ -137,7 +138,7 @@ public class HttpSender {
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
-            throw new HttpException(ErrorMessages.sendHttpRequestErrorMessage);
+            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_ENDPOINT));
         }
     }
 

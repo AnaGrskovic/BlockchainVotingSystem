@@ -9,6 +9,12 @@ public class Constants {
     public static final String VOTERS_FILE_PATH = "./src/main/resources/voters.txt";
     public static final String TCP_CONNECT = "CONNECT";
     public static final String TCP_DISCONNECT = "DISCONNECT";
+    public static final String HASH_ALGORITHM = "SHA-256";
+    public static final String CRYPTOGRAPHY_ALGORITHM = "AES";
+    public static final String CRYPTOGRAPHY_ALGORITHM_DETAILS = "AES/CBC/PKCS5Padding";
+    public static final String PROPERTIES_FILE_NAME = "application.properties";
+    public static final String AES_PASSWORD_PROPERTY = "cryptography.aes.password";
+    public static final String AES_INITIALIZATION_VECTOR_PROPERTY = "cryptography.aes.initialization-vector";
     public static final String AZURE_STORAGE_ACCOUNT = "votingblockchainstorage";
     public static final String AZURE_STORAGE_ENDPOINT = "https://" + AZURE_STORAGE_ACCOUNT + ".queue.core.windows.net/";
     public static final String AZURE_STORAGE_QUEUE = "vote-queue";
