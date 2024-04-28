@@ -24,6 +24,14 @@ public class PeerMain {
     public static void main(String[] args) {
 
         try {
+            String tcpPortString = args[0];
+            TcpServer.tcpServerPort = Integer.parseInt(tcpPortString);
+        } catch (Exception e) {
+            System.out.println(LogMessages.tcpServerPortArgumentFailMessage);
+            System.exit(1);
+        }
+
+        try {
 
             HttpSender httpSender = new HttpSender();
             ownPeer = PeerHttpHelper.createOwnPeer(httpSender);
@@ -32,7 +40,7 @@ public class PeerMain {
 
             TcpServer.TcpServerThread tcpServerThread = new TcpServer.TcpServerThread();
             tcpServerThread.start();
-            System.out.println(LogMessages.startedTcpServer);
+            System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
 
             BlockChainTcpClientHelper.createTcpClientsAndSendConnects(gson, ownPeer);
             System.out.printf((LogMessages.receivedInitialBlockChain) + "%n", gson.toJson(VotingBlockChainSingleton.getInstance()));

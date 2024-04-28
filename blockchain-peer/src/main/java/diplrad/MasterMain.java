@@ -21,6 +21,14 @@ public class MasterMain {
     public static void main(String[] args) {
 
         try {
+            String tcpPortString = args[0];
+            TcpServer.tcpServerPort = Integer.parseInt(tcpPortString);
+        } catch (Exception e) {
+            System.out.println(LogMessages.tcpServerPortArgumentFailMessage);
+            System.exit(1);
+        }
+
+        try {
 
             VotingBlockChainSingleton.createInstance(readCandidatesFromFile());
             System.out.printf((LogMessages.createdBlockChainMessage) + "%n", gson.toJson(VotingBlockChainSingleton.getInstance()));
@@ -32,7 +40,8 @@ public class MasterMain {
 
             TcpServer.TcpServerThread tcpServerThread = new TcpServer.TcpServerThread();
             tcpServerThread.start();
-            System.out.println(LogMessages.startedTcpServer);
+            System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
+
 
         } catch (InvalidFileException | ReadFromFileException | IpException | ParseException | HttpException e) {
             handleFatalException(e);
