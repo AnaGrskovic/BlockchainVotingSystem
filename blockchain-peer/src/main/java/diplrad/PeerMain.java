@@ -21,15 +21,13 @@ public class PeerMain {
 
     public static void main(String[] args) {
 
-        /*try {
+        try {
             String tcpPortString = args[0];
             TcpServer.tcpServerPort = Integer.parseInt(tcpPortString);
         } catch (Exception e) {
             System.out.println(LogMessages.tcpServerPortArgumentFailMessage);
             System.exit(1);
-        }*/
-
-        TcpServer.tcpServerPort = 5554;
+        }
 
         try {
 
