@@ -41,6 +41,6 @@ public class VotingService : IVotingService
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
         var voteMessage = JsonSerializer.Serialize(voteDto, serializeOptions);
-        _messageQueueService.SendMessage(voteMessage);
+        await _messageQueueService.SendMessageAsync(voteMessage);
     }
 }
