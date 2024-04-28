@@ -42,7 +42,6 @@ public class MasterMain {
             tcpServerThread.start();
             System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
 
-
         } catch (InvalidFileException | ReadFromFileException | IpException | ParseException | HttpException e) {
             handleFatalException(e);
         }

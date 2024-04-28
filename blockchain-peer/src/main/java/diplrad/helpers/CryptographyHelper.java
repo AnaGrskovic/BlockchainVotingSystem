@@ -6,15 +6,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
-import java.util.Arrays;
+import java.util.Base64;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -36,51 +33,22 @@ public class CryptographyHelper {
         }
     }
 
-    public static String encryptAes(String password, String initializationVector, String input) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-
-        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
-        OutputStream outputStream = new ByteArrayOutputStream();
-
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    public static String encryptWithAes(String password, String initializationVector, String input) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         SecretKeySpec secretKeySpec = new SecretKeySpec(HexByteConversionHelper.hexToByte(password), "AES");
         AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(HexByteConversionHelper.hexToByte(initializationVector));
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, algorithmParameterSpec);
-        byte[] buffer = new byte[4096];
-        int readIntoBuffer = inputStream.read(buffer);
-        while (readIntoBuffer > 0) {
-            if(readIntoBuffer < 4096) buffer = Arrays.copyOf(buffer, readIntoBuffer);
-            outputStream.write(cipher.update(buffer));
-            buffer = new byte[4096];
-            readIntoBuffer = inputStream.read(buffer);
-        }
-        outputStream.write(cipher.doFinal());
-
-        return outputStream.toString();
-
+        byte[] cipherText = cipher.doFinal(input.getBytes());
+        return Base64.getEncoder().encodeToString(cipherText);
     }
 
-    public static String decryptAes(String password, String initializationVector, String input) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-
-        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
-        OutputStream outputStream = new ByteArrayOutputStream();
-
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    public static String decryptWithAes(String password, String initializationVector, String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         SecretKeySpec secretKeySpec = new SecretKeySpec(HexByteConversionHelper.hexToByte(password), "AES");
         AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(HexByteConversionHelper.hexToByte(initializationVector));
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, algorithmParameterSpec);
-
-        byte[] buffer = new byte[4096];
-        int readIntoBuffer = inputStream.read(buffer);
-        while (readIntoBuffer > 0) {
-            if(readIntoBuffer < 4096) buffer = Arrays.copyOf(buffer, readIntoBuffer);
-            outputStream.write(cipher.update(buffer));
-            buffer = new byte[4096];
-            readIntoBuffer = inputStream.read(buffer);
-        }
-        outputStream.write(cipher.doFinal());
-
-        return outputStream.toString();
-
+        byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
+        return new String(plainText);
     }
 
 }
