@@ -2,8 +2,7 @@ package diplrad.models.blockchain;
 
 import com.google.gson.annotations.Expose;
 import diplrad.constants.Constants;
-import diplrad.encryption.CryptographyHelper;
-import diplrad.encryption.HashHelper;
+import diplrad.cryptography.HashHelper;
 
 import java.util.Date;
 import java.util.Objects;

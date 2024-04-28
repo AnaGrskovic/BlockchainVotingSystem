@@ -9,7 +9,7 @@ public class Constants {
     public static final String VOTERS_FILE_PATH = "./src/main/resources/voters.txt";
     public static final String TCP_CONNECT = "CONNECT";
     public static final String TCP_DISCONNECT = "DISCONNECT";
-    public static final String ENCRYPTION_ALGORITHM = "AES/CBC/PKCS5Padding";
+    public static final String CRYPTOGRAPHY_ALGORITHM = "AES/CBC/PKCS5Padding";
     public static final String AZURE_STORAGE_ACCOUNT = "votingblockchainstorage";
     public static final String AZURE_STORAGE_ENDPOINT = "https://" + AZURE_STORAGE_ACCOUNT + ".queue.core.windows.net/";
     public static final String AZURE_STORAGE_QUEUE = "vote-queue";

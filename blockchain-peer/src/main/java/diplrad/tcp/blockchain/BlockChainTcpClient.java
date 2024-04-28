@@ -2,7 +2,7 @@ package diplrad.tcp.blockchain;
 
 import com.google.gson.Gson;
 import diplrad.constants.Constants;
-import diplrad.encryption.CryptographyHelper;
+import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.CryptographyException;
 import diplrad.models.blockchain.VotingBlockChain;
 import diplrad.models.blockchain.VotingBlockChainSingleton;

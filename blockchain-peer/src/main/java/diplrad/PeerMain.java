@@ -3,7 +3,7 @@ package diplrad;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.LogMessages;
-import diplrad.encryption.CryptographyHelper;
+import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
 import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.blockchain.BlockChainTcpClientHelper;
@@ -11,8 +11,6 @@ import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.tcp.TcpServer;
-
-import java.io.IOException;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.models.peer.PeersSingleton.ownPeer;

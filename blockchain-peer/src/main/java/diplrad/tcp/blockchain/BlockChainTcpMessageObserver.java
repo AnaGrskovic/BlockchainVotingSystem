@@ -5,7 +5,7 @@ import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
 import diplrad.constants.LogMessages;
 import diplrad.constants.ResponseMessages;
-import diplrad.encryption.CryptographyHelper;
+import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.TcpException;
 import diplrad.models.blockchain.VotingBlockChain;

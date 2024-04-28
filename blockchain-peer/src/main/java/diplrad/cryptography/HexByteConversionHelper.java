@@ -1,4 +1,4 @@
-package diplrad.encryption;
+package diplrad.cryptography;
 
 import java.util.Locale;
 import java.util.Map;

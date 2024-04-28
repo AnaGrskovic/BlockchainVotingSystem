@@ -1,4 +1,4 @@
-package diplrad.encryption;
+package diplrad.cryptography;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

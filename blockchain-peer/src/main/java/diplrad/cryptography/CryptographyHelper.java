@@ -1,4 +1,4 @@
-package diplrad.encryption;
+package diplrad.cryptography;
 
 import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
@@ -64,7 +64,7 @@ public class CryptographyHelper {
     private static String encrypt(String password, String initializationVector, String input) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         SecretKeySpec secretKeySpec = new SecretKeySpec(HexByteConversionHelper.hexToByte(password), "AES");
         AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(HexByteConversionHelper.hexToByte(initializationVector));
-        Cipher cipher = Cipher.getInstance(Constants.ENCRYPTION_ALGORITHM);
+        Cipher cipher = Cipher.getInstance(Constants.CRYPTOGRAPHY_ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, algorithmParameterSpec);
         byte[] cipherText = cipher.doFinal(input.getBytes());
         return Base64.getEncoder().encodeToString(cipherText);
@@ -73,7 +73,7 @@ public class CryptographyHelper {
     private static String decrypt(String password, String initializationVector, String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         SecretKeySpec secretKeySpec = new SecretKeySpec(HexByteConversionHelper.hexToByte(password), "AES");
         AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(HexByteConversionHelper.hexToByte(initializationVector));
-        Cipher cipher = Cipher.getInstance(Constants.ENCRYPTION_ALGORITHM);
+        Cipher cipher = Cipher.getInstance(Constants.CRYPTOGRAPHY_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, algorithmParameterSpec);
         byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
         return new String(plainText);
