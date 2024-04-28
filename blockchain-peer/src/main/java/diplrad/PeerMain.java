@@ -29,7 +29,7 @@ public class PeerMain {
             System.exit(1);
         }*/
 
-        TcpServer.tcpServerPort = 9900;
+        TcpServer.tcpServerPort = 5554;
 
         try {
 
