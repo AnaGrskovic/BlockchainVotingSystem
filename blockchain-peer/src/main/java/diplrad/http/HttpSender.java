@@ -138,6 +138,7 @@ public class HttpSender {
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
             throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_ENDPOINT));
         }
     }
