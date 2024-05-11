@@ -16,9 +16,11 @@ public class LogMessages {
     public static final String receivedBlockChainTooSmallMessage = "Received block chain is too small.";
     public static final String receivedBlockChainTooBigMessage = "Received block chain is too big.";
     public static final String receivedTcpMessage = "Received TCP message: %s.";
-    public static final String voteReceivedMessage = "Vote for %s is received.";
-    public static final String voteInvalidMessage = "Vote for %s is invalid, because it does not represent a valid candidate.";
-    public static final String voteAddedMessage = "Vote for %s added to block chain.";
+    public static final String queueMessageReceivedMessage = "Received queue message: %s.";
+    public static final String queueMessageParseErrorMessage = "The received queue message: %s cannot be parsed. Ignoring it.";
+    public static final String queueMessageInvalidVoteMessage = "The received queue message: %s contains a vote for %s, which is invalid, because it does not represent a valid candidate. Ignoring it";
+    public static final String queueMessageVoteAddedMessage = "The received queue message: %s contains a vote for %s. Vote added to block chain.";
+    public static final String generatedVoteAddedMessage = "Randomly generated a vote for %s. Vote added to block chain.";
     public static final String blockChainSentMessage = "Sent block chain to peers.";
     public static final String blockChainSendFailMessage = "Unable to send block chain to peers.";
     public static final String tcpServerPortArgumentFailMessage = "The first argument must be the TCP port.";

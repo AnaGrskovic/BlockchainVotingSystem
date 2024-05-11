@@ -44,15 +44,16 @@ public class AzureMessageQueueClient {
 
     void handleQueueMessageItem(QueueMessageItem queueMessageItem) {
         String message = queueMessageItem.getBody().toString();
+        System.out.printf((LogMessages.queueMessageReceivedMessage) + "%n", message);
         VoteMessage voteMessage;
         try {
             voteMessage = gson.fromJson(message, VoteMessage.class);
         } catch (JsonSyntaxException e) {
-            System.out.printf((LogMessages.voteInvalidMessage) + "%n", message);
+            System.out.printf((LogMessages.queueMessageParseErrorMessage) + "%n", message);
             return;
         }
         if (voteMessage == null || voteMessage.getVote() == null || voteMessage.getToken() == null) {
-            System.out.printf((LogMessages.voteInvalidMessage) + "%n", message);
+            System.out.printf((LogMessages.queueMessageParseErrorMessage) + "%n", message);
             return;
         }
 
@@ -64,15 +65,13 @@ public class AzureMessageQueueClient {
             return;
         }
 
-        handleQueueMessage(voteMessage.getVote());
+        handleQueueMessage(message, voteMessage.getVote());
     }
 
-    void handleQueueMessage(String vote) {
-
-        System.out.printf((LogMessages.voteReceivedMessage) + "%n", vote);
+    void handleQueueMessage(String message, String vote) {
 
         if (!isVoteValid(vote)) {
-            System.out.printf((LogMessages.voteInvalidMessage) + "%n", vote);
+            System.out.printf((LogMessages.queueMessageInvalidVoteMessage) + "%n", message, vote);
             return;
         }
 
@@ -80,7 +79,7 @@ public class AzureMessageQueueClient {
             VotingBlockChain blockChain = VotingBlockChainSingleton.getInstance();
             Block block = new Block(vote, blockChain.getLastBlockHash());
             blockChain.mineBlock(block);
-            System.out.printf((LogMessages.voteAddedMessage) + "%n", block.getData());
+            System.out.printf((LogMessages.queueMessageVoteAddedMessage) + "%n", message, vote);
         }
 
         try {

@@ -12,8 +12,6 @@ import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeersSingleton;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockedStatic;
 
 import java.util.List;
