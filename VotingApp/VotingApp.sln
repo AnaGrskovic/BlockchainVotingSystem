@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingApp.Services", "Votin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingApp.Contracts", "VotingApp.Contracts\VotingApp.Contracts.csproj", "{E0BADF70-42B6-4442-8FDF-5247CA4CA2A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApp.Data.Db", "VotingApp.Data.Db\VotingApp.Data.Db.csproj", "{41282639-3B7B-4B50-9586-C885341F36F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingApp.Data.Db", "VotingApp.Data.Db\VotingApp.Data.Db.csproj", "{41282639-3B7B-4B50-9586-C885341F36F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2BE20834-F857-4A2A-8ECA-DB3E25A1F92B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5A8C02AC-AEFE-41AF-B201-E881AA7FFCCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApp.Services.Tests", "VotingApp.Services.Tests\VotingApp.Services.Tests.csproj", "{B6821CAF-298D-4110-9236-3122EB6FEDEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +39,20 @@ Global
 		{41282639-3B7B-4B50-9586-C885341F36F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41282639-3B7B-4B50-9586-C885341F36F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41282639-3B7B-4B50-9586-C885341F36F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6821CAF-298D-4110-9236-3122EB6FEDEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6821CAF-298D-4110-9236-3122EB6FEDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6821CAF-298D-4110-9236-3122EB6FEDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6821CAF-298D-4110-9236-3122EB6FEDEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6028B81F-BA02-43C7-A03A-F58D7927232E} = {2BE20834-F857-4A2A-8ECA-DB3E25A1F92B}
+		{C46F472C-13C7-4487-A43D-AB3DB42FEFCF} = {2BE20834-F857-4A2A-8ECA-DB3E25A1F92B}
+		{E0BADF70-42B6-4442-8FDF-5247CA4CA2A0} = {2BE20834-F857-4A2A-8ECA-DB3E25A1F92B}
+		{41282639-3B7B-4B50-9586-C885341F36F9} = {2BE20834-F857-4A2A-8ECA-DB3E25A1F92B}
+		{B6821CAF-298D-4110-9236-3122EB6FEDEB} = {5A8C02AC-AEFE-41AF-B201-E881AA7FFCCC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1C4EBDB-A7F8-4754-9E58-69D1245FE794}
