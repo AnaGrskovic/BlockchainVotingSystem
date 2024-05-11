@@ -4,6 +4,8 @@ using VotingApp.Contracts.Settings;
 using VotingApp.API.Middleware;
 using VotingApp.Data.Db.Context;
 using Microsoft.EntityFrameworkCore;
+using VotingApp.Contracts.UoW;
+using VotingApp.Data.Db.UoW;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<AuthorizationSettings>(builder.Configuration.GetSection(AuthorizationSettings.Section));
 builder.Services.Configure<AzureStorageSettings>(builder.Configuration.GetSection(AzureStorageSettings.Section));
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
