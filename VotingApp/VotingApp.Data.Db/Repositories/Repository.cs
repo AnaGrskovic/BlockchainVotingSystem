@@ -1,8 +1,8 @@
-﻿using CentralPeerCoordinator.Contracts.Repositories;
-using CentralPeerCoordinator.Data.Db.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using VotingApp.Contracts.Repositories;
+using VotingApp.Data.Db.Context;
 
-namespace CentralPeerCoordinator.Data.Db.Repositories;
+namespace VotingApp.Data.Db.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {

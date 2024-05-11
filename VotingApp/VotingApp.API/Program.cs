@@ -2,8 +2,18 @@ using VotingApp.Contracts.Services;
 using VotingApp.Services;
 using VotingApp.Contracts.Settings;
 using VotingApp.API.Middleware;
+using VotingApp.Data.Db.Context;
+using Microsoft.EntityFrameworkCore;
+using VotingApp.Contracts.UoW;
+using VotingApp.Data.Db.UoW;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("VoteBackupDb"),
+        opt => opt.MigrationsAssembly("VotingApp.Data.Db"));
+});
 
 builder.Services.AddControllers();
 
@@ -13,11 +23,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<AuthorizationSettings>(builder.Configuration.GetSection(AuthorizationSettings.Section));
 builder.Services.Configure<AzureStorageSettings>(builder.Configuration.GetSection(AzureStorageSettings.Section));
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IMessageQueueService, AzureMessageQueueService>();
 builder.Services.AddScoped<IVotingService, VotingService>();
+builder.Services.AddScoped<IBackupService, BackupService>();
 
 
 var app = builder.Build();

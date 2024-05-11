@@ -9,13 +9,16 @@ namespace VotingApp.Services;
 public class VotingService : IVotingService
 {
     private readonly IAuthorizationService _authorizationService;
+    private readonly IBackupService _backupService;
     private readonly IMessageQueueService _messageQueueService;
 
     public VotingService(
         IAuthorizationService authorizationService,
+        IBackupService backupService,
         IMessageQueueService messageQueueService)
     {
         _authorizationService = authorizationService;
+        _backupService = backupService;
         _messageQueueService = messageQueueService;
     }
 
@@ -34,6 +37,8 @@ public class VotingService : IVotingService
         {
             throw new VoteNotPresentException("Vote not present in the request.");
         }
+
+        await _backupService.CreateAsync(vote);
 
         var voteDto = new VoteDto(token, vote);
         var serializeOptions = new JsonSerializerOptions
