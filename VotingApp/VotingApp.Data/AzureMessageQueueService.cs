@@ -17,11 +17,6 @@ public class AzureMessageQueueService : IMessageQueueService
             new DefaultAzureCredential());
     }
 
-    public void SendMessage(string message)
-    {
-        _queueClient.SendMessageAsync(message);
-    }
-
     public async Task SendMessageAsync(string message)
     {
         await _queueClient.SendMessageAsync(message);

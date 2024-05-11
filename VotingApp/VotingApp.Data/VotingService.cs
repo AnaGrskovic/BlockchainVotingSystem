@@ -29,7 +29,7 @@ public class VotingService : IVotingService
     {
         if (token is null)
         {
-            throw new TokenNotPresentException("Token not present in the request.");
+            throw new TokenNotPresentException("Token is not present in the request.");
         }
         bool isTokenValid = await _authorizationService.CheckTokenAsync(token);
         if (!isTokenValid)
@@ -38,7 +38,7 @@ public class VotingService : IVotingService
         }
         if (vote is null)
         {
-            throw new VoteNotPresentException("Vote not present in the request.");
+            throw new VoteNotPresentException("Vote is not present in the request.");
         }
 
         var isCandidateValid = _candidateService.Check(vote);
