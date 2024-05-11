@@ -9,15 +9,18 @@ namespace VotingApp.Services;
 public class VotingService : IVotingService
 {
     private readonly IAuthorizationService _authorizationService;
+    private readonly ICandidateService _candidateService;
     private readonly IBackupService _backupService;
     private readonly IMessageQueueService _messageQueueService;
 
     public VotingService(
         IAuthorizationService authorizationService,
+        ICandidateService candidateService,
         IBackupService backupService,
         IMessageQueueService messageQueueService)
     {
         _authorizationService = authorizationService;
+        _candidateService = candidateService;
         _backupService = backupService;
         _messageQueueService = messageQueueService;
     }
@@ -36,6 +39,12 @@ public class VotingService : IVotingService
         if (vote is null)
         {
             throw new VoteNotPresentException("Vote not present in the request.");
+        }
+
+        var isCandidateValid = _candidateService.Check(vote);
+        if (!isCandidateValid)
+        {
+            throw new CandidateNotValidException("Candidate is not valid.");
         }
 
         await _backupService.CreateAsync(vote);
