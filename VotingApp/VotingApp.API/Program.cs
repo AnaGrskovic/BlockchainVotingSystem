@@ -21,6 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<AuthorizationSettings>(builder.Configuration.GetSection(AuthorizationSettings.Section));
+builder.Services.Configure<CandidatesSettings>(builder.Configuration.GetSection(CandidatesSettings.Section));
 builder.Services.Configure<AzureStorageSettings>(builder.Configuration.GetSection(AzureStorageSettings.Section));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
