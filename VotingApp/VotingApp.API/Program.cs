@@ -29,6 +29,7 @@ builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IMessageQueueService, AzureMessageQueueService>();
 builder.Services.AddScoped<IVotingService, VotingService>();
+builder.Services.AddScoped<IBackupService, BackupService>();
 
 
 var app = builder.Build();
