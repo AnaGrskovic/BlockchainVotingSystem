@@ -37,7 +37,7 @@ public class VotingServiceTests
         var f = async () => { await _sut.VoteAsync(null, "vote"); };
 
         // Assert
-        await f.Should().ThrowAsync<TokenNotPresentException>().WithMessage("Token not present in the request.");
+        await f.Should().ThrowAsync<TokenNotPresentException>().WithMessage("Token is not present in the request.");
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class VotingServiceTests
         var f = async () => { await _sut.VoteAsync(token, "vote"); };
 
         // Assert
-        await f.Should().ThrowAsync<TokenNotValidException>().WithMessage("Token not present in the request.");
+        await f.Should().ThrowAsync<TokenNotValidException>().WithMessage("Token is not valid.");
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class VotingServiceTests
         var f = async () => { await _sut.VoteAsync(token, null); };
 
         // Assert
-        await f.Should().ThrowAsync<VoteNotPresentException>().WithMessage("Vote not present in the request.");
+        await f.Should().ThrowAsync<VoteNotPresentException>().WithMessage("Vote is not present in the request.");
     }
 
     [Fact]
@@ -119,6 +119,6 @@ public class VotingServiceTests
         await _sut.VoteAsync(token, vote);
 
         // Assert
-        _messageQueueServiceMock.Verify(x => x.SendMessage(voteMessage), Times.Once());
+        _messageQueueServiceMock.Verify(x => x.SendMessageAsync(voteMessage), Times.Once());
     }
 }
