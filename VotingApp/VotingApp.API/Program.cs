@@ -2,8 +2,16 @@ using VotingApp.Contracts.Services;
 using VotingApp.Services;
 using VotingApp.Contracts.Settings;
 using VotingApp.API.Middleware;
+using VotingApp.Data.Db.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("VoteBackupDb"),
+        opt => opt.MigrationsAssembly("VotingApp.Data.Db"));
+});
 
 builder.Services.AddControllers();
 
