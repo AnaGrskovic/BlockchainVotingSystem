@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-voting',
@@ -10,7 +11,7 @@ export class VotingComponent implements OnInit {
   candidates: string[] = ['Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4', 'Candidate 5', 'Candidate 6', 'Candidate 7', 'Candidate 8', 'Candidate 9', 'Candidate 10'];
   selectedCandidate: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchCandidates();
@@ -23,16 +24,33 @@ export class VotingComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching candidates:', error);
+        this.snackBar.open('Error fetching candidates.', 'Close', {
+          duration: 5000
+        });
       }
     });
   }
 
   vote() {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', 'token');
+    const payload = "\"" + this.selectedCandidate + "\"";
     if (this.selectedCandidate) {
-      // Perform action upon voting, like sending data to a server
-      console.log('Voted for:', this.selectedCandidate);
+      this.http.post<any>('https://localhost:44328/api/votes', payload, { headers }).subscribe({
+        next: (response) => {
+          console.log('Vote submitted successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error submitting vote:', error);
+          this.snackBar.open('Error submitting vote.', 'Close', {
+            duration: 5000
+          });
+        }
+      });
     } else {
-      console.log('Please select a candidate to vote');
+      console.error('No candidate selected');
+      this.snackBar.open('No candidate selected.', 'Close', {
+        duration: 5000
+      });
     }
   }
 }
