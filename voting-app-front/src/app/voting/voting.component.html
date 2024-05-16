@@ -1,0 +1,7 @@
+<h1>Vote now!</h1>
+<label for="candidates">Who do you want to vote for?</label>
+<div *ngFor="let candidate of candidates">
+  <input type="radio" name="candidates" [value]="candidate" [(ngModel)]="selectedCandidate">
+  <span>{{ candidate }}</span>
+</div>
+<button (click)="vote()">Vote</button>
