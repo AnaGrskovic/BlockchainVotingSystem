@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-voting',
@@ -10,7 +11,7 @@ export class VotingComponent implements OnInit {
   candidates: string[] = ['Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4', 'Candidate 5', 'Candidate 6', 'Candidate 7', 'Candidate 8', 'Candidate 9', 'Candidate 10'];
   selectedCandidate: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchCandidates();
@@ -34,16 +35,19 @@ export class VotingComponent implements OnInit {
       this.http.post<any>('https://localhost:44328/api/votes', payload, { headers }).subscribe({
         next: (response) => {
           console.log('Vote submitted successfully:', response);
-          // You can add any additional logic here, such as displaying a confirmation message
         },
         error: (error) => {
           console.error('Error submitting vote:', error);
-          // You can handle errors here, such as displaying an error message to the user
+          this.snackBar.open('Error submitting vote. Please try again.', 'Close', {
+            duration: 5000
+          });
         }
       });
     } else {
       console.error('No candidate selected');
-      // You can handle this case, such as displaying a message to the user to select a candidate before voting
+      this.snackBar.open('No candidate selected. Please try again.', 'Close', {
+        duration: 5000
+      });
     }
   }
 }
