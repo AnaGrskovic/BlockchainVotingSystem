@@ -24,6 +24,9 @@ export class VotingComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching candidates:', error);
+        this.snackBar.open('Error fetching candidates.', 'Close', {
+          duration: 5000
+        });
       }
     });
   }
@@ -38,14 +41,14 @@ export class VotingComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error submitting vote:', error);
-          this.snackBar.open('Error submitting vote. Please try again.', 'Close', {
+          this.snackBar.open('Error submitting vote.', 'Close', {
             duration: 5000
           });
         }
       });
     } else {
       console.error('No candidate selected');
-      this.snackBar.open('No candidate selected. Please try again.', 'Close', {
+      this.snackBar.open('No candidate selected.', 'Close', {
         duration: 5000
       });
     }
