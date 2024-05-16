@@ -28,7 +28,7 @@ export class VotingComponent implements OnInit {
   }
 
   vote() {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', 'token');
     const payload = "\"" + this.selectedCandidate + "\"";
     if (this.selectedCandidate) {
       this.http.post<any>('https://localhost:44328/api/votes', payload, { headers }).subscribe({
