@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-voting',
@@ -28,11 +28,22 @@ export class VotingComponent implements OnInit {
   }
 
   vote() {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const payload = "\"" + this.selectedCandidate + "\"";
     if (this.selectedCandidate) {
-      // Perform action upon voting, like sending data to a server
-      console.log('Voted for:', this.selectedCandidate);
+      this.http.post<any>('https://localhost:44328/api/votes', payload, { headers }).subscribe({
+        next: (response) => {
+          console.log('Vote submitted successfully:', response);
+          // You can add any additional logic here, such as displaying a confirmation message
+        },
+        error: (error) => {
+          console.error('Error submitting vote:', error);
+          // You can handle errors here, such as displaying an error message to the user
+        }
+      });
     } else {
-      console.log('Please select a candidate to vote');
+      console.error('No candidate selected');
+      // You can handle this case, such as displaying a message to the user to select a candidate before voting
     }
   }
 }
