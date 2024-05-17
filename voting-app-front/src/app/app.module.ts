@@ -8,14 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VotingComponent } from './components/voting/voting.component';
 import { LoginComponent } from './components/login/login.component';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VotingComponent,
-    LoginComponent,
-    MainLayoutComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
