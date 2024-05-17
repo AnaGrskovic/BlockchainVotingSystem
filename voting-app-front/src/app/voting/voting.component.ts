@@ -32,10 +32,11 @@ export class VotingComponent implements OnInit {
   }
 
   vote() {
+    const url = 'https://localhost:44328/api/votes';
     const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', 'token');
     const payload = "\"" + this.selectedCandidate + "\"";
     if (this.selectedCandidate) {
-      this.http.post<any>('https://localhost:44328/api/votes', payload, { headers }).subscribe({
+      this.http.post<any>(url, payload, { headers }).subscribe({
         next: (response) => {
           console.log('Vote submitted successfully:', response);
         },

@@ -1,0 +1,12 @@
+<div class="login-container">
+  <h1>Login</h1>
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <label for="personalIdNum">Enter your Personal identification number:</label>
+    <input type="text" id="personalIdNum" [(ngModel)]="personalIdNum" name="personalIdNum" required pattern="^\d{11}$" #personalIdNumInput="ngModel">
+    <div *ngIf="personalIdNumInput.invalid && (personalIdNumInput.dirty || personalIdNumInput.touched)" class="error-message">
+      <div *ngIf="personalIdNumInput.errors?.['required']">Personal identification number is required.</div>
+      <div *ngIf="personalIdNumInput.errors?.['pattern']">Personal identification number must be exactly 11 digits.</div>
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</div>
