@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent {
   personalIdNum: string = '';
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {}
 
   onLogin() {
     if (this.personalIdNum) {
@@ -22,6 +23,7 @@ export class LoginComponent {
         next: (response) => {
           console.log('Login successful, token received:', response);
           localStorage.setItem('token', response.toString());
+          this.router.navigate(['/voting']);
         },
         error: (error) => {
           console.error('Error during login:', error);

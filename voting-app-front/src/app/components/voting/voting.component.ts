@@ -18,7 +18,8 @@ export class VotingComponent implements OnInit {
   }
 
   fetchCandidates() {
-    this.http.get<string[]>('https://localhost:44328/api/candidates').subscribe({
+    const url = 'https://localhost:44328/api/candidates';
+    this.http.get<string[]>(url).subscribe({
       next: (response) => {
         this.candidates = response;
       },
