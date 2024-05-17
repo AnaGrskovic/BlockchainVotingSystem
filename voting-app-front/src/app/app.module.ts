@@ -6,21 +6,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VotingComponent } from './voting/voting.component';
-import { LoginComponent } from './login/login.component';
+import { VotingComponent } from './components/voting/voting.component';
+import { LoginComponent } from './components/login/login.component';
+import { ResultsComponent } from './components/results/results.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VotingComponent,
-    LoginComponent
+    LoginComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule
   ],
   providers: [
     provideClientHydration()
