@@ -23,20 +23,20 @@ public class AuthorizationController : ControllerBase
         return Ok(await _authorizationService.GetTokenAsync(oib));
     }
 
-    [HttpGet("check-token-nothing", Name = "CheckTokenNothing")]
+    [HttpGet("check-token-not-voted", Name = "CheckTokenNotVoted")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> CheckTokenNothingAsync()
+    public async Task<IActionResult> CheckTokenNotVotedAsync()
     {
         string? token = Request.Headers["Authorization"];
         await _authorizationService.CheckTokenNotVotedAsync(token);
         return Ok();
     }
 
-    [HttpGet("check-token-requested", Name = "CheckTokenRequested")]
+    [HttpGet("check-token-voted", Name = "CheckTokenVoted")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> CheckTokenRequestedAsync()
+    public async Task<IActionResult> CheckTokenVotedAsync()
     {
         string? token = Request.Headers["Authorization"];
         await _authorizationService.CheckTokenVotedAsync(token);
