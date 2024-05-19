@@ -35,7 +35,7 @@ public class ExceptionHandlerMiddleware
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
             VoteNotPresentException or
             CandidateNotValidException or 
-            HttpRequestException =>
+            AuthProviderException =>
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
         };

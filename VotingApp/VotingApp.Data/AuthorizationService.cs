@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using VotingApp.Contracts.Exceptions;
 using VotingApp.Contracts.Services;
 using VotingApp.Contracts.Settings;
 
@@ -34,6 +35,13 @@ public class AuthorizationService : IAuthorizationService
     public async Task SetVotedAsync(string token)
     {
         string url = $"{_settings.BaseUrl}{_settings.SetVotedEndpoint}";
-        await _httpClientService.GetAsync(url, token);
+        try
+        {
+            await _httpClientService.PutAsync(url, token);
+        }
+        catch (HttpRequestException)
+        {
+            throw new AuthProviderException("An error occurred while setting the voted status.");
+        }
     }
 }
