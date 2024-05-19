@@ -119,7 +119,7 @@ public class HttpSender {
     public void checkToken(String token) throws HttpException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_ENDPOINT))
+                    .uri(new URI(Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT))
                     .headers("Authorization", token)
                     .GET()
                     .build();
@@ -138,7 +138,7 @@ public class HttpSender {
         } catch (URISyntaxException e) {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
-            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_ENDPOINT));
+            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT));
         }
     }
 

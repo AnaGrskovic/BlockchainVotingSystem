@@ -49,6 +49,8 @@ public class VotingService : IVotingService
 
         await _backupService.CreateAsync(vote);
 
+        await _authorizationService.SetVotedAsync(token);
+
         var voteDto = new VoteDto(token, vote);
         var serializeOptions = new JsonSerializerOptions
         {

@@ -16,19 +16,42 @@ public class AuthorizationController : ControllerBase
 
     [HttpPost("get-token", Name = "GetToken")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetTokenAsync([FromBody] string? oib)
     {
         return Ok(await _authorizationService.GetTokenAsync(oib));
     }
 
-    [HttpGet("check-token", Name = "CheckToken")]
+    [HttpGet("check-token-nothing", Name = "CheckTokenNothing")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> CheckTokenAsync()
+    public async Task<IActionResult> CheckTokenNothingAsync()
     {
         string? token = Request.Headers["Authorization"];
-        await _authorizationService.CheckToken(token);
+        await _authorizationService.CheckTokenNotVotedAsync(token);
+        return Ok();
+    }
+
+    [HttpGet("check-token-requested", Name = "CheckTokenRequested")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> CheckTokenRequestedAsync()
+    {
+        string? token = Request.Headers["Authorization"];
+        await _authorizationService.CheckTokenVotedAsync(token);
+        return Ok();
+    }
+
+    [HttpPut("set-voted", Name = "SetVoted")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SetVotedAsync()
+    {
+        string? token = Request.Headers["Authorization"];
+        await _authorizationService.SetVotedAsync(token);
         return Ok();
     }
 }

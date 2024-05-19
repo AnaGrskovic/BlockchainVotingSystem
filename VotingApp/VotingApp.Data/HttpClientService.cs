@@ -18,4 +18,17 @@ public class HttpClientService : IHttpClientService
 
         httpResponseMessage.EnsureSuccessStatusCode();
     }
+
+    public async Task PutAsync(string url, string token)
+    {
+        var httpClient = _httpClientFactory.CreateClient();
+
+        httpClient.DefaultRequestHeaders.Add("Authorization", token);
+
+        var content = new StringContent(string.Empty);
+
+        using var httpResponseMessage = await httpClient.PutAsync(url, content);
+
+        httpResponseMessage.EnsureSuccessStatusCode();
+    }
 }

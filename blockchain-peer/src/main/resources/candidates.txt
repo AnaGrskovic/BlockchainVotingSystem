@@ -3,4 +3,4 @@ Marie Curie
 Albert Einstein
 Ada Lovelace
 Nikola Tesla
-Alan Turing" 
+Alan Turing

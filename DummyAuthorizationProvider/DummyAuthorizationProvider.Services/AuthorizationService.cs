@@ -1,4 +1,5 @@
 ﻿using DummyAuthorizationProvider.Contracts.Entities;
+using DummyAuthorizationProvider.Contracts.Enums;
 using DummyAuthorizationProvider.Contracts.Exceptions;
 using DummyAuthorizationProvider.Contracts.Services;
 using DummyAuthorizationProvider.Contracts.UoW;
@@ -26,21 +27,72 @@ public class AuthorizationService : IAuthorizationService
         {
             throw new EntityNotFoundException("There is no voter with that oib.");
         }
+
+        CheckIfVoteNothing(voter);
+
         int seed = int.Parse(oib);
         Random random = new Random(seed);
         return random.Next().ToString();
     }
 
-    public async Task CheckToken(string? token)
+    public async Task CheckTokenNotVotedAsync(string? token)
     {
-        bool isTokenValid = await IsTokenValidAsync(token);
+        await CheckTokenAsync(token, VoterStatus.NotVoted);
+    }
+
+    public async Task CheckTokenVotedAsync(string? token)
+    {
+        await CheckTokenAsync(token, VoterStatus.Voted);
+    }
+
+    public async Task SetVotedAsync(string? token)
+    {
+        Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
+        CheckIfVoteNothing(voter);
+        voter.Status = VoterStatus.Voted;
+        _uow.Voters.Update(voter);
+        await _uow.SaveChangesAsync();
+    }
+
+    private async Task<List<Voter>> GetAllAsync()
+    {
+        return await _uow.Voters.GetAllAsync();
+    }
+
+    private async Task CheckTokenAsync(string? token, VoterStatus voterStatus)
+    {
+        bool isTokenValid = await IsTokenValidAsync(token, voterStatus);
         if (!isTokenValid)
         {
             throw new TokenNotValidException("Token is not valid.");
         }
     }
 
-    private async Task<bool> IsTokenValidAsync(string? token)
+    private void CheckIfVoteNothing(Voter voter)
+    {
+        if (voter.Status != VoterStatus.NotVoted)
+        {
+            throw new VoterAlreadyVotedException("Voter has already voted.");
+        }
+    }
+
+    private async Task<bool> IsTokenValidAsync(string? token, VoterStatus voterStatus)
+    {
+        Voter? voter = await GetAsync(token);
+        if (voter == null)
+        {
+            return false;
+        }
+
+        if (voter.Status != voterStatus)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task<Voter?> GetAsync(string? token)
     {
         if (token == null)
         {
@@ -53,14 +105,9 @@ public class AuthorizationService : IAuthorizationService
             Random random = new Random(seed);
             if (random.Next().ToString().Equals(token))
             {
-                return true;
+                return voter;
             }
         }
-        return false;
-    }
-
-    private async Task<List<Voter>> GetAllAsync()
-    {
-        return await _uow.Voters.GetAllAsync();
+        return null;
     }
 }
