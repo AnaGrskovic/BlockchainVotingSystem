@@ -32,9 +32,9 @@ public class AuthorizationService : IAuthorizationService
         return true;
     }
 
-    public async Task SetVotedAsync(string token)
+    public async Task SetVoteRequestedAsync(string token)
     {
-        string url = $"{_settings.BaseUrl}{_settings.SetVotedEndpoint}";
+        string url = $"{_settings.BaseUrl}{_settings.SetVoteRequestedEndpoint}";
         try
         {
             await _httpClientService.PutAsync(url, token);

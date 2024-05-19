@@ -3,5 +3,5 @@
 public interface IAuthorizationService
 {
     Task<bool> CheckTokenAsync(string token);
-    Task SetVotedAsync(string token);
+    Task SetVoteRequestedAsync(string token);
 }

@@ -49,7 +49,7 @@ public class VotingService : IVotingService
 
         await _backupService.CreateAsync(vote);
 
-        // await _authorizationService.SetVotedAsync(token); TODO this should be set somewhere else, after adding to the blockchain
+        await _authorizationService.SetVoteRequestedAsync(token);
 
         var voteDto = new VoteDto(token, vote);
         var serializeOptions = new JsonSerializerOptions

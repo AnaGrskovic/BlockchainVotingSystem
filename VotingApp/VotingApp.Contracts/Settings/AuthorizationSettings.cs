@@ -6,5 +6,5 @@ public class AuthorizationSettings
 
     public string BaseUrl { get; set; } = default!;
     public string CheckTokenEndpoint { get; set; } = default!;
-    public string SetVotedEndpoint { get; set; } = default!;
+    public string SetVoteRequestedEndpoint { get; set; } = default!;
 }
