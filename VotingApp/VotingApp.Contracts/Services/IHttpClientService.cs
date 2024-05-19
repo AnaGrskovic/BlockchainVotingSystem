@@ -3,4 +3,5 @@
 public interface IHttpClientService
 {
     Task GetAsync(string url, string token);
+    Task PutAsync(string url, string token);
 }

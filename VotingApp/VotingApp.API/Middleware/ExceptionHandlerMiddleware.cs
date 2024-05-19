@@ -33,6 +33,10 @@ public class ExceptionHandlerMiddleware
             TokenNotPresentException or
             TokenNotValidException =>
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
+            VoteNotPresentException or
+            CandidateNotValidException or 
+            HttpRequestException =>
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
         };
 

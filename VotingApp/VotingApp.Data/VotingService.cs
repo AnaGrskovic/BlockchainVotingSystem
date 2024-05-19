@@ -56,5 +56,7 @@ public class VotingService : IVotingService
         };
         var voteMessage = JsonSerializer.Serialize(voteDto, serializeOptions);
         await _messageQueueService.SendMessageAsync(voteMessage);
+
+        await _authorizationService.SetVotedAsync(token);
     }
 }
