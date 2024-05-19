@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DummyAuthorizationProvider.Contracts.Exceptions;
 
-namespace DummyAuthorizationProvider.Contracts.Exceptions
+public class VoterAlreadyVotedException : Exception
 {
-    internal class VoterAlreadyvotedException
+    public VoterAlreadyVotedException(string message) : base(message)
     {
     }
 }

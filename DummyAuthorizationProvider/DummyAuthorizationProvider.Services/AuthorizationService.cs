@@ -26,6 +26,7 @@ public class AuthorizationService : IAuthorizationService
         {
             throw new EntityNotFoundException("There is no voter with that oib.");
         }
+        CheckIfAlreadyVoted(voter);
         int seed = int.Parse(oib);
         Random random = new Random(seed);
         return random.Next().ToString();
@@ -43,10 +44,7 @@ public class AuthorizationService : IAuthorizationService
     public async Task SetVotedAsync(string? token)
     {
         Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
-        if (voter.Voted)
-        {
-            throw new VoterAlreadyVotedException("Voter has already voted.");
-        }
+        CheckIfAlreadyVoted(voter);
         voter.Voted = true;
         _uow.Voters.Update(voter);
         await _uow.SaveChangesAsync();
@@ -57,9 +55,28 @@ public class AuthorizationService : IAuthorizationService
         return await _uow.Voters.GetAllAsync();
     }
 
+    private void CheckIfAlreadyVoted(Voter voter)
+    {
+        if (voter.Voted)
+        {
+            throw new VoterAlreadyVotedException("Voter has already voted.");
+        }
+    }
+
     private async Task<bool> IsTokenValidAsync(string? token)
     {
-        return await GetAsync(token) != null;
+        Voter? voter = await GetAsync(token);
+        if (voter == null)
+        {
+            return false;
+        }
+
+        if (voter.Voted)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private async Task<Voter?> GetAsync(string? token)
