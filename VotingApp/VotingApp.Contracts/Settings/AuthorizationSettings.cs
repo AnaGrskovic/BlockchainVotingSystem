@@ -5,6 +5,6 @@ public class AuthorizationSettings
     public const string Section = "Authorization";
 
     public string BaseUrl { get; set; } = default!;
-    public string CheckTokenNothingEndpoint { get; set; } = default!;
-    public string SetVoteRequestedEndpoint { get; set; } = default!;
+    public string CheckTokenNotVotedEndpoint { get; set; } = default!;
+    public string SetVotedEndpoint { get; set; } = default!;
 }

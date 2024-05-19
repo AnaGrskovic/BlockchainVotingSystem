@@ -20,7 +20,7 @@ public class AuthorizationService : IAuthorizationService
 
     public async Task<bool> CheckTokenAsync(string token)
     {
-        string url = $"{_settings.BaseUrl}{_settings.CheckTokenNothingEndpoint}";
+        string url = $"{_settings.BaseUrl}{_settings.CheckTokenNotVotedEndpoint}";
         try
         {
             await _httpClientService.GetAsync(url, token);
@@ -32,16 +32,16 @@ public class AuthorizationService : IAuthorizationService
         return true;
     }
 
-    public async Task SetVoteRequestedAsync(string token)
+    public async Task SetVotedAsync(string token)
     {
-        string url = $"{_settings.BaseUrl}{_settings.SetVoteRequestedEndpoint}";
+        string url = $"{_settings.BaseUrl}{_settings.SetVotedEndpoint}";
         try
         {
             await _httpClientService.PutAsync(url, token);
         }
         catch (HttpRequestException)
         {
-            throw new AuthProviderException("An error occurred while setting the voted status.");
+            throw new AuthProviderException("Vote status cannot be set.");
         }
     }
 }
