@@ -43,6 +43,10 @@ public class AuthorizationService : IAuthorizationService
     public async Task SetVotedAsync(string? token)
     {
         Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
+        if (voter.Voted)
+        {
+            throw new VoterAlreadyVotedException("Voter has already voted.");
+        }
         voter.Voted = true;
         _uow.Voters.Update(voter);
         await _uow.SaveChangesAsync();
