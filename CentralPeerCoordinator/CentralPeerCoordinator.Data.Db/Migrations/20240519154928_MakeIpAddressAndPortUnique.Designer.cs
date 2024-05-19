@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CentralPeerCoordinator.Data.Db.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240402080634_UpdateUnicityIndex")]
-    partial class UpdateUnicityIndex
+    [Migration("20240519154928_MakeIpAddressAndPortUnique")]
+    partial class MakeIpAddressAndPortUnique
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
