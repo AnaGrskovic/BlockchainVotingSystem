@@ -19,15 +19,21 @@ public class AuthorizationService : IAuthorizationService
 
     public async Task<bool> CheckTokenAsync(string token)
     {
-        string authorizationUrl = $"{_settings.BaseUrl}{_settings.CheckTokenEndpoint}";
+        string url = $"{_settings.BaseUrl}{_settings.CheckTokenEndpoint}";
         try
         {
-            await _httpClientService.GetAsync(authorizationUrl, token);
+            await _httpClientService.GetAsync(url, token);
         }
         catch (HttpRequestException)
         {
             return false;
         }
         return true;
+    }
+
+    public async Task SetVotedAsync(string token)
+    {
+        string url = $"{_settings.BaseUrl}{_settings.SetVotedEndpoint}";
+        await _httpClientService.GetAsync(url, token);
     }
 }

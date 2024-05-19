@@ -30,11 +30,14 @@ public class ExceptionHandlerMiddleware
         object response;
         _ = ex switch
         {
-            EntityNotFoundException =>
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound,
+            OibNotPresentException or 
+            VoterAlreadyVotedException =>
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
             TokenNotPresentException or
             TokenNotValidException =>
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
+            EntityNotFoundException =>
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
         };
 
