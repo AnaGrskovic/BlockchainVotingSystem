@@ -1,4 +1,5 @@
 ﻿using DummyAuthorizationProvider.Contracts.Entities;
+using DummyAuthorizationProvider.Contracts.Enums;
 using DummyAuthorizationProvider.Contracts.Exceptions;
 using DummyAuthorizationProvider.Contracts.Services;
 using DummyAuthorizationProvider.Contracts.UoW;
@@ -26,7 +27,9 @@ public class AuthorizationService : IAuthorizationService
         {
             throw new EntityNotFoundException("There is no voter with that oib.");
         }
-        CheckIfAlreadyVoted(voter);
+
+        CheckIfVoteNothing(voter);
+
         int seed = int.Parse(oib);
         Random random = new Random(seed);
         return random.Next().ToString();
@@ -41,11 +44,20 @@ public class AuthorizationService : IAuthorizationService
         }
     }
 
-    public async Task SetVotedAsync(string? token)
+    public async Task SetVoteRequestedAsync(string? token)
     {
         Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
-        CheckIfAlreadyVoted(voter);
-        voter.Voted = true;
+        CheckIfVoteNothing(voter);
+        voter.Status = VoterStatus.VoteRequested;
+        _uow.Voters.Update(voter);
+        await _uow.SaveChangesAsync();
+    }
+
+    public async Task SetVoteCreatedAsync(string? token)
+    {
+        Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
+        CheckIfVoteRequested(voter);
+        voter.Status = VoterStatus.VoteCreated;
         _uow.Voters.Update(voter);
         await _uow.SaveChangesAsync();
     }
@@ -55,9 +67,17 @@ public class AuthorizationService : IAuthorizationService
         return await _uow.Voters.GetAllAsync();
     }
 
-    private void CheckIfAlreadyVoted(Voter voter)
+    private void CheckIfVoteNothing(Voter voter)
     {
-        if (voter.Voted)
+        if (voter.Status != VoterStatus.Nothing)
+        {
+            throw new VoterAlreadyVotedException("Voter has already voted.");
+        }
+    }
+
+    private void CheckIfVoteRequested(Voter voter)
+    {
+        if (voter.Status != VoterStatus.VoteRequested)
         {
             throw new VoterAlreadyVotedException("Voter has already voted.");
         }
@@ -71,7 +91,7 @@ public class AuthorizationService : IAuthorizationService
             return false;
         }
 
-        if (voter.Voted)
+        if (voter.Status != VoterStatus.VoteRequested)
         {
             return false;
         }

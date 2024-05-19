@@ -32,8 +32,8 @@ namespace DummyAuthorizationProvider.Data.Db.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("Voted")
-                        .HasColumnType("bit");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -45,303 +45,303 @@ namespace DummyAuthorizationProvider.Data.Db.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8ca93c30-46f1-42a9-8b6b-2d5d376e0fdd"),
+                            Id = new Guid("8f9c7f10-5447-476b-bd5b-3bc25427e773"),
                             Oib = "00000000001",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("3c6ae40e-0b81-4370-aff2-36e240dd4682"),
+                            Id = new Guid("6fd8eb2d-43a3-4c92-ab4a-8fe7eb26a4a0"),
                             Oib = "00000000002",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("51d51901-ae9d-4dde-b98c-926005760f31"),
+                            Id = new Guid("509b1511-ae41-4673-8f46-0f5b3a42f5fe"),
                             Oib = "00000000003",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("afa12b37-9f54-46bb-a4cc-76681b7322c8"),
+                            Id = new Guid("52b0e385-cf90-49bf-9731-5be51250f1aa"),
                             Oib = "00000000004",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("8fc12e7d-5438-46c5-b75f-d2824fcbb148"),
+                            Id = new Guid("2c465bd6-9b21-48db-87a4-d8c5a07477d7"),
                             Oib = "00000000005",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("cf574333-2dbb-4a33-ac7b-631ef3934f37"),
+                            Id = new Guid("809a5460-30ad-4d41-b000-bb030379e737"),
                             Oib = "00000000006",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("126fede2-ff22-4de9-b622-33bffbdea807"),
+                            Id = new Guid("161c6240-4795-4898-a963-e215f0b0c787"),
                             Oib = "00000000007",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("664e814b-5480-42a3-ba3d-300420571723"),
+                            Id = new Guid("4f3f8d48-b719-47ca-a987-1ff6848202d5"),
                             Oib = "00000000008",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("a2849b8e-2043-4a04-a847-7e16a89d0e66"),
+                            Id = new Guid("a9f9c807-678b-42bf-b617-a421a1cb1f7b"),
                             Oib = "00000000009",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("209d91f2-3112-4a08-a544-3d3608efafd8"),
+                            Id = new Guid("278fed60-c729-4694-a8da-d95a05e9efc3"),
                             Oib = "00000000010",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("25b58a1a-0493-4fc9-a794-2d85e068b335"),
+                            Id = new Guid("76fb7dfb-8e62-4bbd-89af-a93733f8e930"),
                             Oib = "00000000011",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("de7776bf-7a59-4af4-838b-702c2355fe8c"),
+                            Id = new Guid("e26b78c3-a123-48b8-9b7e-04bbdb83d06e"),
                             Oib = "00000000012",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("de3d5472-68c1-43ea-96f0-e85fce7c127b"),
+                            Id = new Guid("c2bd42a7-fafb-4629-8613-0a672959c541"),
                             Oib = "00000000013",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("91684903-df50-4ef6-95ca-648f035f0099"),
+                            Id = new Guid("3358d670-5582-4e26-bc75-d815e661e519"),
                             Oib = "00000000014",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("5fade656-748c-42ed-a73e-01a81c2f3a6e"),
+                            Id = new Guid("9c10babe-6026-42c0-888b-4d587b46b70c"),
                             Oib = "00000000015",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("9b454077-33c9-402e-b543-5a91cddd687a"),
+                            Id = new Guid("290cfe11-ce29-4d67-bec1-fc097154af83"),
                             Oib = "00000000016",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("e33b6f85-1608-421d-bf90-b1dff6383cd5"),
+                            Id = new Guid("45f38d89-919d-4447-bea8-1aaaa833dfbf"),
                             Oib = "00000000017",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("fa581021-62c3-49a6-8998-edc0bdbe85d1"),
+                            Id = new Guid("71e349c5-444d-4c9c-b35c-1e4cdd0eef0b"),
                             Oib = "00000000018",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("e87b5d90-355e-489c-a594-48f4fdb9d7a0"),
+                            Id = new Guid("666a216b-2494-4120-92bd-08c5327405d4"),
                             Oib = "00000000019",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("3a1409b5-5ee9-4c17-b708-11fb7af152c1"),
+                            Id = new Guid("87704913-201f-4431-a69a-5ad75faba5a0"),
                             Oib = "00000000020",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("82099ceb-c68d-4556-b46f-f9210b2f29f8"),
+                            Id = new Guid("a72b3636-fbdc-436b-b849-94b44363d660"),
                             Oib = "00000000021",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("1e54664d-e49d-4bb9-b4b8-4f7bb957ac68"),
+                            Id = new Guid("2d66593d-5a59-461a-a776-5eb3c55a0190"),
                             Oib = "00000000022",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("f1af54cf-6058-4724-ad52-55f61ed70976"),
+                            Id = new Guid("301fbfa4-2080-4ce0-b6be-3982e25f9af3"),
                             Oib = "00000000023",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("566f1c36-56ea-4b7f-a63e-b9576f80268a"),
+                            Id = new Guid("1908a9ec-ddc9-4215-b44c-14a89d7a48ed"),
                             Oib = "00000000024",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("83e6f05d-e2b6-49b9-afc8-7372575d69df"),
+                            Id = new Guid("c5c44ee4-3e88-4659-ac94-84d739914b2c"),
                             Oib = "00000000025",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("72e21ed6-bb10-466c-a0e6-f120a44d4872"),
+                            Id = new Guid("ac04e0f5-368d-44aa-a7e6-56a5a3e0d171"),
                             Oib = "00000000026",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("13f086ae-cd5a-4b3a-9df8-26e4cf2f25f7"),
+                            Id = new Guid("bbecfccd-4a35-4472-8a8b-0007d5bc9e31"),
                             Oib = "00000000027",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("828781bd-699c-4334-9a11-aa35a2d18b13"),
+                            Id = new Guid("6b267ed4-a909-4e48-a796-d45f23c14374"),
                             Oib = "00000000028",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("866962d5-da8b-4295-8045-73a9ce0cdcc2"),
+                            Id = new Guid("14714a54-8f2f-4915-aa9a-50db88806622"),
                             Oib = "00000000029",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("0804bfab-fd46-44da-bfb7-2df5aa5b8305"),
+                            Id = new Guid("9914bd96-43c3-4032-8a64-7c7bb0cd514b"),
                             Oib = "00000000030",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("a1e71cad-538f-49d7-8a59-4fb025fe5fba"),
+                            Id = new Guid("c6d98fe9-bb23-41b7-8e98-9e5a511ef6cb"),
                             Oib = "00000000031",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("dbfb9fe8-262c-43c6-9c44-4aeea0f29a4a"),
+                            Id = new Guid("85bb3c4c-9bb0-401f-9a43-d9e44e40d85b"),
                             Oib = "00000000032",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("dcdb26b2-48e5-44f1-8fd0-25735fd11430"),
+                            Id = new Guid("36a36d36-8f92-4f99-9ca7-7ab06252505f"),
                             Oib = "00000000033",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("f49d87a7-84ee-44af-ba9e-076e594d3beb"),
+                            Id = new Guid("3b24198a-d365-4a7b-b911-7d4429e8298f"),
                             Oib = "00000000034",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("e64db21b-7723-479d-89d0-2652f65edadf"),
+                            Id = new Guid("211efad3-e432-4394-9009-49093b2b3e29"),
                             Oib = "00000000035",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("7e3f76f5-a66c-4efb-ab14-4c08c18e90ae"),
+                            Id = new Guid("6740f328-8b1c-43ce-bc97-57e7681c4550"),
                             Oib = "00000000036",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("e3f54371-2017-46ae-8beb-5c3e28acaf23"),
+                            Id = new Guid("b972ba17-4c3a-4c47-bab1-f6e64f4322ef"),
                             Oib = "00000000037",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("3ffaa24e-f01b-4d4b-9d8f-2b5b2e8f5c9d"),
+                            Id = new Guid("9aebe18e-8d63-4639-b01d-9f0d5d02f374"),
                             Oib = "00000000038",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("874e27ad-93db-4b1e-b05a-6fd086218dea"),
+                            Id = new Guid("3135d51c-1133-4b4e-bf30-563d34154edf"),
                             Oib = "00000000039",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("404608aa-a547-44a1-933b-c0748616e9c0"),
+                            Id = new Guid("c010f02b-c391-4f69-8f5d-e29e5c658821"),
                             Oib = "00000000040",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("28e20622-0e86-48a5-ad13-9499ab1175ae"),
+                            Id = new Guid("c281a2dc-50db-4d39-b3b1-9b8572c3d22c"),
                             Oib = "00000000041",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("750e0e8d-9720-441a-860f-d77c89b2addb"),
+                            Id = new Guid("51ecedcd-5706-4309-b14e-04e505b88ffb"),
                             Oib = "00000000042",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("080c575c-d419-44e6-be53-1b9c9f2a9c44"),
+                            Id = new Guid("ad7d8c14-8169-418b-9529-4ee7ca482d82"),
                             Oib = "00000000043",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("fdc4e8aa-23b4-4a8d-84b1-26628f2719c7"),
+                            Id = new Guid("a1fc710e-378b-495d-81d7-25b1f0e68952"),
                             Oib = "00000000044",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("c7d21216-b136-4033-a0a9-901a51474ad5"),
+                            Id = new Guid("52a58a45-c788-4b3f-8ad5-a71bd1557dd6"),
                             Oib = "00000000045",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("6248f48d-2ced-43c0-81f7-170476eea46c"),
+                            Id = new Guid("3b6d4c9a-cd5a-4fd5-bf37-f8a00e5d0d4f"),
                             Oib = "00000000046",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("e710e161-9919-4fa0-b61f-5b34e97ce3e6"),
+                            Id = new Guid("dc728698-cf9b-40d7-a2c1-ce2d8d85031e"),
                             Oib = "00000000047",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("dee25a1d-f915-4415-971e-40a51d9df00b"),
+                            Id = new Guid("9d84b3e1-d8b4-4141-98a9-ae4901eef276"),
                             Oib = "00000000048",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("eaf8617d-8ad7-4506-a4de-95089d7d07eb"),
+                            Id = new Guid("b8f97deb-b47d-4aa1-afbd-fca77891b241"),
                             Oib = "00000000049",
-                            Voted = false
+                            Status = 0
                         },
                         new
                         {
-                            Id = new Guid("17db2473-f729-496a-a88a-c113f9caba3f"),
+                            Id = new Guid("79ff6bcc-2d28-44e7-b81c-6a88867c9e89"),
                             Oib = "00000000050",
-                            Voted = false
+                            Status = 0
                         });
                 });
 #pragma warning restore 612, 618

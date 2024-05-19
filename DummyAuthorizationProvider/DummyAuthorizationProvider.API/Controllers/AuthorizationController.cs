@@ -33,15 +33,27 @@ public class AuthorizationController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("set-voted", Name = "SetVoted")]
+    [HttpPut("set-vote-requested", Name = "SetVoteRequested")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> SetVotedAsync()
+    public async Task<IActionResult> SetVoteRequestedAsync()
     {
         string? token = Request.Headers["Authorization"];
-        await _authorizationService.SetVotedAsync(token);
+        await _authorizationService.SetVoteRequestedAsync(token);
+        return Ok();
+    }
+
+    [HttpPut("set-vote-created", Name = "SetVoteCreated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SetVoteCreatedAsync()
+    {
+        string? token = Request.Headers["Authorization"];
+        await _authorizationService.SetVoteCreatedAsync(token);
         return Ok();
     }
 }
