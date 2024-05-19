@@ -20,7 +20,7 @@ public class AuthorizationService : IAuthorizationService
 
     public async Task<bool> CheckTokenAsync(string token)
     {
-        string url = $"{_settings.BaseUrl}{_settings.CheckTokenEndpoint}";
+        string url = $"{_settings.BaseUrl}{_settings.CheckTokenNothingEndpoint}";
         try
         {
             await _httpClientService.GetAsync(url, token);

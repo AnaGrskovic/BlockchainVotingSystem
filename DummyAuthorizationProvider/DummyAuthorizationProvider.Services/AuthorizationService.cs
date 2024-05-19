@@ -35,13 +35,14 @@ public class AuthorizationService : IAuthorizationService
         return random.Next().ToString();
     }
 
-    public async Task CheckTokenAsync(string? token)
+    public async Task CheckTokenNothingAsync(string? token)
     {
-        bool isTokenValid = await IsTokenValidAsync(token);
-        if (!isTokenValid)
-        {
-            throw new TokenNotValidException("Token is not valid.");
-        }
+        await CheckTokenAsync(token, VoterStatus.Nothing);
+    }
+
+    public async Task CheckTokenRequestedAsync(string? token)
+    {
+        await CheckTokenAsync(token, VoterStatus.VoteRequested);
     }
 
     public async Task SetVoteRequestedAsync(string? token)
@@ -67,6 +68,15 @@ public class AuthorizationService : IAuthorizationService
         return await _uow.Voters.GetAllAsync();
     }
 
+    private async Task CheckTokenAsync(string? token, VoterStatus voterStatus)
+    {
+        bool isTokenValid = await IsTokenValidAsync(token, voterStatus);
+        if (!isTokenValid)
+        {
+            throw new TokenNotValidException("Token is not valid.");
+        }
+    }
+
     private void CheckIfVoteNothing(Voter voter)
     {
         if (voter.Status != VoterStatus.Nothing)
@@ -83,7 +93,7 @@ public class AuthorizationService : IAuthorizationService
         }
     }
 
-    private async Task<bool> IsTokenValidAsync(string? token)
+    private async Task<bool> IsTokenValidAsync(string? token, VoterStatus voterStatus)
     {
         Voter? voter = await GetAsync(token);
         if (voter == null)
@@ -91,7 +101,7 @@ public class AuthorizationService : IAuthorizationService
             return false;
         }
 
-        if (voter.Status != VoterStatus.VoteRequested)
+        if (voter.Status != voterStatus)
         {
             return false;
         }
