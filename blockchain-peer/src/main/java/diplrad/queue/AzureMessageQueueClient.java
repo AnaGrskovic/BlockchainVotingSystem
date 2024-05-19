@@ -66,6 +66,14 @@ public class AzureMessageQueueClient {
         }
 
         handleQueueMessage(message, voteMessage.getVote());
+
+        try {
+            HttpSender httpSender = new HttpSender();
+            httpSender.setVoteCreated(voteMessage.getToken());
+        } catch (HttpException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
     }
 
     void handleQueueMessage(String message, String vote) {
