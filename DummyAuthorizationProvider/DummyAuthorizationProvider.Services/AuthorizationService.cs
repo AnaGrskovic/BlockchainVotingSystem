@@ -31,7 +31,7 @@ public class AuthorizationService : IAuthorizationService
         return random.Next().ToString();
     }
 
-    public async Task CheckToken(string? token)
+    public async Task CheckTokenAsync(string? token)
     {
         bool isTokenValid = await IsTokenValidAsync(token);
         if (!isTokenValid)
@@ -40,7 +40,25 @@ public class AuthorizationService : IAuthorizationService
         }
     }
 
+    public async Task SetVotedAsync(string? token)
+    {
+        Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
+        voter.Voted = true;
+        _uow.Voters.Update(voter);
+        await _uow.SaveChangesAsync();
+    }
+
+    private async Task<List<Voter>> GetAllAsync()
+    {
+        return await _uow.Voters.GetAllAsync();
+    }
+
     private async Task<bool> IsTokenValidAsync(string? token)
+    {
+        return await GetAsync(token) != null;
+    }
+
+    private async Task<Voter?> GetAsync(string? token)
     {
         if (token == null)
         {
@@ -53,14 +71,9 @@ public class AuthorizationService : IAuthorizationService
             Random random = new Random(seed);
             if (random.Next().ToString().Equals(token))
             {
-                return true;
+                return voter;
             }
         }
-        return false;
-    }
-
-    private async Task<List<Voter>> GetAllAsync()
-    {
-        return await _uow.Voters.GetAllAsync();
+        return null;
     }
 }

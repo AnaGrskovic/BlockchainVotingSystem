@@ -28,7 +28,18 @@ public class AuthorizationController : ControllerBase
     public async Task<IActionResult> CheckTokenAsync()
     {
         string? token = Request.Headers["Authorization"];
-        await _authorizationService.CheckToken(token);
+        await _authorizationService.CheckTokenAsync(token);
+        return Ok();
+    }
+
+    [HttpPut("set-voted", Name = "SetVoted")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SetVotedAsync()
+    {
+        string? token = Request.Headers["Authorization"];
+        await _authorizationService.SetVotedAsync(token);
         return Ok();
     }
 }
