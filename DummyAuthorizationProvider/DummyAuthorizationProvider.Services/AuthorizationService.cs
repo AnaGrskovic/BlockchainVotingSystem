@@ -35,30 +35,21 @@ public class AuthorizationService : IAuthorizationService
         return random.Next().ToString();
     }
 
-    public async Task CheckTokenNothingAsync(string? token)
+    public async Task CheckTokenNotVotedAsync(string? token)
     {
-        await CheckTokenAsync(token, VoterStatus.Nothing);
+        await CheckTokenAsync(token, VoterStatus.NotVoted);
     }
 
-    public async Task CheckTokenRequestedAsync(string? token)
+    public async Task CheckTokenVotedAsync(string? token)
     {
-        await CheckTokenAsync(token, VoterStatus.VoteRequested);
+        await CheckTokenAsync(token, VoterStatus.Voted);
     }
 
-    public async Task SetVoteRequestedAsync(string? token)
+    public async Task SetVotedAsync(string? token)
     {
         Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
         CheckIfVoteNothing(voter);
-        voter.Status = VoterStatus.VoteRequested;
-        _uow.Voters.Update(voter);
-        await _uow.SaveChangesAsync();
-    }
-
-    public async Task SetVoteCreatedAsync(string? token)
-    {
-        Voter voter = await GetAsync(token) ?? throw new EntityNotFoundException("There is no voter with that token.");
-        CheckIfVoteRequested(voter);
-        voter.Status = VoterStatus.VoteCreated;
+        voter.Status = VoterStatus.Voted;
         _uow.Voters.Update(voter);
         await _uow.SaveChangesAsync();
     }
@@ -79,15 +70,7 @@ public class AuthorizationService : IAuthorizationService
 
     private void CheckIfVoteNothing(Voter voter)
     {
-        if (voter.Status != VoterStatus.Nothing)
-        {
-            throw new VoterAlreadyVotedException("Voter has already voted.");
-        }
-    }
-
-    private void CheckIfVoteRequested(Voter voter)
-    {
-        if (voter.Status != VoterStatus.VoteRequested)
+        if (voter.Status != VoterStatus.NotVoted)
         {
             throw new VoterAlreadyVotedException("Voter has already voted.");
         }

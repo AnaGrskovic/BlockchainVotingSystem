@@ -2,7 +2,6 @@
 
 public enum VoterStatus
 {
-    Nothing,
-    VoteRequested,
-    VoteCreated
+    NotVoted,
+    Voted
 }

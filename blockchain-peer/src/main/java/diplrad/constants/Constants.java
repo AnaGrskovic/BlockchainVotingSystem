@@ -21,6 +21,6 @@ public class Constants {
     public static final String CENTRAL_PEER_COORDINATOR_BASE_URL = "https://localhost:7063/";
     public static final String CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT = "api/peers/";
     public static final String AUTHORIZATION_PROVIDER_BASE_URL = "https://localhost:44378/";
-    public static final String AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT = "api/authorization/check-token-requested";
-    public static final String AUTHORIZATION_PROVIDER_SET_VOTE_CREATED_ENDPOINT = "api/authorization/set-vote-created";
+    public static final String AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT = "api/authorization/check-token-voted";
+
 }

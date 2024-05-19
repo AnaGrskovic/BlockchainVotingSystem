@@ -142,30 +142,4 @@ public class HttpSender {
         }
     }
 
-    public void setVoteCreated(String token) throws HttpException {
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_SET_VOTE_CREATED_ENDPOINT))
-                    .headers("Authorization", token)
-                    .PUT(HttpRequest.BodyPublishers.noBody())
-                    .build();
-
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int responseStatusCode = response.statusCode();
-
-            if (responseStatusCode == 200) {
-                return;
-            } else if (responseStatusCode == 401) {
-                throw new HttpException(ErrorMessages.invalidTokenErrorMessage);
-            } else {
-                throw new HttpException(ErrorMessages.unsuccessfulHttpRequestErrorMessage);
-            }
-        } catch (URISyntaxException e) {
-            throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
-        } catch (IOException | InterruptedException e) {
-            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_SET_VOTE_CREATED_ENDPOINT));
-        }
-    }
-
 }

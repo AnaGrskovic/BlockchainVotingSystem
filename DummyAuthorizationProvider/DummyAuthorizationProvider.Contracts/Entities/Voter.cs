@@ -12,7 +12,7 @@ public class Voter
     {
         Id = id;
         Oib = oib;
-        Status = VoterStatus.Nothing;
+        Status = VoterStatus.NotVoted;
     }
 }
 

@@ -3,8 +3,7 @@
 public interface IAuthorizationService
 {
     Task<string> GetTokenAsync(string? oib);
-    Task CheckTokenNothingAsync(string? token);
-    Task CheckTokenRequestedAsync(string? token);
-    Task SetVoteRequestedAsync(string? token);
-    Task SetVoteCreatedAsync(string? token);
+    Task CheckTokenNotVotedAsync(string? token);
+    Task CheckTokenVotedAsync(string? token);
+    Task SetVotedAsync(string? token);
 }
