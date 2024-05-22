@@ -11,8 +11,9 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
 })
 export class VotingComponent implements OnInit {
   token: string = '';
-  candidates: string[] = ['Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4', 'Candidate 5', 'Candidate 6', 'Candidate 7', 'Candidate 8', 'Candidate 9', 'Candidate 10'];
+  candidates: string[] = [];
   selectedCandidate: string = '';
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService, private snackBar: MatSnackBar, private router: Router) { }
 
@@ -22,42 +23,49 @@ export class VotingComponent implements OnInit {
   }
 
   fetchCandidates() {
+    this.isLoading = true;
     const url = 'https://localhost:44328/api/candidates';
     this.http.get<string[]>(url).subscribe({
       next: (response) => {
         this.candidates = response;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error fetching candidates:', error);
         this.snackBar.open('Error fetching candidates.', 'Close', {
           duration: 5000
         });
+        this.isLoading = false;
       }
     });
   }
 
   vote() {
-    const url = 'https://localhost:44328/api/votes';
-    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.token);
-    const payload = "\"" + this.selectedCandidate + "\"";
-    if (this.selectedCandidate) {
-      this.http.post<any>(url, payload, { headers }).subscribe({
-        next: (response) => {
-          console.log('Vote submitted successfully:', response);
-          this.router.navigate(['/results']);
-        },
-        error: (error) => {
-          console.error('Error submitting vote:', error);
-          this.snackBar.open('Error submitting vote.', 'Close', {
-            duration: 5000
-          });
-        }
-      });
-    } else {
+    if (!this.selectedCandidate) {
       console.error('No candidate selected');
       this.snackBar.open('No candidate selected.', 'Close', {
         duration: 5000
       });
+      return;
     }
+
+    this.isLoading = true;
+    const url = 'https://localhost:44328/api/votes';
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.token);
+    const payload = "\"" + this.selectedCandidate + "\"";
+    this.http.post<any>(url, payload, { headers }).subscribe({
+      next: (response) => {
+        console.log('Vote submitted successfully:', response);
+        this.router.navigate(['/results']);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error submitting vote:', error);
+        this.snackBar.open('Error submitting vote.', 'Close', {
+          duration: 5000
+        });
+        this.isLoading = false;
+      }
+    });
   }
 }
