@@ -11,7 +11,7 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
 })
 export class VotingComponent implements OnInit {
   token: string = '';
-  candidates: string[] = ['Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4', 'Candidate 5', 'Candidate 6', 'Candidate 7', 'Candidate 8', 'Candidate 9', 'Candidate 10'];
+  candidates: string[] = [];
   selectedCandidate: string = '';
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService, private snackBar: MatSnackBar, private router: Router) { }
