@@ -11,11 +11,13 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
 })
 export class LoginComponent {
   personalIdNum: string = '';
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService, private snackBar: MatSnackBar, private router: Router) {}
 
   onLogin() {
     if (this.personalIdNum) {
+      this.isLoading = true;
       const url = 'https://localhost:44378/api/authorization/get-token';
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       const payload = "\"" + this.personalIdNum + "\"";
@@ -25,10 +27,12 @@ export class LoginComponent {
           console.log('Login successful, token received:', response);
           this.localStorageService.setItem('token', response.toString());
           this.router.navigate(['/voting']);
+          this.isLoading = false;
         },
         error: (error) => {
           console.error('Error during login:', error);
           this.snackBar.open('Login failed.', 'Close', { duration: 3000 });
+          this.isLoading = false;
         }
       });
     } else {
