@@ -15,7 +15,7 @@ body {
 }
 
 .navbar {
-  background-color: #007bff;
+  background-color: #e9ecef; /* Updated to match background color */
   color: #ffffff;
   padding: 10px 20px;
   display: flex;
@@ -27,32 +27,20 @@ body {
 .navbar-brand {
   font-size: 24px;
   font-weight: bold;
-}
-
-.navbar-nav {
-  list-style-type: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-item {
-  margin-left: 20px;
+  color: #28a745; /* Updated to green */
 }
 
 .nav-item a {
-  color: #ffffff;
+  color: #28a745; /* Updated to green */
   text-decoration: none;
   font-size: 18px;
   padding: 5px 10px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  border-radius: 5px;
+  transition: color 0.3s ease;
 }
 
 .nav-item a:hover,
 .nav-item a.active {
-  background-color: #0056b3;
-  color: #ffffff;
+  color: #218838; /* Updated to darker green on hover */
 }
 
 .main-content {
@@ -73,19 +61,6 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Spinner Styles */
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
 /* Voting Form Styles */
 .voting-container {
   max-width: 600px;
@@ -101,30 +76,8 @@ body {
 .voting-title {
   font-size: 32px;
   font-weight: bold;
-  color: #333;
+  color: #28a745; /* Updated to green */
   margin-bottom: 25px;
-}
-
-.voting-subtitle {
-  font-size: 20px;
-  color: #666;
-  margin-bottom: 35px;
-}
-
-.candidate-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.candidate {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
-.candidate input[type="radio"] {
-  margin-right: 15px;
 }
 
 .vote-button {
@@ -132,7 +85,7 @@ body {
   font-size: 20px;
   font-weight: bold;
   color: #fff;
-  background-color: #28a745;
+  background-color: #28a745; /* Updated to green */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -141,5 +94,5 @@ body {
 }
 
 .vote-button:hover {
-  background-color: #218838;
+  background-color: #218838; /* Updated to darker green on hover */
 }
