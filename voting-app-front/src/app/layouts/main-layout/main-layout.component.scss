@@ -1,4 +1,3 @@
-/* Base Styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #e9ecef;
@@ -7,7 +6,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Layout Styles */
 .layout {
   display: flex;
   flex-direction: column;
@@ -15,7 +13,7 @@ body {
 }
 
 .navbar {
-  background-color: #e9ecef; /* Updated to match background color */
+  background-color: #e9ecef;
   color: #ffffff;
   padding: 10px 20px;
   display: flex;
@@ -27,11 +25,11 @@ body {
 .navbar-brand {
   font-size: 24px;
   font-weight: bold;
-  color: #28a745; /* Updated to green */
+  color: #28a745;
 }
 
 .nav-item a {
-  color: #28a745; /* Updated to green */
+  color: #28a745;
   text-decoration: none;
   font-size: 18px;
   padding: 5px 10px;
@@ -40,7 +38,7 @@ body {
 
 .nav-item a:hover,
 .nav-item a.active {
-  color: #218838; /* Updated to darker green on hover */
+  color: #218838;
 }
 
 .main-content {
@@ -61,7 +59,6 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Voting Form Styles */
 .voting-container {
   max-width: 600px;
   min-width: 400px;
@@ -76,7 +73,7 @@ body {
 .voting-title {
   font-size: 32px;
   font-weight: bold;
-  color: #28a745; /* Updated to green */
+  color: #28a745;
   margin-bottom: 25px;
 }
 
@@ -85,7 +82,7 @@ body {
   font-size: 20px;
   font-weight: bold;
   color: #fff;
-  background-color: #28a745; /* Updated to green */
+  background-color: #28a745;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -94,5 +91,5 @@ body {
 }
 
 .vote-button:hover {
-  background-color: #218838; /* Updated to darker green on hover */
+  background-color: #218838;
 }
