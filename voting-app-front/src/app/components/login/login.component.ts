@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   personalIdNum: string = '';
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {}
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private snackBar: MatSnackBar, private router: Router) {}
 
   onLogin() {
     if (this.personalIdNum) {
@@ -22,7 +23,7 @@ export class LoginComponent {
       this.http.post<number>(url, payload, { headers }).subscribe({
         next: (response) => {
           console.log('Login successful, token received:', response);
-          localStorage.setItem('token', response.toString());
+          this.localStorageService.setItem('token', response.toString());
           this.router.navigate(['/voting']);
         },
         error: (error) => {

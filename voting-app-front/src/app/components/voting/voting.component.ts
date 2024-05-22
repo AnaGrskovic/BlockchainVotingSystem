@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-voting',
@@ -13,10 +14,10 @@ export class VotingComponent implements OnInit {
   candidates: string[] = ['Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4', 'Candidate 5', 'Candidate 6', 'Candidate 7', 'Candidate 8', 'Candidate 9', 'Candidate 10'];
   selectedCandidate: string = '';
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) { }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
-    this.token = localStorage.getItem('token') ?? '';
+    this.token = this.localStorageService.getItem('token') ?? '';
     this.fetchCandidates();
   }
 
