@@ -6,6 +6,7 @@
     background-color: #f8f9fa;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
   
   .voting-title {
@@ -52,5 +53,17 @@
   
   .vote-button:hover {
     background-color: #218838;
+  }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
   }
   
