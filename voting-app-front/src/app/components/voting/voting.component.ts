@@ -56,7 +56,7 @@ export class VotingComponent implements OnInit {
     this.http.post<any>(url, payload, { headers }).subscribe({
       next: (response) => {
         console.log('Vote submitted successfully:', response);
-        this.router.navigate(['/results']);
+        this.router.navigate(['/']);
         this.isLoading = false;
       },
       error: (error) => {

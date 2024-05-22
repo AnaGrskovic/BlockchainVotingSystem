@@ -12,13 +12,15 @@ import { VotingComponent } from './components/voting/voting.component';
 import { LoginComponent } from './components/login/login.component';
 import { ResultsComponent } from './components/results/results.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VotingComponent,
     LoginComponent,
-    ResultsComponent
+    ResultsComponent,
+    MainLayoutComponent
   ],
   imports: [
     BrowserModule,
