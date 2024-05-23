@@ -7,6 +7,7 @@ namespace VotingApp.Data.Db.Context;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Vote> Votes { get; set; } = default!;
+    public DbSet<BlockChain> BlockChains { get; set; } = default!;
 
     public ApplicationDbContext()
     {
