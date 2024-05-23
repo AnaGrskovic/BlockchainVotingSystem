@@ -1,12 +1,23 @@
 ﻿using VotingApp.Contracts.Dtos;
+using VotingApp.Contracts.Entities;
 using VotingApp.Contracts.Services;
+using VotingApp.Contracts.UoW;
 
 namespace VotingApp.Services;
 
 public class BlockChainService : IBlockChainService
 {
-    public Task CreateAsync(BlockChainDto blockChainDto)
+    private readonly IUnitOfWork _uow;
+
+    public BlockChainService(IUnitOfWork uow)
     {
-        throw new NotImplementedException();
+        _uow = uow;
+    }
+
+    public async Task CreateAsync(BlockChainDto blockChainDto)
+    {
+        var blockChain = new BlockChain(blockChainDto);
+        _uow.BlockChains.Add(blockChain);
+        await _uow.SaveChangesAsync();
     }
 }
