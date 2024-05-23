@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -15,11 +16,19 @@ export class VotingComponent implements OnInit {
   selectedCandidate: string = '';
   isLoading: boolean = false;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private snackBar: MatSnackBar, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   ngOnInit(): void {
-    this.token = this.localStorageService.getItem('token') ?? '';
-    this.fetchCandidates();
+    if (isPlatformBrowser(this.platformId)) {
+      this.token = this.localStorageService.getItem('token') ?? '';
+      this.fetchCandidates();
+    }
   }
 
   fetchCandidates() {
@@ -52,7 +61,7 @@ export class VotingComponent implements OnInit {
     this.isLoading = true;
     const url = 'https://localhost:44328/api/votes';
     const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.token);
-    const payload = "\"" + this.selectedCandidate + "\"";
+    const payload = `"${this.selectedCandidate}"`;
     this.http.post<any>(url, payload, { headers }).subscribe({
       next: (response) => {
         console.log('Vote submitted successfully:', response);
