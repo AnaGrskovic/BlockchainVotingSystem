@@ -9,6 +9,7 @@ namespace VotingApp.Data.Db.UoW;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly IRepository<Vote>? _votes;
+    private readonly IRepository<BlockChain>? _blockChains;
 
     private readonly ApplicationDbContext _dbContext;
 
@@ -19,6 +20,8 @@ public class UnitOfWork : IUnitOfWork
 
     public IRepository<Vote> Votes
         => _votes ?? new Repository<Vote>(_dbContext);
+    public IRepository<BlockChain> BlockChains
+        => _blockChains ?? new Repository<BlockChain>(_dbContext);
 
     public async Task SaveChangesAsync()
     {
