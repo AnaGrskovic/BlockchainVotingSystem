@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace VotingApp.Contracts.Services;
 
-namespace VotingApp.Contracts.Services
+public interface ITimeService
 {
-    internal interface ITimeService
-    {
-    }
+    bool IsBlockChainCalculationTime();
 }

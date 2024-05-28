@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VotingApp.Contracts.Dtos;
 using VotingApp.Contracts.Services;
-using VotingApp.Services;
 
 namespace VotingApp.API.Controllers;
 
@@ -9,33 +8,23 @@ namespace VotingApp.API.Controllers;
 [Route("api/block-chains")]
 public class BlockChainController : ControllerBase
 {
-    private readonly IDigitalSignatureService _digitalSignatureService;
-    private readonly IBlockChainService _blockChainService;
+    private readonly ISecureBlockChainService _secureBlockChainService;
 
-    public BlockChainController(IDigitalSignatureService digitalSignatureService, IBlockChainService blockChainService)
+    public BlockChainController(ISecureBlockChainService secureBlockChainService)
     {
-        _digitalSignatureService = digitalSignatureService;
-        _blockChainService = blockChainService;
+        _secureBlockChainService = secureBlockChainService;
     }
 
     [HttpPost(Name = "CreateBlockChain")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> CreateAsync([FromBody] BlockChainDto blockChainDto)
     {
         string? signature = Request.Headers["Signature"];
         string? publicKeyPem = Request.Headers["Public-Key"];
 
-        if (string.IsNullOrEmpty(signature) || string.IsNullOrEmpty(publicKeyPem))
-        {
-            return Unauthorized();
-        }
-        var isSignatureValid = _digitalSignatureService.VerifyDigitalSignature(blockChainDto, signature, publicKeyPem);
-        if (!isSignatureValid)
-        {
-            return Unauthorized();
-        }
-        await _blockChainService.CreateAsync(blockChainDto);
+        await _secureBlockChainService.CheckAndCreateAsync(blockChainDto, signature, publicKeyPem);
         return Ok();
     }
 }

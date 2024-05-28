@@ -24,6 +24,7 @@ builder.Services.Configure<AuthorizationSettings>(builder.Configuration.GetSecti
 builder.Services.Configure<CandidatesSettings>(builder.Configuration.GetSection(CandidatesSettings.Section));
 builder.Services.Configure<AzureStorageSettings>(builder.Configuration.GetSection(AzureStorageSettings.Section));
 builder.Services.Configure<PeersSettings>(builder.Configuration.GetSection(PeersSettings.Section));
+builder.Services.Configure<TimeSettings>(builder.Configuration.GetSection(TimeSettings.Section));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddHttpClient();
@@ -34,7 +35,9 @@ builder.Services.AddScoped<ICandidateService, CandidateService>();
 builder.Services.AddScoped<IBackupService, BackupService>();
 builder.Services.AddScoped<IMessageQueueService, AzureMessageQueueService>();
 builder.Services.AddScoped<IDigitalSignatureService, DigitalSignatureService>();
+builder.Services.AddScoped<ISecureBlockChainService, SecureBlockChainService>();
 builder.Services.AddScoped<IBlockChainService, BlockChainService>();
+builder.Services.AddScoped<ITimeService, TimeService>();
 
 builder.Services.AddCors(options =>
 {
