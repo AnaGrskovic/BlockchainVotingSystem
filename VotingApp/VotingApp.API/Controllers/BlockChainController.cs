@@ -25,7 +25,13 @@ public class BlockChainController : ControllerBase
     public async Task<IActionResult> CreateAsync([FromBody] BlockChainDto blockChainDto)
     {
         string? signature = Request.Headers["Signature"];
-        var isSignatureValid = signature is not null && await _digitalSignatureService.VerifyDigitalSignature(blockChainDto, signature);
+        string? publicKeyPem = Request.Headers["Public-Key"];
+
+        if (string.IsNullOrEmpty(signature) || string.IsNullOrEmpty(publicKeyPem))
+        {
+            return Unauthorized();
+        }
+        var isSignatureValid = _digitalSignatureService.VerifyDigitalSignature(blockChainDto, signature, publicKeyPem);
         if (!isSignatureValid)
         {
             return Unauthorized();
