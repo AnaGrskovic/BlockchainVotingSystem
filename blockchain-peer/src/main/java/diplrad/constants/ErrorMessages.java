@@ -29,6 +29,7 @@ public class ErrorMessages {
     public static final String incorrectUrlErrorMessage = "Url is incorrect.";
     public static final String sendHttpRequestErrorMessage = "Unable to send HTTP request to %s.";
     public static final String invalidTokenErrorMessage = "The token is invalid.";
+    public static final String unauthorizedBlockChainCreationErrorMessage = "Unauthorized to create block chain. Maybe your digital signature private key is invalid, maybe you already created a block chain and maybe you are not currently allowed to create a block chain.";
 
     // CryptographyException
     public static final String cryptographyPropertiesNotLoadedErrorMessage = "Cryptography properties are not loaded.";

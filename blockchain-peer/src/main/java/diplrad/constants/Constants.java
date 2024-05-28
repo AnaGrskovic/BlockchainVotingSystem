@@ -22,5 +22,6 @@ public class Constants {
     public static final String CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT = "api/peers/";
     public static final String AUTHORIZATION_PROVIDER_BASE_URL = "https://localhost:44378/";
     public static final String AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT = "api/authorization/check-token-voted";
-
+    public static final String VOTING_API_BASE_URL = "https://localhost:44328/";
+    public static final String VOTING_API_CREATE_BLOCKCHAIN_ENDPOINT = "api/block-chains";
 }
