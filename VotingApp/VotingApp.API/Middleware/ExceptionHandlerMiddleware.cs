@@ -31,8 +31,12 @@ public class ExceptionHandlerMiddleware
         _ = ex switch
         {
             TokenNotPresentException or
-            TokenNotValidException =>
+            TokenNotValidException or 
+            SignatureOrKeyNotPresentException =>
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
+            ForbiddenTimeException or
+            SignatureNotValidException =>
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden,
             VoteNotPresentException or
             CandidateNotValidException or 
             AuthProviderException =>
