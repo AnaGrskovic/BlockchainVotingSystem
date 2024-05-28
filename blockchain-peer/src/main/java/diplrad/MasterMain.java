@@ -24,7 +24,7 @@ import static diplrad.models.peer.PeersSingleton.ownPeer;
 
 public class MasterMain {
 
-    private static Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().create();
 
     public static void main(String[] args) {
 
