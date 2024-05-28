@@ -2,6 +2,7 @@ package diplrad;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import diplrad.constants.Constants;
 import diplrad.constants.LogMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
@@ -14,6 +15,7 @@ import diplrad.tcp.TcpServer;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.*;
+import java.time.LocalDateTime;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.helpers.FileReader.readCandidatesFromFile;
@@ -74,10 +76,10 @@ public class MasterMain {
             System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
 
             AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
-            //while (true) {
+            while (LocalDateTime.now().isBefore(Constants.VOTING_END_DATE_TIME)) {
                 azureMessageQueueClient.receiveAndHandleQueueMessage();
-            //}
-
+            }
+            
             var finalBlockChain = VotingBlockChainSingleton.getInstance();
             var signedFinalBlockChain = DigitalSignatureHelper.signBlockChain(finalBlockChain, privateKeyPem, gson);
             httpSender.createBlockChain(finalBlockChain, signedFinalBlockChain, publicKeyPem);
