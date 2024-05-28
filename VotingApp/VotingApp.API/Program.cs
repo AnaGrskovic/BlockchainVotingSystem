@@ -38,6 +38,7 @@ builder.Services.AddScoped<IMessageQueueService, AzureMessageQueueService>();
 builder.Services.AddScoped<IDigitalSignatureService, DigitalSignatureService>();
 builder.Services.AddScoped<ISecureBlockChainService, SecureBlockChainService>();
 builder.Services.AddScoped<IBlockChainService, BlockChainService>();
+builder.Services.AddScoped<IBlockChainResultService, BlockChainResultService>();
 builder.Services.AddScoped<ITimeService, TimeService>();
 
 builder.Services.AddCors(options =>
