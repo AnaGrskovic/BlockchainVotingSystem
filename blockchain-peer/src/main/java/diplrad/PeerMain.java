@@ -7,7 +7,6 @@ import diplrad.constants.LogMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
 import diplrad.helpers.DigitalSignatureHelper;
-import diplrad.helpers.FileReader;
 import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.blockchain.BlockChainTcpClientHelper;
 import diplrad.http.PeerHttpHelper;
@@ -19,6 +18,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.Security;
 import java.time.LocalDateTime;
 
+import static diplrad.helpers.ArgsProcessHelper.initializePrivateKeyPem;
+import static diplrad.helpers.ArgsProcessHelper.initializeTcpServer;
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.models.peer.PeersSingleton.ownPeer;
 
@@ -28,22 +29,9 @@ public class PeerMain {
 
     public static void main(String[] args) {
 
-        try {
-            String tcpPortString = args[0];
-            TcpServer.tcpServerPort = Integer.parseInt(tcpPortString);
-        } catch (Exception e) {
-            System.out.println(LogMessages.tcpServerPortArgumentFailMessage);
-            System.exit(1);
-        }
+        initializeTcpServer(args);
 
-        String privateKeyPem = null;
-        try {
-            String privateKeyPemPath = args[1];
-            privateKeyPem = FileReader.readFile(privateKeyPemPath);
-        } catch (Exception e) {
-            System.out.println(LogMessages.privateKeyPemArgumentFailMessage);
-            System.exit(1);
-        }
+        String privateKeyPem = initializePrivateKeyPem(args);
 
         try {
 
