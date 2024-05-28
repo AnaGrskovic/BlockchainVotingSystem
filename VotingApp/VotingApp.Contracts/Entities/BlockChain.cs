@@ -12,4 +12,9 @@ public class BlockChain
     {
         Blocks = JsonSerializer.Serialize(blockChainDto);
     }
+
+    public BlockChain()
+    {
+
+    }
 }
