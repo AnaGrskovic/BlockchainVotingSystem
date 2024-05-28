@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using VotingApp.Contracts.Dtos;
+﻿using VotingApp.Contracts.Dtos;
 using VotingApp.Contracts.Exceptions;
 using VotingApp.Contracts.Services;
 
