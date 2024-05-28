@@ -14,7 +14,7 @@ public class TimeService : ITimeService
     }
     public bool IsBlockChainCalculationTime()
     {
-        var currentDateTime = DateTime.UtcNow;
+        var currentDateTime = DateTime.Now;
         return _settings.BlockChainCaluldationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCaluldationEndTime;
     }
 }
