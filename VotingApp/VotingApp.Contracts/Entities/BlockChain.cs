@@ -17,4 +17,9 @@ public class BlockChain
     {
 
     }
+
+    public bool Equals(BlockChain other)
+    {
+        return other != null && Blocks.Equals(other.Blocks);
+    }
 }

@@ -12,9 +12,16 @@ public class TimeService : ITimeService
     {
         _settings = settings.Value;
     }
+
     public bool IsBlockChainCalculationTime()
     {
         var currentDateTime = DateTime.Now;
-        return _settings.BlockChainCaluldationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCaluldationEndTime;
+        return _settings.BlockChainCalculationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCalculationEndTime;
+    }
+
+    public bool CanResultsBeShown()
+    {
+        var currentDateTime = DateTime.Now;
+        return _settings.BlockChainCalculationStartTime < currentDateTime && _settings.BlockChainCalculationEndTime < currentDateTime;
     }
 }

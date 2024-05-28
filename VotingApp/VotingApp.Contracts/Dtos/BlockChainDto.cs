@@ -2,6 +2,6 @@
 
 public class BlockChainDto
 {
-    public IEnumerable<string> Candidates { get; set; }
+    public IEnumerable<string> Candidates { get; set; } = default!;
     public IEnumerable<BlockDto> Blocks { get; set; } = default!;
 }

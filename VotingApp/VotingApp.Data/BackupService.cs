@@ -19,4 +19,10 @@ public class BackupService : IBackupService
         _uow.Votes.Add(vote);
         await _uow.SaveChangesAsync();
     }
+
+    public async Task<int> GetCountAsync()
+    {
+        var votes = await _uow.Votes.GetAllAsync();
+        return votes.Count();
+    }
 }
