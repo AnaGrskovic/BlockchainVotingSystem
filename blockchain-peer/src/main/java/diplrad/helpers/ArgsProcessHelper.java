@@ -26,4 +26,15 @@ public class ArgsProcessHelper {
         return null;
     }
 
+    public static String initializePublicKeyPem(String[] args) {
+        try {
+            String publicKeyPemPath = args[2];
+            return FileReader.readFile(publicKeyPemPath);
+        } catch (Exception e) {
+            System.out.println(LogMessages.privateKeyPemArgumentFailMessage);
+            System.exit(1);
+        }
+        return null;
+    }
+
 }

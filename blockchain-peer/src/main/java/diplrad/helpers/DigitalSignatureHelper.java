@@ -1,6 +1,8 @@
 package diplrad.helpers;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import diplrad.constants.ErrorMessages;
 import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.IpException;
@@ -17,9 +19,10 @@ import java.util.Base64;
 
 public class DigitalSignatureHelper {
 
-    public static String signBlockChain(BlockChain blockChain, String privateKeyPem, Gson gson) throws CryptographyException {
+    public static String signBlockChain(BlockChain blockChain, String privateKeyPem) throws CryptographyException {
         try {
-            var serializedBlockChain = gson.toJson(blockChain);
+            Gson pascalCaseGson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+            var serializedBlockChain = pascalCaseGson.toJson(blockChain);
             PrivateKey privateKey = getPrivateKeyFromPem(privateKeyPem);
             return signMessage(privateKey, serializedBlockChain);
         } catch (Exception e) {

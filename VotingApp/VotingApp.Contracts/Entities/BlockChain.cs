@@ -10,7 +10,7 @@ public class BlockChain
 
     public BlockChain(BlockChainDto blockChainDto)
     {
-        Blocks = JsonSerializer.Serialize(blockChainDto);
+        Blocks = JsonSerializer.Serialize(blockChainDto.Blocks);
     }
 
     public BlockChain()

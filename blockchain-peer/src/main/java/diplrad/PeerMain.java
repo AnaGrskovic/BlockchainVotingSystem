@@ -18,8 +18,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.Security;
 import java.time.LocalDateTime;
 
-import static diplrad.helpers.ArgsProcessHelper.initializePrivateKeyPem;
-import static diplrad.helpers.ArgsProcessHelper.initializeTcpServer;
+import static diplrad.helpers.ArgsProcessHelper.*;
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.models.peer.PeersSingleton.ownPeer;
 
@@ -30,8 +29,8 @@ public class PeerMain {
     public static void main(String[] args) {
 
         initializeTcpServer(args);
-
         String privateKeyPem = initializePrivateKeyPem(args);
+        String publicKeyPem = initializePublicKeyPem(args);
 
         try {
 
@@ -56,11 +55,15 @@ public class PeerMain {
                 azureMessageQueueClient.receiveAndHandleQueueMessage();
             }
 
+            System.out.println(LogMessages.votingTimeEnd);
             Thread.sleep(Constants.VOTING_STABILIZE_MINUTES * 60 * 1000);
+            System.out.println(LogMessages.voteProcessingTimeEnd);
 
             var finalBlockChain = VotingBlockChainSingleton.getInstance();
-            var signedFinalBlockChain = DigitalSignatureHelper.signBlockChain(finalBlockChain, privateKeyPem, gson);
-            httpSender.createBlockChain(finalBlockChain, signedFinalBlockChain, privateKeyPem);
+            var signedFinalBlockChain = DigitalSignatureHelper.signBlockChain(finalBlockChain, privateKeyPem);
+            httpSender.createBlockChain(finalBlockChain, signedFinalBlockChain, publicKeyPem);
+            System.out.println(LogMessages.sentBlockChainToApi);
+            System.exit(0);
 
         } catch (IpException | ParseException | HttpException | TcpException | CryptographyException | InterruptedException e) {
             handleFatalException(e);
