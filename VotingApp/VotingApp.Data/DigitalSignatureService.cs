@@ -28,7 +28,7 @@ public class DigitalSignatureService : IDigitalSignatureService
 
         RSAParameters publicKey = GetPublicKeyFromPem(formattedPublicKeyPem);
 
-        var blockChainJson = JsonSerializer.Serialize(blockChainDto.Blocks);
+        var blockChainJson = JsonSerializer.Serialize(blockChainDto);
 
         return VerifyMessage(publicKey, blockChainJson, signature);
     }

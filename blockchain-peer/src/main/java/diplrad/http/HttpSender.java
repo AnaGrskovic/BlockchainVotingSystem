@@ -1,13 +1,16 @@
 package diplrad.http;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
-import diplrad.constants.LogMessages;
 import diplrad.exceptions.HttpException;
 import diplrad.exceptions.ParseException;
 import diplrad.helpers.ListSerializationHelper;
+import diplrad.models.blockchain.BlockChain;
+import diplrad.models.blockchain.VotingBlockChain;
+import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeerRequest;
 
@@ -139,6 +142,43 @@ public class HttpSender {
             throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
         } catch (IOException | InterruptedException e) {
             throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.AUTHORIZATION_PROVIDER_BASE_URL + Constants.AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT));
+        }
+    }
+
+    public void createBlockChain(VotingBlockChain blockChain, String signature, String publicKey) throws HttpException, ParseException {
+
+        try {
+            var json = gson.toJson(blockChain);
+            if (json == null) {
+                throw new ParseException(ErrorMessages.parsePeerRequestErrorMessage);
+            }
+            byte[] bytes = json.getBytes();
+
+            publicKey = publicKey.replace("\n", "").replace("\r", "");
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(Constants.VOTING_API_BASE_URL + Constants.VOTING_API_CREATE_BLOCKCHAIN_ENDPOINT))
+                    .headers("Content-Type", "application/json")
+                    .headers("Signature", signature)
+                    .headers("Public-Key", publicKey)
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(bytes))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            int responseStatusCode = response.statusCode();
+
+            if (responseStatusCode == 200) {
+                return;
+            } else if (responseStatusCode == 401) {
+                throw new HttpException(ErrorMessages.unauthorizedBlockChainCreationErrorMessage);
+            } else {
+                throw new HttpException(ErrorMessages.unsuccessfulHttpRequestErrorMessage);
+            }
+        } catch (URISyntaxException e) {
+            throw new HttpException(ErrorMessages.incorrectUrlErrorMessage);
+        } catch (IOException | InterruptedException e) {
+            throw new HttpException(String.format(ErrorMessages.sendHttpRequestErrorMessage, Constants.VOTING_API_BASE_URL + Constants.VOTING_API_CREATE_BLOCKCHAIN_ENDPOINT));
         }
     }
 

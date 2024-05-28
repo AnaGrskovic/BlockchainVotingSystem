@@ -1,10 +1,16 @@
 package diplrad.constants;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class Constants {
     public static final int DIFFICULTY = 2;
     public static final String GENESIS_BLOCK_PREVIOUS_HASH = "0";
     public static final String GENESIS_BLOCK_DATA = "The is the Genesis Block.";
     public static final int INITIAL_BLOCK_NONCE = 0;
+    public static final LocalDateTime VOTING_END_DATE_TIME = LocalDateTime.of(LocalDate.of(2024, 5, 28), LocalTime.of(16, 30));
+    public static final int VOTING_STABILIZE_MINUTES = 2;
     public static final String CANDIDATES_FILE_PATH = "./src/main/resources/candidates.txt";
     public static final String VOTERS_FILE_PATH = "./src/main/resources/voters.txt";
     public static final String TCP_CONNECT = "CONNECT";
@@ -22,5 +28,6 @@ public class Constants {
     public static final String CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT = "api/peers/";
     public static final String AUTHORIZATION_PROVIDER_BASE_URL = "https://localhost:44378/";
     public static final String AUTHORIZATION_PROVIDER_CHECK_TOKEN_REQUESTED_ENDPOINT = "api/authorization/check-token-voted";
-
+    public static final String VOTING_API_BASE_URL = "https://localhost:44328/";
+    public static final String VOTING_API_CREATE_BLOCKCHAIN_ENDPOINT = "api/block-chains";
 }

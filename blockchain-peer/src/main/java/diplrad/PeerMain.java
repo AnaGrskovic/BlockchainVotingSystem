@@ -2,34 +2,39 @@ package diplrad;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import diplrad.constants.Constants;
 import diplrad.constants.LogMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
+import diplrad.helpers.DigitalSignatureHelper;
 import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.blockchain.BlockChainTcpClientHelper;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.tcp.TcpServer;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+import java.security.Security;
+import java.time.LocalDateTime;
+
+import static diplrad.helpers.ArgsProcessHelper.*;
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.models.peer.PeersSingleton.ownPeer;
 
 public class PeerMain {
 
-    private static Gson gson = new GsonBuilder().create();
+    private static final Gson gson = new GsonBuilder().create();
 
     public static void main(String[] args) {
 
-        try {
-            String tcpPortString = args[0];
-            TcpServer.tcpServerPort = Integer.parseInt(tcpPortString);
-        } catch (Exception e) {
-            System.out.println(LogMessages.tcpServerPortArgumentFailMessage);
-            System.exit(1);
-        }
+        initializeTcpServer(args);
+        String privateKeyPem = initializePrivateKeyPem(args);
+        String publicKeyPem = initializePublicKeyPem(args);
 
         try {
+
+            Security.addProvider(new BouncyCastleProvider());
 
             HttpSender httpSender = new HttpSender();
             ownPeer = PeerHttpHelper.createOwnPeer(httpSender);
@@ -45,13 +50,23 @@ public class PeerMain {
             BlockChainTcpClientHelper.createTcpClientsAndSendConnects(gson, ownPeer);
             System.out.printf((LogMessages.receivedInitialBlockChain) + "%n", gson.toJson(VotingBlockChainSingleton.getInstance()));
 
-        } catch (IpException | ParseException | HttpException | TcpException | CryptographyException e) {
-            handleFatalException(e);
-        }
+            AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
+            while (LocalDateTime.now().isBefore(Constants.VOTING_END_DATE_TIME)) {
+                azureMessageQueueClient.receiveAndHandleQueueMessage();
+            }
 
-        AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
-        while (true) {
-            azureMessageQueueClient.receiveAndHandleQueueMessage();
+            System.out.println(LogMessages.votingTimeEnd);
+            Thread.sleep(Constants.VOTING_STABILIZE_MINUTES * 60 * 1000);
+            System.out.println(LogMessages.voteProcessingTimeEnd);
+
+            var finalBlockChain = VotingBlockChainSingleton.getInstance();
+            var signedFinalBlockChain = DigitalSignatureHelper.signBlockChain(finalBlockChain, privateKeyPem);
+            httpSender.createBlockChain(finalBlockChain, signedFinalBlockChain, publicKeyPem);
+            System.out.println(LogMessages.sentBlockChainToApi);
+            System.exit(0);
+
+        } catch (IpException | ParseException | HttpException | TcpException | CryptographyException | InterruptedException e) {
+            handleFatalException(e);
         }
 
     }
