@@ -11,6 +11,9 @@ import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.tcp.TcpServer;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import java.security.Security;
 
 import static diplrad.helpers.ExceptionHandler.handleFatalException;
 import static diplrad.models.peer.PeersSingleton.ownPeer;
@@ -30,6 +33,8 @@ public class PeerMain {
         }
 
         try {
+
+            Security.addProvider(new BouncyCastleProvider());
 
             HttpSender httpSender = new HttpSender();
             ownPeer = PeerHttpHelper.createOwnPeer(httpSender);
