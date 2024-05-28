@@ -72,6 +72,54 @@ public class BlockChainResultServiceTests
         await f.Should().ThrowAsync<VotingResultUnacceptableException>().WithMessage("Due to a too big number of incorrect blockchains, the results are not acceptable.");
     }
 
+    [Fact]
+    public async Task GetVotingResultAsync_WhenLargestGroupContainsInvalidCandidate_ThrowVotingResultUnacceptableException()
+    {
+        // Arrange
+        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Not a candidate", "Not a candidate", "Nikola Tesla"));
+
+        // Act
+        var f = async () => { await _sut.GetVotingResultAsync(); };
+
+        // Assert
+        await f.Should().ThrowAsync<VotingResultUnacceptableException>().WithMessage("Voting results are invalid because they contain invalid candidates.");
+    }
+
+    [Fact]
+    public async Task GetVotingResultAsync_WhenOk_ReturnResult()
+    {
+        // Arrange
+        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetOkMockBlockChains());
+
+        // Act
+        var actual = await _sut.GetVotingResultAsync();
+
+        // Assert
+        actual.NumberOfVotes.Should().Be(3);
+        actual.NumberOfVotesPerCandidate!["Marie Curie"].Should().Be(1);
+        actual.NumberOfVotesPerCandidate["Nikola Tesla"].Should().Be(1);
+        actual.NumberOfVotesPerCandidate["Ada Lovelace"].Should().Be(1);
+    }
+
+    [Fact]
+    public async Task GetVotingResultAsync_WhenOkWithOneNotOk_ReturnResult()
+    {
+        // Arrange
+        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Not a candidate", "Marie Curie", "Marie Curie"));
+
+        // Act
+        var actual = await _sut.GetVotingResultAsync();
+
+        // Assert
+        actual.NumberOfVotes.Should().Be(3);
+        actual.NumberOfVotesPerCandidate!["Marie Curie"].Should().Be(1);
+        actual.NumberOfVotesPerCandidate["Nikola Tesla"].Should().Be(1);
+        actual.NumberOfVotesPerCandidate["Ada Lovelace"].Should().Be(1);
+    }
+
     private List<BlockChain> GetOkMockBlockChains()
     {
         return new List<BlockChain>
@@ -99,6 +147,14 @@ public class BlockChainResultServiceTests
             Candidates = ["Stephen Hawking", "Marie Curie", "Albert Einstein", "Ada Lovelace", "Nikola Tesla", "Alan Turing"],
             Blocks = new List<BlockDto>
             {
+                new BlockDto
+                {
+                    Nonce = 1,
+                    TimeStamp = 1,
+                    Data = "Genesis block",
+                    PreviousHash = "previous hash",
+                    Hash = "hash"
+                },
                 new BlockDto
                 {
                     Nonce = 1,
@@ -134,6 +190,14 @@ public class BlockChainResultServiceTests
             Candidates = ["Stephen Hawking", "Marie Curie", "Albert Einstein", "Ada Lovelace", "Nikola Tesla", "Alan Turing"],
             Blocks = new List<BlockDto>
             {
+                new BlockDto
+                {
+                    Nonce = 1,
+                    TimeStamp = 1,
+                    Data = "Genesis block",
+                    PreviousHash = "previous hash",
+                    Hash = "hash"
+                },
                 new BlockDto
                 {
                     Nonce = 1,

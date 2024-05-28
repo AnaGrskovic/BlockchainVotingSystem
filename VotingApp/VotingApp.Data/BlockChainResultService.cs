@@ -118,7 +118,7 @@ public class BlockChainResultService : IBlockChainResultService
             numberOfVotesPerCandidate[block.Data]++;
         }
 
-        int totalNumberOfVotes = blockChain.Blocks.Length - 1;
+        int totalNumberOfVotes = blocks.Count() - 1;
 
         return new VotingResultDto(totalNumberOfVotes, numberOfVotesPerCandidate);
     }
