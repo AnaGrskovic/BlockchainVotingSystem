@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Text.Json;
 using VotingApp.Contracts.Dtos;
 using VotingApp.Contracts.Entities;
@@ -114,7 +113,17 @@ public class BlockChainService : IBlockChainService
         IEnumerable<BlockDto> blocks = JsonSerializer.Deserialize<IEnumerable<BlockDto>>(blockChain.Blocks)
             ?? throw new UnsuccessfulSerializationException("Unable to deserialize the blockchain.");
 
+        foreach (BlockDto block in blocks.ToList().GetRange(1, blocks.Count() - 1))
+        {
+            if (!numberOfVotesPerCandidate.ContainsKey(block.Data))
+            {
+                throw new VotingResultUnacceptableException("Voting results are invalid because they contain invalid candidates.");
+            }
+            numberOfVotesPerCandidate[block.Data]++;
+        }
 
-        throw new NotImplementedException();
+        int totalNumberOfVotes = blockChain.Blocks.Length - 1;
+
+        return new VotingResultDto(totalNumberOfVotes, numberOfVotesPerCandidate);
     }
 }
