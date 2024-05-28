@@ -1,11 +1,8 @@
 package diplrad.http;
 
-import diplrad.constants.Constants;
-import diplrad.constants.LogMessages;
 import diplrad.exceptions.HttpException;
 import diplrad.exceptions.IpException;
 import diplrad.exceptions.ParseException;
-import diplrad.http.HttpSender;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeerRequest;
 import diplrad.models.peer.PeersSingleton;

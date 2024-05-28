@@ -35,5 +35,6 @@ public class ErrorMessages {
     public static final String cryptographyPropertiesNotLoadedErrorMessage = "Cryptography properties are not loaded.";
     public static final String unsuccessfulEncryptionErrorMessage = "Encryption was unsuccessful.";
     public static final String unsuccessfulDecryptionErrorMessage = "Decryption was unsuccessful.";
+    public static final String unsuccessfulDigitalSignatureErrorMessage = "Digitally signing the block chain was unsuccessful.";
 
 }

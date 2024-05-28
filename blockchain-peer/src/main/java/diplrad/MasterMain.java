@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import diplrad.constants.LogMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
+import diplrad.helpers.DigitalSignatureHelper;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
@@ -72,13 +73,17 @@ public class MasterMain {
             tcpServerThread.start();
             System.out.printf((LogMessages.startedTcpServer) + "%n", TcpServer.tcpServerPort);
 
+            AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
+            //while (true) {
+                azureMessageQueueClient.receiveAndHandleQueueMessage();
+            //}
+
+            var finalBlockChain = VotingBlockChainSingleton.getInstance();
+            var signedFinalBlockChain = DigitalSignatureHelper.signBlockChain(finalBlockChain, privateKeyPem, gson);
+            httpSender.createBlockChain(finalBlockChain, signedFinalBlockChain, publicKeyPem);
+
         } catch (InvalidFileException | ReadFromFileException | IpException | ParseException | HttpException | CryptographyException e) {
             handleFatalException(e);
-        }
-
-        AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
-        while (true) {
-            azureMessageQueueClient.receiveAndHandleQueueMessage();
         }
 
     }

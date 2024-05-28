@@ -1,6 +1,8 @@
 package diplrad.helpers;
 
 import com.google.gson.Gson;
+import diplrad.constants.ErrorMessages;
+import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.IpException;
 import diplrad.models.blockchain.BlockChain;
 import org.bouncycastle.util.io.pem.PemObject;
@@ -15,10 +17,14 @@ import java.util.Base64;
 
 public class DigitalSignatureHelper {
 
-    public static String signBlockChain(BlockChain blockChain, String privateKeyPem, Gson gson) throws Exception {
-        var serializedBlockChain = gson.toJson(blockChain);
-        PrivateKey privateKey = getPrivateKeyFromPem(privateKeyPem);
-        return signMessage(privateKey, serializedBlockChain);
+    public static String signBlockChain(BlockChain blockChain, String privateKeyPem, Gson gson) throws CryptographyException {
+        try {
+            var serializedBlockChain = gson.toJson(blockChain);
+            PrivateKey privateKey = getPrivateKeyFromPem(privateKeyPem);
+            return signMessage(privateKey, serializedBlockChain);
+        } catch (Exception e) {
+            throw new CryptographyException(ErrorMessages.unsuccessfulDigitalSignatureErrorMessage);
+        }
     }
 
     private static PrivateKey getPrivateKeyFromPem(String pem) throws Exception {
