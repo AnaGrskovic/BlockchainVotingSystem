@@ -3,4 +3,5 @@
 public interface ITimeService
 {
     bool IsBlockChainCalculationTime();
+    bool CanResultsBeShown();
 }

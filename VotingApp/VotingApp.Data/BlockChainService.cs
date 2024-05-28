@@ -12,12 +12,16 @@ namespace VotingApp.Services;
 public class BlockChainService : IBlockChainService
 {
     private readonly IUnitOfWork _uow;
+    private readonly ITimeService _timeService;
+    private readonly IBackupService _backupService;
     private readonly ThresholdsSettings _thresholdsSettings;
     private readonly CandidatesSettings _candidatesSettings;
 
-    public BlockChainService(IUnitOfWork uow, IOptions<ThresholdsSettings> thresholdsSettings, IOptions<CandidatesSettings> candidatesSettings)
+    public BlockChainService(IUnitOfWork uow, ITimeService timeService, IBackupService backupService, IOptions<ThresholdsSettings> thresholdsSettings, IOptions<CandidatesSettings> candidatesSettings)
     {
         _uow = uow;
+        _timeService = timeService;
+        _backupService = backupService;
         _thresholdsSettings = thresholdsSettings.Value;
         _candidatesSettings = candidatesSettings.Value;
     }
@@ -31,7 +35,11 @@ public class BlockChainService : IBlockChainService
 
     public async Task<VotingResultDto> GetVotingResultAsync()
     { 
-        // TODO if before threshold just return number
+        if (!_timeService.CanResultsBeShown())
+        {
+            var estimatedTotalNumberOfVotes = await _backupService.GetCountAsync();
+            return new VotingResultDto(estimatedTotalNumberOfVotes);
+        }
 
         List<BlockChain> blockChains = await GetAllAsync();
 
