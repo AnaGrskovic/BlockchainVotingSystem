@@ -24,6 +24,7 @@ public class LogMessages {
     public static final String blockChainSentMessage = "Sent block chain to peers.";
     public static final String blockChainSendFailMessage = "Unable to send block chain to peers.";
     public static final String tcpServerPortArgumentFailMessage = "The first argument must be the TCP port.";
+    public static final String privateKeyPemArgumentFailMessage = "The second argument must be the path to the private key PEM file.";
     public static final String ignoreMessageThatCannotBeDecryptedMessage = "The received message cannot be decrypted. Ignoring it because it could be sent by an attacker.";
 
 }
