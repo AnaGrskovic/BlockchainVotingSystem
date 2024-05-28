@@ -20,8 +20,6 @@ public class BlockChain
 
     public bool Equals(BlockChain other)
     {
-        return other != null &&
-               Id.Equals(other.Id) &&
-               Blocks == other.Blocks;
+        return other != null && Blocks.Equals(other.Blocks);
     }
 }
