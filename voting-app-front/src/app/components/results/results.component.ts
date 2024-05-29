@@ -3,6 +3,15 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
 
+interface NumberOfVotesPerCandidate {
+  [key: string]: number;
+}
+
+interface VotingResult {
+  numberOfVotes: number;
+  numberOfVotesPerCandidate: NumberOfVotesPerCandidate;
+}
+
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
@@ -37,12 +46,6 @@ export class ResultsComponent implements OnInit {
   }
 
   createChart(): void {
-
-    //var ctx = document.getElementById('MyChart'); // node
-    // var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
-    // var ctx = $('#myChart'); // jQuery instance
-    // var ctx = 'myChart'; // element id
-
     this.chart = new Chart("MyChart", {
       type: 'bar',
       data: {
