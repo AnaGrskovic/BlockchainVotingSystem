@@ -60,11 +60,6 @@
             <version>${azure.identity.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
-        </dependency>
     </dependencies>
 
 </project>
