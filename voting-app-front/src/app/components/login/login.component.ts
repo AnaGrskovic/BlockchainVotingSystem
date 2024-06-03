@@ -31,7 +31,11 @@ export class LoginComponent {
         },
         error: (error) => {
           console.error('Error during login:', error);
-          this.snackBar.open('Login failed.', 'Close', { duration: 3000 });
+          if (error.status === 403) {
+            this.snackBar.open('Login failed because it is not currently voting time.', 'Close', { duration: 5000 });
+          } else {
+            this.snackBar.open('Login failed.', 'Close', { duration: 3000 });
+          }
           this.isLoading = false;
         }
       });
