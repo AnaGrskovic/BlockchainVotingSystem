@@ -1,4 +1,6 @@
-<p>results works!</p>
-
-<div class="chart-container">
+<div *ngIf="voteData">
+    <p>Number of Votes: {{ voteData.numberOfVotes }}</p>
+    <div *ngFor="let candidate of voteData.numberOfVotesPerCandidate | keyvalue">
+      <p>{{ candidate.key }}: {{ candidate.value }}</p>
+    </div>
 </div>

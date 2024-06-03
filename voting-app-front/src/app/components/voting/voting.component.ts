@@ -36,6 +36,7 @@ export class VotingComponent implements OnInit {
     const url = 'https://localhost:44328/api/candidates';
     this.http.get<string[]>(url).subscribe({
       next: (response) => {
+        console.log('Candidates fetched successfully:', response);
         this.candidates = response;
         this.isLoading = false;
       },
