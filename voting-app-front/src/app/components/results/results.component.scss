@@ -1,11 +1,8 @@
-$Largura-Barra: 80px;
-$MaxHeight: 500px;
-
 .graph .content{
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: $MaxHeight;
+    height: 300px;
 }
 
 .graph .content span{
@@ -32,7 +29,7 @@ $MaxHeight: 500px;
 }
 
 .graph .legends span{
-    width: $Largura-Barra;
+    width: 100%;
     margin:0 15px;
 }
 
@@ -42,10 +39,11 @@ $MaxHeight: 500px;
     align-items: center;
     justify-content: flex-end;
     height: 100%;
+    width: 100%;
 }
 
 .graph .bar{
-    width: $Largura-Barra;
+    width: 90%;
     min-height: 2px;
     margin:0 15px;
     border-top-left-radius: 7px;

@@ -60,14 +60,10 @@ export class ResultsComponent implements OnInit {
     }
 
     this.graphData.forEach(element => {
-      element.Size = Math.round((element.Value * this.maxHeight) / this.total) + '%';
-    });
-
-    this.graphData.forEach(element => {
       this.total += element.Value;
     });
     this.graphData.forEach(element => {
-      element.Size = Math.round((element.Value * this.maxHeight) / this.total) + '%';
+      element.Size = Math.round((element.Value * this.maxHeight) * 2/ this.total) + '%';
     });
   }
 
