@@ -42,7 +42,8 @@ public class ExceptionHandlerMiddleware
             AuthProviderException or
             InvalidSettingsException or 
             VotingResultUnacceptableException or
-            UnsuccessfulSerializationException =>
+            UnsuccessfulSerializationException or
+            TimeSettingsInvalidException =>
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
         };
