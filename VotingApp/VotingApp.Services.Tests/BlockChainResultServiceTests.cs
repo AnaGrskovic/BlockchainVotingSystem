@@ -60,7 +60,7 @@ public class BlockChainResultServiceTests
     {
         // Arrange
         _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
-        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(true);
+        _timeServiceMock.Setup(x => x.IsAfterStabilizationTime()).Returns(false);
         _backupServiceMock.Setup(x => x.GetCountAsync()).ReturnsAsync(100);
 
         // Act
@@ -76,7 +76,7 @@ public class BlockChainResultServiceTests
     {
         // Arrange
         _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
-        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsAfterStabilizationTime()).Returns(true);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Stephen Hawking", "Alan Turing", "Nikola Tesla"));
 
         // Act
@@ -91,7 +91,7 @@ public class BlockChainResultServiceTests
     {
         // Arrange
         _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
-        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsAfterStabilizationTime()).Returns(true);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Not a candidate", "Not a candidate", "Nikola Tesla"));
 
         // Act
@@ -106,7 +106,7 @@ public class BlockChainResultServiceTests
     {
         // Arrange
         _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
-        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsAfterStabilizationTime()).Returns(true);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetOkMockBlockChains());
 
         // Act
@@ -124,7 +124,7 @@ public class BlockChainResultServiceTests
     {
         // Arrange
         _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
-        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsAfterStabilizationTime()).Returns(true);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Not a candidate", "Marie Curie", "Marie Curie"));
 
         // Act

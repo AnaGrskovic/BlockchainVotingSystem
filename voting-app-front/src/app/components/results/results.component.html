@@ -1,7 +1,7 @@
 <div class="container" *ngIf="voteData">
     <div class="graph" *ngIf="voteData && voteData.numberOfVotes">
         <div class="total-votes">
-            Total Votes: {{ total }}
+            Total Votes: {{ voteData.numberOfVotes }}
           </div>
         <div class="content" *ngIf="voteData && voteData.numberOfVotes && voteData.numberOfVotesPerCandidate">
             <div class="bars" *ngFor="let item of graphData">

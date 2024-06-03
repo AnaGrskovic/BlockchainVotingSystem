@@ -6,4 +6,5 @@ public class TimeSettings
 
     public DateTime BlockChainCalculationStartTime { get; set; } = default!;
     public DateTime BlockChainCalculationEndTime { get; set; } = default!;
+    public DateTime BlockChainStabilizationEndTime { get; set; } = default!;
 }

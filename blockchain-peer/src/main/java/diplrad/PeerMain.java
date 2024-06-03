@@ -50,6 +50,11 @@ public class PeerMain {
             BlockChainTcpClientHelper.createTcpClientsAndSendConnects(gson, ownPeer);
             System.out.printf((LogMessages.receivedInitialBlockChain) + "%n", gson.toJson(VotingBlockChainSingleton.getInstance()));
 
+            while (LocalDateTime.now().isBefore(Constants.VOTING_START_DATE_TIME)) {
+                Thread.sleep(1000);
+            }
+            System.out.println(LogMessages.votingTimeStart);
+
             AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
             while (LocalDateTime.now().isBefore(Constants.VOTING_END_DATE_TIME)) {
                 azureMessageQueueClient.receiveAndHandleQueueMessage();

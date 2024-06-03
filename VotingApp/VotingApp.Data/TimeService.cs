@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using VotingApp.Contracts.Exceptions;
 using VotingApp.Contracts.Services;
 using VotingApp.Contracts.Settings;
 
@@ -15,19 +16,37 @@ public class TimeService : ITimeService
 
     public bool IsBeforeVotingTime()
     {
+        CheckTimes();
         var currentDateTime = DateTime.Now;
-        return currentDateTime < _settings.BlockChainCalculationStartTime && currentDateTime < _settings.BlockChainCalculationEndTime;
+        return currentDateTime < _settings.BlockChainCalculationStartTime && currentDateTime < _settings.BlockChainCalculationEndTime && currentDateTime < _settings.BlockChainStabilizationEndTime;
     }
 
     public bool IsDuringVotingTime()
     {
+        CheckTimes();
         var currentDateTime = DateTime.Now;
-        return _settings.BlockChainCalculationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCalculationEndTime;
+        return _settings.BlockChainCalculationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCalculationEndTime && currentDateTime < _settings.BlockChainStabilizationEndTime;
     }
 
     public bool IsAfterVotingTime()
     {
+        CheckTimes();
         var currentDateTime = DateTime.Now;
         return _settings.BlockChainCalculationStartTime < currentDateTime && _settings.BlockChainCalculationEndTime < currentDateTime;
+    }
+
+    public bool IsAfterStabilizationTime()
+    {
+        CheckTimes();
+        var currentDateTime = DateTime.Now;
+        return _settings.BlockChainCalculationStartTime < currentDateTime && _settings.BlockChainCalculationEndTime < currentDateTime && _settings.BlockChainStabilizationEndTime < currentDateTime;
+    }
+
+    private void CheckTimes()
+    {
+        if (_settings.BlockChainCalculationStartTime >= _settings.BlockChainCalculationEndTime || _settings.BlockChainCalculationEndTime >= _settings.BlockChainStabilizationEndTime)
+        {
+            throw new TimeSettingsInvalidException("Time stamps in the settings are invalid.");
+        }
     }
 }
