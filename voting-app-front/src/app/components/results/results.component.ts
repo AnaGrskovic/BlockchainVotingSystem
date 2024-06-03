@@ -2,15 +2,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js';
-
-interface NumberOfVotesPerCandidate {
-  [key: string]: number;
-}
-
-interface VotingResult {
-  numberOfVotes: number;
-  numberOfVotesPerCandidate: NumberOfVotesPerCandidate;
-}
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-results',
@@ -21,12 +13,12 @@ export class ResultsComponent implements OnInit {
   isLoading: boolean = false;
   public chart: any;
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.fetchResults();
-      //this.createChart();
+      this.createChart();
     }
   }
 
@@ -40,6 +32,7 @@ export class ResultsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching results:', error);
+        this.snackBar.open('Fetching results failed.', 'Close', { duration: 3000 });
         this.isLoading = false;
       }
     });
