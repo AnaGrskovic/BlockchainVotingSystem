@@ -15,4 +15,8 @@ public class VotingResultDto
     {
         NumberOfVotes = numberOfVotes;
     }
+
+    public VotingResultDto()
+    {
+    }
 }

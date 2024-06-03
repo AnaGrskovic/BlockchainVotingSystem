@@ -2,6 +2,7 @@
 
 public interface ITimeService
 {
-    bool IsBlockChainCalculationTime();
-    bool CanResultsBeShown();
+    bool IsBeforeVotingTime();
+    bool IsDuringVotingTime();
+    bool IsAfterVotingTime();
 }

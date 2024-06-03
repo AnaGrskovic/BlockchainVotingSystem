@@ -13,13 +13,19 @@ public class TimeService : ITimeService
         _settings = settings.Value;
     }
 
-    public bool IsBlockChainCalculationTime()
+    public bool IsBeforeVotingTime()
+    {
+        var currentDateTime = DateTime.Now;
+        return currentDateTime < _settings.BlockChainCalculationStartTime && currentDateTime < _settings.BlockChainCalculationEndTime;
+    }
+
+    public bool IsDuringVotingTime()
     {
         var currentDateTime = DateTime.Now;
         return _settings.BlockChainCalculationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCalculationEndTime;
     }
 
-    public bool CanResultsBeShown()
+    public bool IsAfterVotingTime()
     {
         var currentDateTime = DateTime.Now;
         return _settings.BlockChainCalculationStartTime < currentDateTime && _settings.BlockChainCalculationEndTime < currentDateTime;
