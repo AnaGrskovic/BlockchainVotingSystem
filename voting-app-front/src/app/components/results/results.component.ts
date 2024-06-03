@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, Input, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GraphModel } from "../../models/graph.model";
 
 @Component({
   selector: 'app-results',
@@ -10,7 +11,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ResultsComponent implements OnInit {
   voteData: any;
+  graphData: Array<GraphModel> = [];
   isLoading: boolean = false;
+
+  total = 0;
+  maxHeight = 160;
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -27,6 +32,7 @@ export class ResultsComponent implements OnInit {
       next: (response) => {
         console.log('Results fetched successfully:', response);
         this.voteData = response;
+        this.setGraphData(this.voteData.numberOfVotesPerCandidate);
         this.isLoading = false;
       },
       error: (error) => {
@@ -37,4 +43,40 @@ export class ResultsComponent implements OnInit {
     });
   }
 
+  setGraphData(voteData: any): void {
+    this.graphData = [];
+    this.total = 0;
+
+    for (const candidate in voteData) {
+      if (voteData.hasOwnProperty(candidate)) {
+        this.graphData.push({
+          Value: voteData[candidate],
+          Color: this.getRandomColor(),
+          Size: '',
+          Legend: candidate
+        });
+        this.total += voteData[candidate];
+      }
+    }
+
+    this.graphData.forEach(element => {
+      element.Size = Math.round((element.Value * this.maxHeight) / this.total) + '%';
+    });
+
+    this.graphData.forEach(element => {
+      this.total += element.Value;
+    });
+    this.graphData.forEach(element => {
+      element.Size = Math.round((element.Value * this.maxHeight) / this.total) + '%';
+    });
+  }
+
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 }

@@ -1,6 +1,12 @@
-<div *ngIf="voteData">
-    <p>Number of Votes: {{ voteData.numberOfVotes }}</p>
-    <div *ngFor="let candidate of voteData.numberOfVotesPerCandidate | keyvalue">
-      <p>{{ candidate.key }}: {{ candidate.value }}</p>
+<div class="graph">
+    <div class="content">
+        <div class="bars" *ngFor="let item of graphData">
+            <span>{{item.Value}}</span>
+            <div class="bar" [style.background-color]="item.Color" [style.height]='item.Size'></div>
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="legends">
+        <span *ngFor="let item of graphData">{{item.Legend}}</span>
     </div>
 </div>

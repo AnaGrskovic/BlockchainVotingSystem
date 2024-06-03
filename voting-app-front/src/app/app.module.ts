@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BaseChartDirective  } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,8 +28,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MatProgressSpinnerModule,
-    BaseChartDirective 
+    MatProgressSpinnerModule
   ],
   providers: [
     provideClientHydration(),
