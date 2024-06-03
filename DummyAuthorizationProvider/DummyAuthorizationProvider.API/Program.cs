@@ -1,5 +1,6 @@
 using DummyAuthorizationProvider.API.Middleware;
 using DummyAuthorizationProvider.Contracts.Services;
+using DummyAuthorizationProvider.Contracts.Settings;
 using DummyAuthorizationProvider.Contracts.UoW;
 using DummyAuthorizationProvider.Data.Db.Context;
 using DummyAuthorizationProvider.Data.Db.UoW;
@@ -19,8 +20,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<TimeSettings>(builder.Configuration.GetSection(TimeSettings.Section));
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+builder.Services.AddScoped<ITimeService, TimeService>();
 
 builder.Services.AddCors(options =>
 {
