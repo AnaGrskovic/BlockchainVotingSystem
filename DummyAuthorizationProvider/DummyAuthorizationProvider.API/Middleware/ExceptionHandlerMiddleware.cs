@@ -36,6 +36,8 @@ public class ExceptionHandlerMiddleware
             TokenNotPresentException or
             TokenNotValidException =>
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
+            NotVotingTimeException =>
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden,
             EntityNotFoundException =>
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound,
             _ => context.Response.StatusCode = (int)HttpStatusCode.InternalServerError
