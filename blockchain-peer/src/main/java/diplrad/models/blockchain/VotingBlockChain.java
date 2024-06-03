@@ -11,7 +11,7 @@ public class VotingBlockChain extends BlockChain {
     @Expose
     private List<String> candidates;
 
-    VotingBlockChain(List<String> candidates) {
+    public VotingBlockChain(List<String> candidates) {
         super();
         this.candidates = candidates;
     }

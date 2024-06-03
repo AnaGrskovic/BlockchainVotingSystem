@@ -12,7 +12,7 @@ public class VoteMocker {
         List<String> candidates = blockchain.getCandidates();
         Block block = new Block(getRandomCandidate(candidates), blockchain.getLastBlockHash());
         blockchain.mineBlock(block);
-        System.out.printf((LogMessages.voteAddedMessage) + "%n", block.getData());
+        System.out.printf((LogMessages.generatedVoteAddedMessage) + "%n", block.getData());
     }
 
     private static String getRandomCandidate(List<String> candidates) {

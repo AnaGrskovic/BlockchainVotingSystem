@@ -27,6 +27,14 @@ public class ErrorMessages {
     // HttpException
     public static final String unsuccessfulHttpRequestErrorMessage = "Sending HTTP request was unsuccessful.";
     public static final String incorrectUrlErrorMessage = "Url is incorrect.";
-    public static final String sendHttpRequestErrorMessage = "Unable to send HTTP request.";
+    public static final String sendHttpRequestErrorMessage = "Unable to send HTTP request to %s.";
+    public static final String invalidTokenErrorMessage = "The token is invalid.";
+    public static final String unauthorizedBlockChainCreationErrorMessage = "Unauthorized to create block chain. Maybe your digital signature private key is invalid, maybe you already created a block chain and maybe you are not currently allowed to create a block chain.";
+
+    // CryptographyException
+    public static final String cryptographyPropertiesNotLoadedErrorMessage = "Cryptography properties are not loaded.";
+    public static final String unsuccessfulEncryptionErrorMessage = "Encryption was unsuccessful.";
+    public static final String unsuccessfulDecryptionErrorMessage = "Decryption was unsuccessful.";
+    public static final String unsuccessfulDigitalSignatureErrorMessage = "Digitally signing the block chain was unsuccessful.";
 
 }

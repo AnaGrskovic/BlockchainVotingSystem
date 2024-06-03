@@ -2,5 +2,5 @@
 
 public interface IMessageQueueService
 {
-    Task SendMessage(String message);
+    Task SendMessageAsync(string message);
 }

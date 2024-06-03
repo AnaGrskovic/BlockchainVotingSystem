@@ -23,6 +23,7 @@ import static diplrad.http.PeerHttpHelper.tryCreateHttpClientAndDeleteOwnPeer;
 public class TcpServer {
 
     private ServerSocket serverSocket;
+    public static int tcpServerPort;
 
     public void start(int port) throws TcpException {
         Gson gson = new GsonBuilder().create();
@@ -82,7 +83,6 @@ public class TcpServer {
 
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.printf((LogMessages.receivedTcpMessage) + "%n", inputLine);
                     for (ITcpMessageObserver observer : observers) {
                         String observerResponse = observer.messageReceived(inputLine);
                         if (observerResponse != null) {
@@ -105,7 +105,7 @@ public class TcpServer {
         public void run() {
             server = new TcpServer();
             try {
-                server.start(Constants.TCP_SERVER_PORT);
+                server.start(tcpServerPort);
             } catch (TcpException e) {
                 System.out.println(e.getMessage());
                 try {

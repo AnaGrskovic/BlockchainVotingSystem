@@ -8,5 +8,6 @@ public class ResponseMessages {
     public static final String incompatibleBlockChainLastBlockMessage = "Received block chain's last block was added after current instance's last block.";
     public static final String receivedBlockChainTooSmallMessage = "Received block chain is too small.";
     public static final String receivedBlockChainTooBigMessage = "Received block chain is too big.";
+    public static final String ignoreMessage = "Ignore.";
 
 }

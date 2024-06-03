@@ -9,6 +9,7 @@ namespace VotingApp.Services;
 public class AzureMessageQueueService : IMessageQueueService
 {
     private readonly QueueClient _queueClient;
+
     public AzureMessageQueueService(IOptions<AzureStorageSettings> settings)
     {
         _queueClient = new QueueClient(
@@ -16,7 +17,7 @@ public class AzureMessageQueueService : IMessageQueueService
             new DefaultAzureCredential());
     }
 
-    public async Task SendMessage(string message)
+    public async Task SendMessageAsync(string message)
     {
         await _queueClient.SendMessageAsync(message);
     }

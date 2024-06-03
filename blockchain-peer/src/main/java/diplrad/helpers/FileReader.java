@@ -15,6 +15,16 @@ import java.util.Set;
 
 public class FileReader {
 
+    public static String readFile(String filePath) throws ReadFromFileException {
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new ReadFromFileException(ErrorMessages.readFromFileErrorMessage);
+        }
+        return String.join("\n", lines);
+    }
+
     public static List<String> readCandidatesFromFile() throws InvalidFileException, ReadFromFileException {
         return readPeopleFromFile(Constants.CANDIDATES_FILE_PATH);
     }
@@ -24,20 +34,20 @@ public class FileReader {
     }
 
     private static List<String> readPeopleFromFile(String filePath) throws ReadFromFileException, InvalidFileException {
-        List<String> candidates = null;
+        List<String> people = null;
         try {
-            candidates = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
+            people = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new ReadFromFileException(ErrorMessages.readFromFileErrorMessage);
         }
 
-        Set<String> candidatesUnique = new HashSet<>(candidates);
+        Set<String> candidatesUnique = new HashSet<>(people);
 
-        if (candidates.size() != candidatesUnique.size()) {
+        if (people.size() != candidatesUnique.size()) {
             throw new InvalidFileException(ErrorMessages.duplicateEntriesInFileErrorMessage);
         }
 
-        return candidates;
+        return people;
     }
 
 }

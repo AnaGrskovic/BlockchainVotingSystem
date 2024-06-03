@@ -384,3 +384,7 @@ MigrationBackup/
 # Azure
 .azure/
 
+# Sensitive information
+application.properties
+
+

@@ -3,20 +3,12 @@ package diplrad.models.blockchain;
 import diplrad.constants.Constants;
 import org.junit.Test;
 
+import static diplrad.mocks.BlockChainMocks.setUpBlockChain;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BlockChainTest {
-
-    public static BlockChain setUpBlockChain()  {
-        BlockChain blockChain = new BlockChain();
-        Block firstBlock = new Block("The is the First Block.", blockChain.getLastBlockHash());
-        blockChain.mineBlock(firstBlock);
-        Block secondBlock = new Block("The is a Second Block.", blockChain.getLastBlockHash());
-        blockChain.mineBlock(secondBlock);
-        return blockChain;
-    }
 
     @Test
     public void givenBlockChain_whenNewBlockIsMined_thenItsHashBeginsWithPrefixString() {

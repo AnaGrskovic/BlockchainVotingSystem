@@ -1,0 +1,21 @@
+<div class="container" *ngIf="voteData">
+    <div class="graph" *ngIf="voteData && voteData.numberOfVotes">
+        <div class="total-votes">
+            Total Votes: {{ voteData.numberOfVotes }}
+          </div>
+        <div class="content" *ngIf="voteData && voteData.numberOfVotes && voteData.numberOfVotesPerCandidate">
+            <div class="bars" *ngFor="let item of graphData">
+                <span>{{item.Value}}</span>
+                <div class="bar" [style.background-color]="item.Color" [style.height]='item.Size'></div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="legends">
+            <span *ngFor="let item of graphData">{{item.Legend}}</span>
+        </div>
+    </div>
+    <div class="total-votes" *ngIf="voteData && !voteData.numberOfVotes">
+        Voting hasn't stated yet.
+    </div>
+</div>
+

@@ -5,6 +5,8 @@ import diplrad.constants.Constants;
 import diplrad.constants.ErrorMessages;
 import diplrad.constants.LogMessages;
 import diplrad.constants.ResponseMessages;
+import diplrad.cryptography.CryptographyHelper;
+import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.TcpException;
 import diplrad.models.blockchain.VotingBlockChain;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
@@ -21,7 +23,17 @@ public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
     }
 
     @Override
-    public String messageReceived(String message) throws TcpException {
+    public String messageReceived(String encryptedMessage) throws TcpException {
+
+        String message = null;
+        try {
+            message = CryptographyHelper.decrypt(encryptedMessage);
+        } catch (CryptographyException e) {
+            System.out.println(LogMessages.ignoreMessageThatCannotBeDecryptedMessage);
+            return ResponseMessages.ignoreMessage;
+        }
+
+        System.out.printf((LogMessages.receivedTcpMessage) + "%n", message);
 
         String[] messageParts = message.split(" ");
         if (messageParts.length == 2) {
@@ -54,57 +66,62 @@ public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
         return ResponseMessages.okMessage;
     }
 
-    public String blockChainMessageReceived(VotingBlockChain blockchain) {
+    public String blockChainMessageReceived(VotingBlockChain incomingBlockchain) {
 
         // we are overriding our current instance with the received one if it is valid
         // and contains exactly one block more than our current instance
         // or if it is the same length as our current instance, but the last block was added before the last block of our current instance
 
-        if (!blockchain.validate()) {
+        if (!incomingBlockchain.validate()) {
             System.out.println(LogMessages.invalidBlockChainReceivedMessage);
             return ResponseMessages.invalidBlockChainReceivedMessage;
         }
 
-        int currentBlockChainSize;
-        if (VotingBlockChainSingleton.getInstance() == null) {
-            currentBlockChainSize = 0;
-        } else {
-            currentBlockChainSize = VotingBlockChainSingleton.getInstance().size();
-        }
-        int incomingBlockChainSize = blockchain.size();
+        synchronized (VotingBlockChainSingleton.lock) {
 
-        if (currentBlockChainSize == 0 || currentBlockChainSize == 1) {
-            VotingBlockChainSingleton.setInstance(blockchain);
-            System.out.println(LogMessages.overrideBlockChainMessage);
-            return ResponseMessages.okMessage;
-        }
+            int currentBlockChainSize;
+            VotingBlockChain currentBlockChain = VotingBlockChainSingleton.getInstance();
+            if (currentBlockChain == null) {
+                currentBlockChainSize = 0;
+            } else {
+                currentBlockChainSize = currentBlockChain.size();
+            }
+            int incomingBlockChainSize = incomingBlockchain.size();
 
-        if (incomingBlockChainSize == currentBlockChainSize + 1) {
-            if (!blockchain.validateAgainstCurrent(VotingBlockChainSingleton.getInstance(), currentBlockChainSize)) {
-                System.out.println(LogMessages.incompatibleBlockChainMessage);
-                return ResponseMessages.incompatibleBlockChainMessage;
+            if (currentBlockChainSize == 0 || currentBlockChainSize == 1) {
+                VotingBlockChainSingleton.setInstance(incomingBlockchain);
+                System.out.println(LogMessages.overrideBlockChainMessage);
+                return ResponseMessages.okMessage;
             }
-            VotingBlockChainSingleton.setInstance(blockchain);
-            System.out.println(LogMessages.overrideBlockChainMessage);
-            return ResponseMessages.okMessage;
-        } else if (incomingBlockChainSize == currentBlockChainSize) {
-            if (!blockchain.validateAgainstCurrent(VotingBlockChainSingleton.getInstance(), currentBlockChainSize - 1)){
-                System.out.println(LogMessages.incompatibleBlockChainMessage);
-                return ResponseMessages.incompatibleBlockChainMessage;
+
+            if (incomingBlockChainSize == currentBlockChainSize + 1) {
+                if (!incomingBlockchain.validateAgainstCurrent(currentBlockChain, currentBlockChainSize)) {
+                    System.out.println(LogMessages.incompatibleBlockChainMessage);
+                    return ResponseMessages.incompatibleBlockChainMessage;
+                }
+                VotingBlockChainSingleton.setInstance(incomingBlockchain);
+                System.out.println(LogMessages.overrideBlockChainMessage);
+                return ResponseMessages.okMessage;
+            } else if (incomingBlockChainSize == currentBlockChainSize) {
+                if (!incomingBlockchain.validateAgainstCurrent(currentBlockChain, currentBlockChainSize - 1)){
+                    System.out.println(LogMessages.incompatibleBlockChainMessage);
+                    return ResponseMessages.incompatibleBlockChainMessage;
+                }
+                if (incomingBlockchain.getLastBlockTimeStamp() > currentBlockChain.getLastBlockTimeStamp()) {
+                    System.out.println(LogMessages.incompatibleBlockChainLastBlockMessage);
+                    return ResponseMessages.incompatibleBlockChainLastBlockMessage;
+                }
+                VotingBlockChainSingleton.setInstance(incomingBlockchain);
+                System.out.println(LogMessages.overrideBlockChainDiscardLastBlockMessage);
+                return ResponseMessages.okMessage;
+            } else if (incomingBlockChainSize < currentBlockChainSize) {
+                System.out.println(LogMessages.receivedBlockChainTooSmallMessage);
+                return ResponseMessages.receivedBlockChainTooSmallMessage;
+            } else {
+                System.out.println(LogMessages.receivedBlockChainTooBigMessage);
+                return ResponseMessages.receivedBlockChainTooBigMessage;
             }
-            if (blockchain.getLastBlockTimeStamp() > VotingBlockChainSingleton.getInstance().getLastBlockTimeStamp()) {
-                System.out.println(LogMessages.incompatibleBlockChainLastBlockMessage);
-                return ResponseMessages.incompatibleBlockChainLastBlockMessage;
-            }
-            VotingBlockChainSingleton.setInstance(blockchain);
-            System.out.println(LogMessages.overrideBlockChainDiscardLastBlockMessage);
-            return ResponseMessages.okMessage;
-        } else if (incomingBlockChainSize < currentBlockChainSize) {
-            System.out.println(LogMessages.receivedBlockChainTooSmallMessage);
-            return ResponseMessages.receivedBlockChainTooSmallMessage;
-        } else {
-            System.out.println(LogMessages.receivedBlockChainTooBigMessage);
-            return ResponseMessages.receivedBlockChainTooBigMessage;
+
         }
 
     }

@@ -1,17 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>9ffa42ca-59b4-412f-8d6c-e304b14942db</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VotingApp.Contracts\VotingApp.Contracts.csproj" />
+    <ProjectReference Include="..\VotingApp.Data.Db\VotingApp.Data.Db.csproj" />
     <ProjectReference Include="..\VotingApp.Data\VotingApp.Services.csproj" />
   </ItemGroup>
 

@@ -7,17 +7,21 @@ namespace VotingApp.API.Controllers;
 [Route("api/votes")]
 public class VoteController : ControllerBase
 {
-    private readonly IMessageQueueService _messageQueueService;
+    private readonly IVotingService _votingService;
 
-    public VoteController(IMessageQueueService messageQueueService)
+    public VoteController(IVotingService votingService)
     {
-        _messageQueueService = messageQueueService;
+        _votingService = votingService;
     }
 
     [HttpPost(Name = "CreateVote")]
-    public async Task<IActionResult> CreateAsync([FromBody] String vote)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> CreateAsync([FromBody] string? vote)
     {
-        await _messageQueueService.SendMessage(vote);
+        string? token = Request.Headers["Authorization"];
+        await _votingService.VoteAsync(token, vote);
         return Ok();
     }
 }
