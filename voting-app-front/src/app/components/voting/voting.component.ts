@@ -64,8 +64,8 @@ export class VotingComponent implements OnInit {
     const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.token);
     const payload = `"${this.selectedCandidate}"`;
     this.http.post<any>(url, payload, { headers }).subscribe({
-      next: (response) => {
-        console.log('Vote submitted successfully:', response);
+      next: () => {
+        console.log('Vote submitted successfully.');
         this.router.navigate(['/']);
         this.isLoading = false;
       },

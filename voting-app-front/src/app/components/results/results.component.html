@@ -1,4 +1,7 @@
 <div class="graph">
+    <div class="total-votes">
+        Total Votes: {{ total }}
+      </div>
     <div class="content">
         <div class="bars" *ngFor="let item of graphData">
             <span>{{item.Value}}</span>
