@@ -16,18 +16,24 @@ public class TimeService : ITimeService
     public bool IsBeforeVotingTime()
     {
         var currentDateTime = DateTime.Now;
-        return currentDateTime < _settings.BlockChainCalculationStartTime && currentDateTime < _settings.BlockChainCalculationEndTime;
+        return currentDateTime < _settings.BlockChainCalculationStartTime && currentDateTime < _settings.BlockChainCalculationEndTime && currentDateTime < _settings.BlockChainStabilizationEndTime;
     }
 
     public bool IsDuringVotingTime()
     {
         var currentDateTime = DateTime.Now;
-        return _settings.BlockChainCalculationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCalculationEndTime;
+        return _settings.BlockChainCalculationStartTime < currentDateTime && currentDateTime < _settings.BlockChainCalculationEndTime && currentDateTime < _settings.BlockChainStabilizationEndTime;
     }
 
     public bool IsAfterVotingTime()
     {
         var currentDateTime = DateTime.Now;
         return _settings.BlockChainCalculationStartTime < currentDateTime && _settings.BlockChainCalculationEndTime < currentDateTime;
+    }
+
+    public bool IsAfterStabilizationTime()
+    {
+        var currentDateTime = DateTime.Now;
+        return _settings.BlockChainCalculationStartTime < currentDateTime && _settings.BlockChainCalculationEndTime < currentDateTime && _settings.BlockChainStabilizationEndTime < currentDateTime;
     }
 }

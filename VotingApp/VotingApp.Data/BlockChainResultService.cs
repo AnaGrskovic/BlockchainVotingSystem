@@ -31,7 +31,7 @@ public class BlockChainResultService : IBlockChainResultService
         {
             return new VotingResultDto();
         }
-        else if (_timeService.IsDuringVotingTime())
+        else if (!_timeService.IsAfterStabilizationTime())
         {
             var estimatedTotalNumberOfVotes = await _backupService.GetCountAsync();
             return new VotingResultDto(estimatedTotalNumberOfVotes);
