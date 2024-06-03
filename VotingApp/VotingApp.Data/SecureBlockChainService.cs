@@ -19,7 +19,7 @@ public class SecureBlockChainService : ISecureBlockChainService
 
     public async Task CheckAndCreateAsync(BlockChainDto blockChainDto, string? signature, string? publicKeyPem)
     {
-        if (!_timeService.IsBlockChainCalculationTime())
+        if (!_timeService.IsDuringVotingTime())
         {
             throw new ForbiddenTimeException("It is not allowed to create blockchains now.");
         }

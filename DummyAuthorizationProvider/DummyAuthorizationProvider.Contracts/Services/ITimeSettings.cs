@@ -1,4 +1,4 @@
-﻿namespace VotingApp.Contracts.Services;
+﻿namespace DummyAuthorizationProvider.Contracts.Services;
 
 public interface ITimeService
 {

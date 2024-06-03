@@ -27,7 +27,11 @@ public class BlockChainResultService : IBlockChainResultService
 
     public async Task<VotingResultDto> GetVotingResultAsync()
     {
-        if (!_timeService.CanResultsBeShown())
+        if (_timeService.IsBeforeVotingTime())
+        {
+            return new VotingResultDto();
+        }
+        else if (_timeService.IsDuringVotingTime())
         {
             var estimatedTotalNumberOfVotes = await _backupService.GetCountAsync();
             return new VotingResultDto(estimatedTotalNumberOfVotes);

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Options;
-using VotingApp.Contracts.Services;
-using VotingApp.Contracts.Settings;
+﻿using DummyAuthorizationProvider.Contracts.Services;
+using DummyAuthorizationProvider.Contracts.Settings;
+using Microsoft.Extensions.Options;
 
-namespace VotingApp.Services;
+namespace DummyAuthorizationProvider.Services;
 
 public class TimeService : ITimeService
 {

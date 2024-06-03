@@ -6,7 +6,6 @@ using VotingApp.Contracts.Entities;
 using VotingApp.Contracts.Exceptions;
 using VotingApp.Contracts.Services;
 using VotingApp.Contracts.Settings;
-using VotingApp.Contracts.UoW;
 using Xunit;
 
 namespace VotingApp.Services.Tests;
@@ -44,10 +43,24 @@ public class BlockChainResultServiceTests
     }
 
     [Fact]
-    public async Task GetVotingResultAsync_WhenTooEarly_ReturnJustNumberOfVOtes()
+    public async Task GetVotingResultAsync_WhenBeforeVotingTIme_ReturnNull()
     {
         // Arrange
-        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(true);
+
+        // Act
+        var actual = await _sut.GetVotingResultAsync();
+
+        // Assert
+        actual.NumberOfVotes.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetVotingResultAsync_WhenDuringVotingTIme_ReturnJustNumberOfVOtes()
+    {
+        // Arrange
+        _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(true);
         _backupServiceMock.Setup(x => x.GetCountAsync()).ReturnsAsync(100);
 
         // Act
@@ -62,7 +75,8 @@ public class BlockChainResultServiceTests
     public async Task GetVotingResultAsync_WhenLargestGroupIsTooSmall_ThrowVotingResultUnacceptableException()
     {
         // Arrange
-        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Stephen Hawking", "Alan Turing", "Nikola Tesla"));
 
         // Act
@@ -76,7 +90,8 @@ public class BlockChainResultServiceTests
     public async Task GetVotingResultAsync_WhenLargestGroupContainsInvalidCandidate_ThrowVotingResultUnacceptableException()
     {
         // Arrange
-        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Not a candidate", "Not a candidate", "Nikola Tesla"));
 
         // Act
@@ -90,7 +105,8 @@ public class BlockChainResultServiceTests
     public async Task GetVotingResultAsync_WhenOk_ReturnResult()
     {
         // Arrange
-        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetOkMockBlockChains());
 
         // Act
@@ -107,7 +123,8 @@ public class BlockChainResultServiceTests
     public async Task GetVotingResultAsync_WhenOkWithOneNotOk_ReturnResult()
     {
         // Arrange
-        _timeServiceMock.Setup(x => x.CanResultsBeShown()).Returns(true);
+        _timeServiceMock.Setup(x => x.IsBeforeVotingTime()).Returns(false);
+        _timeServiceMock.Setup(x => x.IsDuringVotingTime()).Returns(false);
         _blockChainService.Setup(x => x.GetAllAsync()).ReturnsAsync(GetNotOkMockBlockChains("Not a candidate", "Marie Curie", "Marie Curie"));
 
         // Act

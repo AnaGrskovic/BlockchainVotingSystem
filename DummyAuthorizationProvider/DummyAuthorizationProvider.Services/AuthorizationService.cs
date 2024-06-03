@@ -9,14 +9,20 @@ namespace DummyAuthorizationProvider.Services;
 public class AuthorizationService : IAuthorizationService
 {
     private readonly IUnitOfWork _uow;
+    private readonly ITimeService _timeService;
 
-    public AuthorizationService(IUnitOfWork uow)
+    public AuthorizationService(IUnitOfWork uow, ITimeService timeService)
     {
         _uow = uow;
+        _timeService=timeService;
     }
 
     public async Task<string> GetTokenAsync(string? oib)
     {
+        if (!_timeService.IsDuringVotingTime())
+        {
+            throw new NotVotingTimeException("Not generating token because it is currently not voting time.");
+        }
         if (oib == null)
         {
             throw new OibNotPresentException("Oib is not present in the request.");
