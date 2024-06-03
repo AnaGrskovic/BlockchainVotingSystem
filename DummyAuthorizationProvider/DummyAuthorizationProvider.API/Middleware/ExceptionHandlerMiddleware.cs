@@ -31,7 +31,8 @@ public class ExceptionHandlerMiddleware
         _ = ex switch
         {
             OibNotPresentException or 
-            VoterAlreadyVotedException =>
+            VoterAlreadyVotedException or 
+            TimeSettingsInvalidException =>
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest,
             TokenNotPresentException or
             TokenNotValidException =>
