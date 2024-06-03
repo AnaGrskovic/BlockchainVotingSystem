@@ -36,6 +36,7 @@ export class VotingComponent implements OnInit {
     const url = 'https://localhost:44328/api/candidates';
     this.http.get<string[]>(url).subscribe({
       next: (response) => {
+        console.log('Candidates fetched successfully:', response);
         this.candidates = response;
         this.isLoading = false;
       },
@@ -63,8 +64,8 @@ export class VotingComponent implements OnInit {
     const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.token);
     const payload = `"${this.selectedCandidate}"`;
     this.http.post<any>(url, payload, { headers }).subscribe({
-      next: (response) => {
-        console.log('Vote submitted successfully:', response);
+      next: () => {
+        console.log('Vote submitted successfully.');
         this.router.navigate(['/']);
         this.isLoading = false;
       },
