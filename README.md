@@ -23,16 +23,21 @@ To run the system locally, you must first install the following dependencies:
 After installing the dependencies, you should edit settings of the following components:
 1. **Blockchain peer** - `diplrad.constants.Constants.java`
 2. **Central peer coordinator** - `CentralPeerCoordinator.API.appsettings.json`
-3. **Authentication provider** - `DummyAuthorizationProvider.API.appsettings.json`
+3. **Authorization provider** - `DummyAuthorizationProvider.API.appsettings.json`
 4. **Voting server** - `VotingApp.API.appsettings.json`
+Make sure that the settings of the components are matching:
+* blockchain timestamps need to be in sync across all components - BlockChainCalculationStartTime must be before BlockChainCalculationEndTime, which must be before BlockChainStabilizationEndTime
+* list of candidates must be the same in the Voting server and the Client
+* list of peer public keys in the Voting server needs to match the public keys of the blockchain peers
+* Azure storage settings and endpoint settings must match across all components
 
 Then, you must run the migrations in the following three components using EntityFramework Core:
 1. **Central peer coordinator**
-2. **Authentication provider**
+2. **Authorization provider**
 3. **Voting server**
 
 Finally, you can run the components in the following order:
-1. **Authentication provider**
+1. **Authorization provider**
 2. **Voting server**
 3. **Central peer coordinator**
 4. **Blockchain peer**
