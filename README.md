@@ -37,6 +37,8 @@ Then, you must run the migrations in the following three components using Entity
 2. **Authorization provider**
 3. **Voting server**
 
+Add certificates of **Central peer coordinator**, **Authorization provider** and **Voting server** to the trusted root certification authorities on the client side.
+
 Finally, you can run the components in the following order:
 1. **Authorization provider**
 2. **Voting server**
@@ -44,8 +46,8 @@ Finally, you can run the components in the following order:
 4. **Blockchain peer**
 5. **Client**
 
-1., 2., 3. and 5. can be run regularly, using the IDE or the command line. 
-For 4., you must provide public and private RSA key as well as the port. Some sample RSA keys are provided in the `blockchain-peer/src/main/resources` folder.
+**Authorization provider**, **Voting server**, **Central peer coordinator** and **Client** can be run regularly, using the IDE or the command line. 
+For **Blockchain peer**, you must provide public and private RSA key as well as the port. Some sample RSA keys are provided in the `blockchain-peer/src/main/resources` folder.
 Also, for the application to work as expected, you should run multiple instances of Blockchain peer, at least 3. 
 Here are given examples of how to run three Blockchain peers using the command line:
 ```
