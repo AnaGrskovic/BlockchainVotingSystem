@@ -18,6 +18,8 @@ To run the system locally, you must first install the following dependencies:
 - Microsoft SQL server 2022 
 - optionally some IDEs like Visual Studio 2022, Visual Studio Code, IntelliJ IDEA, etc.
 
+[Create an Azure storage account] (https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal) and [create an Azure storage queue] (https://learn.microsoft.com/en-us/azure/storage/queues/storage-quickstart-queues-portal).
+
 After installing the dependencies, you should edit settings of the following components:
 1. **Blockchain peer** - `diplrad.constants.Constants.java`
 2. **Central peer coordinator** - `CentralPeerCoordinator.API.appsettings.json`
