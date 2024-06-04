@@ -23,6 +23,7 @@
         <azure.identity.version>1.12.0</azure.identity.version>
         <pem.reader.version>1.70</pem.reader.version>
         <slf4j.version>2.0.13</slf4j.version>
+        <bouncycastle.version>1.70</bouncycastle.version>
     </properties>
 
     <dependencies>
@@ -59,6 +60,11 @@
             <artifactId>azure-identity</artifactId>
             <version>${azure.identity.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>${bouncycastle.version}</version>
         </dependency>
     </dependencies>
 
