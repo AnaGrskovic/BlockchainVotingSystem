@@ -11,12 +11,12 @@ The system consists of 5 components:
 
 ## Local setup
 To run the system locally, you must first install the following dependencies:
-- .NET 8 or higer
+- .NET 8 or higher
 - Java 17 or higher
 - maven 3.9.4 or higher
 - Angular 17.3.9
 - Microsoft SQL server 2022 
-- optionally some IDEs like Visual Studio Code, IntelliJ IDEA, etc.
+- optionally some IDEs like Visual Studio 2022, Visual Studio Code, IntelliJ IDEA, etc.
 
 After installing the dependencies, you should edit settings of the following components:
 1. **Blockchain peer** - `diplrad.constants.Constants.java`
