@@ -37,7 +37,7 @@ Then, you must run the migrations in the following three components using Entity
 2. **Authorization provider**
 3. **Voting server**
 
-Add certificates of **Central peer coordinator**, **Authorization provider** and **Voting server** to the trusted root certification authorities on the client side.
+[Add certificates of **Central peer coordinator**, **Authorization provider** and **Voting server** to the trusted root certification authorities on the client side.](https://help.highbond.com/helpdocs/analytics-exchange/5/Content/ax_administration/t_importing_certificates_into_the_java_cacerts_file.html)
 
 Finally, you can run the components in the following order:
 1. **Authorization provider**
