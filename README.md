@@ -18,7 +18,7 @@ To run the system locally, you must first install the following dependencies:
 - Microsoft SQL server 2022 
 - optionally some IDEs like Visual Studio 2022, Visual Studio Code, IntelliJ IDEA, etc.
 
-[Create an Azure storage account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal) and [create an Azure storage queue](https://learn.microsoft.com/en-us/azure/storage/queues/storage-quickstart-queues-portal).
+[Create an Azure storage account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal), log in locally and [create an Azure storage queue](https://learn.microsoft.com/en-us/azure/storage/queues/storage-quickstart-queues-portal).
 
 After installing the dependencies, you should edit settings of the following components:
 1. **Blockchain peer** - `diplrad.constants.Constants.java`
@@ -37,6 +37,8 @@ Then, you must run the migrations in the following three components using Entity
 2. **Authorization provider**
 3. **Voting server**
 
+[Add certificates of **Central peer coordinator**, **Authorization provider** and **Voting server** to the trusted root certification authorities on the client side.](https://help.highbond.com/helpdocs/analytics-exchange/5/Content/ax_administration/t_importing_certificates_into_the_java_cacerts_file.html)
+
 Finally, you can run the components in the following order:
 1. **Authorization provider**
 2. **Voting server**
@@ -44,8 +46,8 @@ Finally, you can run the components in the following order:
 4. **Blockchain peer**
 5. **Client**
 
-1., 2., 3. and 5. can be run regularly, using the IDE or the command line. 
-For 4., you must provide public and private RSA key as well as the port. Some sample RSA keys are provided in the `blockchain-peer/src/main/resources` folder.
+**Authorization provider**, **Voting server**, **Central peer coordinator** and **Client** can be run regularly, using the IDE or the command line. 
+For **Blockchain peer**, you must provide public and private RSA key as well as the port. Some sample RSA keys are provided in the `blockchain-peer/src/main/resources` folder.
 Also, for the application to work as expected, you should run multiple instances of Blockchain peer, at least 3. 
 Here are given examples of how to run three Blockchain peers using the command line:
 ```
