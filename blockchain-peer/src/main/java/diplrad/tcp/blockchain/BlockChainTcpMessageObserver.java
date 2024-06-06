@@ -8,10 +8,12 @@ import diplrad.constants.ResponseMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.CryptographyException;
 import diplrad.exceptions.TcpException;
+import diplrad.models.blockchain.Block;
 import diplrad.models.blockchain.VotingBlockChain;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeersSingleton;
+import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.ITcpMessageObserver;
 
 public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
@@ -111,7 +113,9 @@ public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
                     System.out.println(LogMessages.incompatibleBlockChainLastBlockMessage);
                     return ResponseMessages.incompatibleBlockChainLastBlockMessage;
                 }
+                var currentLastBlock = currentBlockChain.getLastBlock();
                 VotingBlockChainSingleton.setInstance(incomingBlockchain);
+                recreateLastBlock(currentLastBlock);
                 System.out.println(LogMessages.overrideBlockChainDiscardLastBlockMessage);
                 return ResponseMessages.okMessage;
             } else if (incomingBlockChainSize < currentBlockChainSize) {
@@ -124,6 +128,11 @@ public class BlockChainTcpMessageObserver implements ITcpMessageObserver {
 
         }
 
+    }
+
+    public void recreateLastBlock(Block currentLastBlock){
+        AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
+        azureMessageQueueClient.handleQueueMessage(currentLastBlock.getData());
     }
 
 }
