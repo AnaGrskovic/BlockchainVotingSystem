@@ -68,7 +68,7 @@ public class HttpSender {
     public void deletePeer(UUID peerId) throws HttpException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT))
+                    .uri(new URI(Constants.CENTRAL_PEER_COORDINATOR_BASE_URL + Constants.CENTRAL_PEER_COORDINATOR_PEERS_ENDPOINT + "/" + peerId.toString()))
                     .headers("Content-Type", "application/json")
                     .DELETE()
                     .build();
