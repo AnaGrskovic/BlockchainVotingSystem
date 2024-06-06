@@ -29,7 +29,7 @@ After installing the dependencies, you should edit settings of the following com
 Make sure that the settings of the components are matching:
 * blockchain timestamps need to be in sync across all components 
   * BlockChainCalculationStartTime must be before BlockChainCalculationEndTime, which must be before BlockChainStabilizationEndTime
-  * BlockChainCalculationEndTime on the Voting server should be a few minutes (e.g. 5) before BlockChainCalculationEndTime on the Blockchain peers
+  * BlockChainCalculationEndTime on the Blockchain peers should be a few minutes (e.g. 5) after BlockChainCalculationEndTime on the Voting server, but still before BlockChainStabilizationEndTime
 * list of candidates must be the same in the Voting server and the Client
 * list of peer public keys in the Voting server needs to match the public keys of the blockchain peers
 * Azure storage settings and endpoint settings must match across all components
