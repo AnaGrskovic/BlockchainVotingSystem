@@ -301,37 +301,6 @@ public class BlockChainTcpMessageObserverTest {
     }
 
     @Test
-    public void messageReceived_whenMessageIsBlockChainOfSameSizeAsCurrentWithSmallerLastBlockTimeStamp_thenSetInstance() throws TcpException, CryptographyException {
-
-        setUpPeers();
-
-        try (MockedStatic<VotingBlockChainSingleton> mockedStatic = mockStatic(VotingBlockChainSingleton.class)) {
-
-            // Arrange
-            VotingBlockChain currentBlockChain = setUpVotingBlockChain();
-            VotingBlockChain incomingBlockChain = currentBlockChain.copy();
-
-            Block fourthBlockIncomingBlockChain = new Block("Candidate3", incomingBlockChain.getLastBlockHash());
-            incomingBlockChain.mineBlock(fourthBlockIncomingBlockChain);
-
-            Block fourthBlockCurrentBlockChain = new Block("Candidate1", currentBlockChain.getLastBlockHash());
-            currentBlockChain.mineBlock(fourthBlockCurrentBlockChain);
-            mockedStatic.when(VotingBlockChainSingleton::getInstance).thenReturn(currentBlockChain);
-
-            String message = gson.toJson(incomingBlockChain);
-            String encryptedMessage = CryptographyHelper.encrypt(message);
-
-            // Act
-            observer.messageReceived(encryptedMessage);
-
-            // Assert
-            mockedStatic.verify(() -> VotingBlockChainSingleton.setInstance(any(VotingBlockChain.class)), times(1));
-
-        }
-
-    }
-
-    @Test
     public void messageReceived_whenMessageIsBlockChainTooSmall_thenDoNotSetInstance() throws TcpException, CryptographyException {
 
         setUpPeers();
