@@ -7,6 +7,7 @@ public interface IUnitOfWork
 {
     IRepository<Vote> Votes { get; }
     IRepository<BlockChain> BlockChains { get; }
+    IRepository<Peer> Peers { get; }
 
     Task SaveChangesAsync();
 }
