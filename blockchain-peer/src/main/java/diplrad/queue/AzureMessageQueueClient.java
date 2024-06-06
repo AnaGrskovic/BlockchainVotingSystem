@@ -42,7 +42,7 @@ public class AzureMessageQueueClient {
         });
     }
 
-    void handleQueueMessageItem(QueueMessageItem queueMessageItem) {
+    public void handleQueueMessageItem(QueueMessageItem queueMessageItem) {
         String message = queueMessageItem.getBody().toString();
         System.out.printf((LogMessages.queueMessageReceivedMessage) + "%n", message);
         VoteMessage voteMessage;
@@ -65,13 +65,13 @@ public class AzureMessageQueueClient {
             return;
         }
 
-        handleQueueMessage(message, voteMessage.getVote());
+        handleQueueMessage(voteMessage.getVote());
     }
 
-    void handleQueueMessage(String message, String vote) {
+    public void handleQueueMessage(String vote) {
 
         if (!isVoteValid(vote)) {
-            System.out.printf((LogMessages.queueMessageInvalidVoteMessage) + "%n", message, vote);
+            System.out.printf((LogMessages.queueMessageInvalidVoteMessage) + "%n", vote);
             return;
         }
 
@@ -79,7 +79,7 @@ public class AzureMessageQueueClient {
             VotingBlockChain blockChain = VotingBlockChainSingleton.getInstance();
             Block block = new Block(vote, blockChain.getLastBlockHash());
             blockChain.mineBlock(block);
-            System.out.printf((LogMessages.queueMessageVoteAddedMessage) + "%n", message, vote);
+            System.out.printf((LogMessages.queueMessageVoteAddedMessage) + "%n", vote);
         }
 
         try {

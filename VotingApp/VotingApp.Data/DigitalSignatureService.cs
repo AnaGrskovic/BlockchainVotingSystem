@@ -18,7 +18,7 @@ public class DigitalSignatureService : IDigitalSignatureService
         _settings = settings.Value;
     }
 
-    public bool VerifyDigitalSignature(BlockChainDto blockChainDto, string signature, string publicKeyPem)
+    public bool VerifyDigitalSignature(PeerBlockChainDto peerBlockChainDto, string signature, string publicKeyPem)
     {
         var formattedPublicKeyPem = CheckAndFormatPublicKey(publicKeyPem);
         if (formattedPublicKeyPem is null)
@@ -28,7 +28,7 @@ public class DigitalSignatureService : IDigitalSignatureService
 
         RSAParameters publicKey = GetPublicKeyFromPem(formattedPublicKeyPem);
 
-        var blockChainJson = JsonSerializer.Serialize(blockChainDto);
+        var blockChainJson = JsonSerializer.Serialize(peerBlockChainDto);
 
         return VerifyMessage(publicKey, blockChainJson, signature);
     }

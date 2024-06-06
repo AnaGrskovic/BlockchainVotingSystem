@@ -10,6 +10,7 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly IRepository<Vote>? _votes;
     private readonly IRepository<BlockChain>? _blockChains;
+    private readonly IRepository<Peer>? _peers;
 
     private readonly ApplicationDbContext _dbContext;
 
@@ -22,6 +23,8 @@ public class UnitOfWork : IUnitOfWork
         => _votes ?? new Repository<Vote>(_dbContext);
     public IRepository<BlockChain> BlockChains
         => _blockChains ?? new Repository<BlockChain>(_dbContext);
+    public IRepository<Peer> Peers
+        => _peers ?? new Repository<Peer>(_dbContext);
 
     public async Task SaveChangesAsync()
     {

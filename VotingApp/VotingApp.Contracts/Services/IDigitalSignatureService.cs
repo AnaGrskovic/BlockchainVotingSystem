@@ -4,5 +4,5 @@ namespace VotingApp.Contracts.Services;
 
 public interface IDigitalSignatureService
 {
-    bool VerifyDigitalSignature(BlockChainDto blockChainDto, string signature, string publicKeyPem);
+    bool VerifyDigitalSignature(PeerBlockChainDto peerBlockChainDto, string signature, string publicKeyPem);
 }

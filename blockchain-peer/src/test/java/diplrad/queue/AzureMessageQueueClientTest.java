@@ -27,7 +27,7 @@ public class AzureMessageQueueClientTest {
                 mockedStaticBlockChain.when(VotingBlockChainSingleton::getInstance).thenReturn(setUpVotingBlockChain());
 
                 // Act
-                azureMessageQueueClient.handleQueueMessage("message with invalid vote", "invalid vote");
+                azureMessageQueueClient.handleQueueMessage("invalid vote");
 
                 // Assert
                 mockedStaticPeers.verify(PeersSingleton::getInstance, times(0));
@@ -49,7 +49,7 @@ public class AzureMessageQueueClientTest {
                 mockedStaticBlockChain.when(VotingBlockChainSingleton::getInstance).thenReturn(blockChain);
 
                 // Act
-                azureMessageQueueClient.handleQueueMessage("message with valid blockchain", blockChain.getCandidates().get(0));
+                azureMessageQueueClient.handleQueueMessage(blockChain.getCandidates().get(0));
 
                 // Assert
                 mockedStaticPeers.verify(PeersSingleton::getInstance, times(1));

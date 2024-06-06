@@ -40,6 +40,7 @@ builder.Services.AddScoped<ISecureBlockChainService, SecureBlockChainService>();
 builder.Services.AddScoped<IBlockChainService, BlockChainService>();
 builder.Services.AddScoped<IBlockChainResultService, BlockChainResultService>();
 builder.Services.AddScoped<ITimeService, TimeService>();
+builder.Services.AddScoped<IPeerService, PeerService>();
 
 builder.Services.AddCors(options =>
 {

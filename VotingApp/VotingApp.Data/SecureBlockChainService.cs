@@ -8,16 +8,22 @@ public class SecureBlockChainService : ISecureBlockChainService
 {
     private readonly ITimeService _timeService;
     private readonly IDigitalSignatureService _digitalSignatureService;
+    private readonly IPeerService _peerService;
     private readonly IBlockChainService _blockChainService;
 
-    public SecureBlockChainService(ITimeService timeService, IDigitalSignatureService digitalSignatureService, IBlockChainService blockChainService)
+    public SecureBlockChainService(
+        ITimeService timeService,
+        IDigitalSignatureService digitalSignatureService,
+        IPeerService peerService,
+        IBlockChainService blockChainService)
     {
         _timeService = timeService;
         _digitalSignatureService = digitalSignatureService;
+        _peerService = peerService;
         _blockChainService = blockChainService;
     }
 
-    public async Task CheckAndCreateAsync(BlockChainDto blockChainDto, string? signature, string? publicKeyPem)
+    public async Task CheckAndCreateAsync(PeerBlockChainDto blockChainDto, string? signature, string? publicKeyPem)
     {
         if (!(_timeService.IsAfterVotingTime() && !_timeService.IsAfterStabilizationTime()))
         {
@@ -33,6 +39,14 @@ public class SecureBlockChainService : ISecureBlockChainService
         {
             throw new SignatureNotValidException("Digital signature is not valid.");
         }
-        await _blockChainService.CreateAsync(blockChainDto);
+
+        var didPeerAlreadyCreateBlockChain = await _peerService.DoesAlreadyExistAsync(blockChainDto.Peer);
+        if (didPeerAlreadyCreateBlockChain)
+        {
+            throw new BlockChainAlreadyCreatedException("Peer already created a blockchain.");
+        }
+        await _peerService.CreateAsync(blockChainDto.Peer);
+
+        await _blockChainService.CreateAsync(blockChainDto.BlockChain);
     }
 }

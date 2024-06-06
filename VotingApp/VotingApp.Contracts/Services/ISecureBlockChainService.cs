@@ -4,5 +4,5 @@ namespace VotingApp.Contracts.Services;
 
 public interface ISecureBlockChainService
 {
-    Task CheckAndCreateAsync(BlockChainDto blockChainDto, string? signature, string? publicKeyPem);
+    Task CheckAndCreateAsync(PeerBlockChainDto blockChainDto, string? signature, string? publicKeyPem);
 }
