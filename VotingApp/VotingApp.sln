@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2BE20834-F85
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5A8C02AC-AEFE-41AF-B201-E881AA7FFCCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApp.Services.Tests", "VotingApp.Services.Tests\VotingApp.Services.Tests.csproj", "{B6821CAF-298D-4110-9236-3122EB6FEDEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingApp.Services.Tests", "VotingApp.Services.Tests\VotingApp.Services.Tests.csproj", "{B6821CAF-298D-4110-9236-3122EB6FEDEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

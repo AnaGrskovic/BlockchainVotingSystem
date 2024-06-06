@@ -7,4 +7,10 @@ public class Peer
     public string IpAddress { get; set; } = default!;
 
     public int Port { get; set; }
+
+    public Peer(string ipAddress, int port)
+    {
+        IpAddress = ipAddress;
+        Port = port;
+    }
 }
