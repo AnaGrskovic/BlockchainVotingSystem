@@ -1,6 +1,5 @@
 package diplrad.http;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.Constants;
@@ -8,9 +7,7 @@ import diplrad.constants.ErrorMessages;
 import diplrad.exceptions.HttpException;
 import diplrad.exceptions.ParseException;
 import diplrad.helpers.ListSerializationHelper;
-import diplrad.models.blockchain.BlockChain;
-import diplrad.models.blockchain.VotingBlockChain;
-import diplrad.models.blockchain.VotingBlockChainSingleton;
+import diplrad.models.blockchain.PeerBlockChain;
 import diplrad.models.peer.Peer;
 import diplrad.models.peer.PeerRequest;
 
@@ -145,10 +142,10 @@ public class HttpSender {
         }
     }
 
-    public void createBlockChain(VotingBlockChain blockChain, String signature, String publicKey) throws HttpException, ParseException {
+    public void createBlockChain(PeerBlockChain peerBlockChain, String signature, String publicKey) throws HttpException, ParseException {
 
         try {
-            var json = gson.toJson(blockChain);
+            var json = gson.toJson(peerBlockChain);
             if (json == null) {
                 throw new ParseException(ErrorMessages.parsePeerRequestErrorMessage);
             }

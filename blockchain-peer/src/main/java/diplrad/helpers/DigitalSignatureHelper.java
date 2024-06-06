@@ -5,8 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import diplrad.constants.ErrorMessages;
 import diplrad.exceptions.CryptographyException;
-import diplrad.exceptions.IpException;
-import diplrad.models.blockchain.BlockChain;
+import diplrad.models.blockchain.PeerBlockChain;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 
@@ -19,10 +18,10 @@ import java.util.Base64;
 
 public class DigitalSignatureHelper {
 
-    public static String signBlockChain(BlockChain blockChain, String privateKeyPem) throws CryptographyException {
+    public static String signBlockChain(PeerBlockChain peerBlockChain, String privateKeyPem) throws CryptographyException {
         try {
             Gson pascalCaseGson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
-            var serializedBlockChain = pascalCaseGson.toJson(blockChain);
+            var serializedBlockChain = pascalCaseGson.toJson(peerBlockChain);
             PrivateKey privateKey = getPrivateKeyFromPem(privateKeyPem);
             return signMessage(privateKey, serializedBlockChain);
         } catch (Exception e) {
