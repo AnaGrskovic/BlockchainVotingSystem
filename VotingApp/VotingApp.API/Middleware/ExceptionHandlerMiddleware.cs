@@ -35,7 +35,8 @@ public class ExceptionHandlerMiddleware
             SignatureOrKeyNotPresentException =>
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized,
             ForbiddenTimeException or
-            SignatureNotValidException =>
+            SignatureNotValidException or
+            BlockChainAlreadyCreatedException =>
                 context.Response.StatusCode = (int)HttpStatusCode.Forbidden,
             VoteNotPresentException or
             CandidateNotValidException or 

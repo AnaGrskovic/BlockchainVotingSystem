@@ -9,7 +9,9 @@ import diplrad.exceptions.*;
 import diplrad.helpers.DigitalSignatureHelper;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
+import diplrad.models.blockchain.PeerBlockChain;
 import diplrad.models.blockchain.VotingBlockChainSingleton;
+import diplrad.models.peer.PeerRequest;
 import diplrad.queue.AzureMessageQueueClient;
 import diplrad.tcp.TcpServer;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -64,9 +66,11 @@ public class MasterMain {
             Thread.sleep(Constants.VOTING_STABILIZE_MINUTES * 60 * 1000);
             System.out.println(LogMessages.voteProcessingTimeEnd);
 
+            var ownPeerRequest = new PeerRequest(ownPeer.getIpAddress(), ownPeer.getPort());
             var finalBlockChain = VotingBlockChainSingleton.getInstance();
-            var signedFinalBlockChain = DigitalSignatureHelper.signBlockChain(finalBlockChain, privateKeyPem);
-            httpSender.createBlockChain(finalBlockChain, signedFinalBlockChain, publicKeyPem);
+            var peerBlockChain = new PeerBlockChain(ownPeerRequest, finalBlockChain);
+            var signedPeerBlockChain = DigitalSignatureHelper.signPeerBlockChain(peerBlockChain, privateKeyPem);
+            httpSender.createBlockChain(peerBlockChain, signedPeerBlockChain, publicKeyPem);
             System.out.println(LogMessages.sentBlockChainToApi);
             System.exit(0);
 
