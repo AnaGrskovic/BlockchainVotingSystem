@@ -51,6 +51,7 @@ Finally, you can run the components in the following order:
 **Authorization provider**, **Voting server**, **Central peer coordinator** and **Client** can be run regularly, using the IDE or the command line. 
 For **Blockchain peer**, you must provide public and private RSA key as well as the port. Some sample RSA keys are provided in the `blockchain-peer/src/main/resources` folder.
 Also, for the application to work as expected, you should run multiple instances of Blockchain peer, at least 3. 
+One instance of the Blockchain peer should be run as the master peer (MasterMain.java), and that one must be run before the other ones, while the other instances should be run as regular peers (PeerMain.java).
 Here are given examples of how to run three Blockchain peers using the command line:
 ```
 mvn package
