@@ -69,7 +69,7 @@ public class MasterMain {
             var ownPeerRequest = new PeerRequest(ownPeer.getIpAddress(), ownPeer.getPort());
             var finalBlockChain = VotingBlockChainSingleton.getInstance();
             var peerBlockChain = new PeerBlockChain(ownPeerRequest, finalBlockChain);
-            var signedPeerBlockChain = DigitalSignatureHelper.signBlockChain(peerBlockChain, privateKeyPem);
+            var signedPeerBlockChain = DigitalSignatureHelper.signPeerBlockChain(peerBlockChain, privateKeyPem);
             httpSender.createBlockChain(peerBlockChain, signedPeerBlockChain, publicKeyPem);
             System.out.println(LogMessages.sentBlockChainToApi);
             System.exit(0);

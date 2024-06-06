@@ -18,12 +18,12 @@ import java.util.Base64;
 
 public class DigitalSignatureHelper {
 
-    public static String signBlockChain(PeerBlockChain peerBlockChain, String privateKeyPem) throws CryptographyException {
+    public static String signPeerBlockChain(PeerBlockChain peerBlockChain, String privateKeyPem) throws CryptographyException {
         try {
             Gson pascalCaseGson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
-            var serializedBlockChain = pascalCaseGson.toJson(peerBlockChain);
+            var serializedPeerBlockChain = pascalCaseGson.toJson(peerBlockChain);
             PrivateKey privateKey = getPrivateKeyFromPem(privateKeyPem);
-            return signMessage(privateKey, serializedBlockChain);
+            return signMessage(privateKey, serializedPeerBlockChain);
         } catch (Exception e) {
             throw new CryptographyException(ErrorMessages.unsuccessfulDigitalSignatureErrorMessage);
         }
