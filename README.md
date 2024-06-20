@@ -13,7 +13,7 @@ The system consists of 5 components:
 To run the system locally, you must first install the following dependencies:
 - .NET 8 or higher
 - Java 17 or higher
-- maven 3.9.4 or higher
+- Maven 3.9.4 or higher
 - Angular 17.3.9
 - Microsoft SQL server 2022 
 - optionally some IDEs like Visual Studio 2022, Visual Studio Code, IntelliJ IDEA, etc.
