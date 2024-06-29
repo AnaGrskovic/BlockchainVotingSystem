@@ -8,7 +8,6 @@ public class WaitHelper {
             int result = 0;
             for (int i = 0; i < 100000; i++) {
                 result += i;
-                System.out.println(result);
             }
         }
     }
