@@ -9,9 +9,9 @@ public class Constants {
     public static final String GENESIS_BLOCK_PREVIOUS_HASH = "0";
     public static final String GENESIS_BLOCK_DATA = "The is the Genesis Block.";
     public static final int INITIAL_BLOCK_NONCE = 0;
-    public static final LocalDateTime VOTING_START_DATE_TIME = LocalDateTime.of(LocalDate.of(2024, 6, 29), LocalTime.of(20, 40));
-    public static final LocalDateTime VOTING_END_DATE_TIME = LocalDateTime.of(LocalDate.of(2024, 6, 29), LocalTime.of(20, 55));
-    public static final long VOTING_STABILIZE_MINUTES = 6;
+    public static final LocalDateTime VOTING_START_DATE_TIME = LocalDateTime.of(LocalDate.of(2024, 7, 1), LocalTime.of(7, 0));
+    public static final LocalDateTime VOTING_END_DATE_TIME = LocalDateTime.of(LocalDate.of(2024, 7, 1), LocalTime.of(19, 0));
+    public static final long VOTING_STABILIZE_MINUTES = 55;
     public static final String CANDIDATES_FILE_PATH = "./src/main/resources/candidates.txt";
     public static final String VOTERS_FILE_PATH = "./src/main/resources/voters.txt";
     public static final String TCP_CONNECT = "CONNECT";
