@@ -7,7 +7,6 @@ import diplrad.constants.LogMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
 import diplrad.helpers.DigitalSignatureHelper;
-import diplrad.helpers.WaitHelper;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.PeerBlockChain;
@@ -59,13 +58,9 @@ public class MasterMain {
             System.out.println(LogMessages.votingTimeStart);
 
             AzureMessageQueueClient azureMessageQueueClient = new AzureMessageQueueClient(gson);
-            while (LocalDateTime.now().isBefore(Constants.VOTING_END_DATE_TIME)) {
+            while (LocalDateTime.now().isBefore(Constants.STABILIZE_END_DATE_TIME)) {
                 azureMessageQueueClient.receiveAndHandleQueueMessage();
             }
-
-            System.out.println(LogMessages.votingTimeEnd);
-            WaitHelper.doUselessWork(Constants.VOTING_STABILIZE_MINUTES);
-            System.out.println(LogMessages.voteProcessingTimeEnd);
 
             var ownPeerRequest = new PeerRequest(ownPeer.getIpAddress(), ownPeer.getPort());
             var finalBlockChain = VotingBlockChainSingleton.getInstance();
