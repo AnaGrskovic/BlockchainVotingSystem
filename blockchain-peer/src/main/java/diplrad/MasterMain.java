@@ -7,6 +7,7 @@ import diplrad.constants.LogMessages;
 import diplrad.cryptography.CryptographyHelper;
 import diplrad.exceptions.*;
 import diplrad.helpers.DigitalSignatureHelper;
+import diplrad.helpers.WaitHelper;
 import diplrad.http.PeerHttpHelper;
 import diplrad.http.HttpSender;
 import diplrad.models.blockchain.PeerBlockChain;
@@ -63,7 +64,7 @@ public class MasterMain {
             }
 
             System.out.println(LogMessages.votingTimeEnd);
-            Thread.sleep(Constants.VOTING_STABILIZE_MINUTES * 60 * 1000);
+            WaitHelper.doUselessWork(Constants.VOTING_STABILIZE_MINUTES);
             System.out.println(LogMessages.voteProcessingTimeEnd);
 
             var ownPeerRequest = new PeerRequest(ownPeer.getIpAddress(), ownPeer.getPort());
