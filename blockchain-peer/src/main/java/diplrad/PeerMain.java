@@ -61,6 +61,7 @@ public class PeerMain {
             while (LocalDateTime.now().isBefore(Constants.STABILIZE_END_DATE_TIME)) {
                 azureMessageQueueClient.receiveAndHandleQueueMessage();
             }
+            System.out.println(LogMessages.stabilizationTimeEnd);
 
             var ownPeerRequest = new PeerRequest(ownPeer.getIpAddress(), ownPeer.getPort());
             var finalBlockChain = VotingBlockChainSingleton.getInstance();

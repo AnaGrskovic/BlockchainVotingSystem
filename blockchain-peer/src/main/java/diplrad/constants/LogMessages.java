@@ -27,7 +27,7 @@ public class LogMessages {
     public static final String privateKeyPemArgumentFailMessage = "The second argument must be the path to the private key PEM file.";
     public static final String ignoreMessageThatCannotBeDecryptedMessage = "The received message cannot be decrypted. Ignoring it because it could be sent by an attacker.";
     public static final String votingTimeStart = "The voting time has begun.";
-    public static final String votingTimeEnd = "The voting time has ended.";
+    public static final String stabilizationTimeEnd = "All of the votes have been processed.";
     public static final String voteProcessingTimeEnd = "The vote processing time has ended.";
     public static final String sentBlockChainToApi = "The final block chain was sent to API. Turning off the peer.";
 
